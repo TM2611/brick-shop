@@ -18,3 +18,70 @@
   justify-content: space-between;
   padding: 0 1.5rem;
 }
+
+.nav-icon {
+  font-size: 1.25rem
+}
+
+.basket-btn{
+  position: relative;
+  cursor: pointer;
+}
+
+.basket-items{
+  position: absolute;
+  bottom: 0.5rem;
+  left: 1rem;
+  color: white;
+  background-color: rgb(206, 136, 6);
+  border-radius: 30%;
+  padding: 0 4px;
+}
+
+
+/* Products */
+
+.products img{
+  width: 100px;
+  padding: 0.5rem;
+}
+
+.products .fa-plus-square{
+  font-weight: 200;
+  font-size: 1.2em ;
+}
+
+.products .item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.products .item .item-container{
+  width: 40%;
+  border: solid 0.5px;
+  border-radius: 25px 25px 0 0;
+  margin: 1rem;
+  
+  position: relative;
+}
+
+.products .item .item-container .desc{
+  padding: 0.5rem
+
+}
+
+
+
+.products .item .item-container .add-to-basket{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 10px;
+  right: 10px;
+  
+  position: absolute;
+}
