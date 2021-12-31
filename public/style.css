@@ -40,6 +40,10 @@
 
 
 /* Products */
+.our-products {
+  cursor: pointer;
+}
+
 
 .products img{
   width: 100px;
