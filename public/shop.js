@@ -12,6 +12,8 @@ async function renderProducts() {
   const products = await fetchProducts();
   console.log(products);
   const productEl = document.querySelector('.products');
+  // Use HTML template (no innerHTML)
+  //Tofixed for price
   products.forEach(product => {
     productEl.innerHTML += `
     <div class="item">
