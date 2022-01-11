@@ -11,29 +11,19 @@ async function fetchProducts() {
 async function renderProducts() {
   const products = await fetchProducts();
   console.log(products);
-  const productEl = document.querySelector('.products');
-  // Use HTML template (no innerHTML)
-  //Tofixed for price
+  const t1 = document.querySelector('#products');
+  const productTemplate = t1.content.cloneNode(true);
+  const img = productTemplate.querySelector('#product-img');
+  const productName = productTemplate.querySelector('#product-name');
+  const productPrice = productTemplate.querySelector('#product-price');
+  const productDesc = productTemplate.querySelector('#product-desc');
   products.forEach(product => {
-    productEl.innerHTML += `
-    <div class="item">
-      <div class= "item-container">
-        <div class="item-img">
-          <img src="${product.imgSrc}" alt="Image of ${product.name}">
-        </div>
-        <div class="desc">
-          <h2>${product.name}</h2>
-          <h2>${product.price / 100}</h2>
-          <p>
-            ${product.description}
-          </p>
-        </div>
-        <div class="add-to-basket">
-          <i class="far fa-plus-square"></i>
-        </div>
-      <div>
-    </div>
-    `;
+    img.src = `${product.imgSrc}`;
+    img.alt = `${product.imgSrc}`;
+    productName.textContent = `${product.name}`;
+    productPrice.textContent = `${(product.price / 100).toFixed(2)}`;
+    productDesc.textContent = `${product.description}`;
+    document.body.append(productTemplate);
   });
 }
 
