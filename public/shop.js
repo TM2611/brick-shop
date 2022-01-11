@@ -23,7 +23,7 @@ async function renderProducts() {
         </div>
         <div class="desc">
           <h2>${product.name}</h2>
-          <h2>${product.price}</h2>
+          <h2>${product.price / 100}</h2>
           <p>
             ${product.description}
           </p>
