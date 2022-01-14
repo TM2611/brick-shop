@@ -10,14 +10,13 @@ async function fetchProducts() {
 
 async function renderProducts() {
   const products = await fetchProducts();
-  console.log(products);
-  const t1 = document.querySelector('#products');
-  const productTemplate = t1.content.cloneNode(true);
-  const img = productTemplate.querySelector('#product-img');
-  const productName = productTemplate.querySelector('#product-name');
-  const productPrice = productTemplate.querySelector('#product-price');
-  const productDesc = productTemplate.querySelector('#product-desc');
   products.forEach(product => {
+    const t1 = document.querySelector('#products');
+    const productTemplate = t1.content.cloneNode(true); // Clone necessary?
+    const img = productTemplate.querySelector('#product-img');
+    const productName = productTemplate.querySelector('#product-name');
+    const productPrice = productTemplate.querySelector('#product-price');
+    const productDesc = productTemplate.querySelector('#product-desc');
     img.src = `${product.imgSrc}`;
     img.alt = `${product.imgSrc}`;
     productName.textContent = `${product.name}`;
