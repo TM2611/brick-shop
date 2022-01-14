@@ -40,22 +40,13 @@
 
 
 /* Products */
+
+
 .our-products {
   cursor: pointer;
 }
 
-
-.products img{
-  width: 100px;
-  padding: 0.5rem;
-}
-
-.products .fa-plus-square{
-  font-weight: 200;
-  font-size: 1.2em ;
-}
-
-.products .item {
+.item {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -64,7 +55,7 @@
   height: 100%;
 }
 
-.products .item .item-container{
+.item .item-container{
   width: 40%;
   border: solid 0.5px;
   border-radius: 25px 25px 0 0;
@@ -73,14 +64,25 @@
   position: relative;
 }
 
-.products .item .item-container .desc{
+.item img{
+  width: 100px;
+  padding: 0.5rem;
+}
+
+.item .fa-plus-square{
+  font-weight: 200;
+  font-size: 1.2em ;
+}
+
+
+
+.item .item-container .desc{
   padding: 0.5rem
 
 }
 
 
-
-.products .item .item-container .add-to-basket{
+.item .item-container .add-to-basket{
   display: flex;
   justify-content: center;
   align-items: center;
