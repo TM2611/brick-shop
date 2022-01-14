@@ -5,7 +5,7 @@
   "main": "server/server.js",
   "type": "module",
   "scripts": {
-    "watch": "nodemon",
+    "watch": "nodemon -e js,json,css,html",
     "start": "node server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
