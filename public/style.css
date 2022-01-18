@@ -1,3 +1,13 @@
+:root {
+  --primaryColor: #f09d51;
+  --mainWhite: #fff;
+  --mainBlack: #222;
+  --mainGrey: #ececec;
+  --mainSpacing: 0.1rem;
+  --mainTransition: all 0.3s linear;
+  --basketBtn: rgb(19, 160, 255);
+}
+
 /* --------------- Navbar ---------------- */
 .navbar {
   position: sticky;
@@ -93,10 +103,10 @@
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  color: var(--mainWhite)
 }
 .btn-atb{
-  background-color: rgb(19, 160, 255);
-  color: white;
+  background-color: var(--basketBtn);
   padding: 10px;
   text-align: center;
 
