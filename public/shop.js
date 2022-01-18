@@ -17,6 +17,8 @@ async function renderProducts() {
     const productName = productTemplate.querySelector('#product-name');
     const productPrice = productTemplate.querySelector('#product-price');
     const productDesc = productTemplate.querySelector('#product-desc');
+    const basketBtn = productTemplate.querySelector('.btn-atb');
+    basketBtn.addEventListener('click', addToBakset);
     img.src = `${product.imgSrc}`;
     img.alt = `${product.imgSrc}`;
     productName.textContent = `${product.name}`;
@@ -26,6 +28,10 @@ async function renderProducts() {
   });
 }
 
+
+function addToBakset() {
+  console.log('Added to basket');
+}
 
 function setupListeners() {
   document.querySelector('.our-products').addEventListener('click', renderProducts);
