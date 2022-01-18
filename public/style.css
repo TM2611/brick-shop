@@ -74,11 +74,8 @@
   font-size: 1.2em ;
 }
 
-
-
 .item .item-container .desc{
   padding: 0.5rem
-
 }
 
 
@@ -90,4 +87,18 @@
   right: 10px;
   
   position: absolute;
+}
+
+.btn{
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.btn-atb{
+  background-color: rgb(19, 160, 255);
+  color: white;
+  padding: 10px;
+  text-align: center;
+
+
 }
