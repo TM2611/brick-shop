@@ -12,7 +12,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@auth0/auth0-spa-js": "^1.19.4",
     "express": "^4.17.2",
+    "express-oauth2-jwt-bearer": "^1.1.0",
     "node-fetch": "^3.1.0"
   },
   "devDependencies": {

@@ -8,6 +8,15 @@
   --basketBtn: rgb(19, 160, 255);
 }
 
+.hidden {
+  display: none;
+}
+
+label {
+  margin-bottom: 10px;
+  display: block;
+}
+
 /* --------------- Navbar ---------------- */
 .navbar {
   position: sticky;
@@ -48,6 +57,10 @@
   padding: 0 4px;
 }
 
+ .btn-login, .btn-logout{
+  border: solid 4px red;
+  cursor: pointer;
+}
 
 /* Products */
 

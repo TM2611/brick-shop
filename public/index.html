@@ -20,12 +20,16 @@
           </span>
           <div class="basket-items">0</div>
         </div>
+        <button id="btn-login" disabled>Log in</button>
+        <button id="btn-logout" disabled>Log out</button>
+        <button id="btn-checkout" disabled>Checkout</button>
+        <div id="login-status"></div>
       </div>
     </nav>
     <!-- products -->
     <section class="product-list">         
       <div class="our-products">
-        <h2>Our Products</h2>
+        <h2>View Products</h2>
       </div>
       <div class="products-container">
         <template id="products">
@@ -47,5 +51,8 @@
         </template>
       </div>
     </section>
+
+    <script src="https://cdn.auth0.com/js/auth0-spa-js/1.13/auth0-spa-js.production.js"></script>
+    <script src="js/app.js"></script>  
   </body>
 </html>
