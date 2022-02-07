@@ -27,7 +27,7 @@ async function updateAuthUI() {
   const isAuthenticated = await auth0.isAuthenticated();
   document.getElementById('btn-login').disabled = isAuthenticated;
   document.getElementById('btn-logout').disabled = !isAuthenticated;
-  document.getElementById('btn-checkout').disabled = !isAuthenticated;
+  document.querySelector('.btn-checkout').disabled = !isAuthenticated;
 
   if (isAuthenticated) {
     // Content no longer gated
@@ -94,7 +94,8 @@ async function checkout() {
   console.log('Checkout successful!');
 }
 
-// PRODUCTS
+// PRODUCTS //
+
 async function fetchProducts() {
   const response = await fetch('/products');
   if (!response.ok) {
@@ -105,6 +106,11 @@ async function fetchProducts() {
 
 
 async function renderProducts() {
+  const item = document.querySelector('.item');
+  if (document.body.contains(item)) {
+    // Products already displayed
+    return;
+  }
   const products = await fetchProducts();
   products.forEach(product => {
     const t1 = document.querySelector('#products');
@@ -114,7 +120,9 @@ async function renderProducts() {
     const productPrice = productTemplate.querySelector('#product-price');
     const productDesc = productTemplate.querySelector('#product-desc');
     const basketBtn = productTemplate.querySelector('.btn-atb');
-    basketBtn.addEventListener('click', addToBakset);
+    const basketID = productTemplate.querySelector('.add-to-basket');
+    basketID.setAttribute('data-id', product.id);
+    basketBtn.addEventListener('click', addToBasket(basketID.getAttribute('data-id'), basketBtn));
     img.src = `${product.imgSrc}`;
     img.alt = `${product.imgSrc}`;
     productName.textContent = `${product.name}`;
@@ -122,18 +130,58 @@ async function renderProducts() {
     productDesc.textContent = `${product.description}`;
     document.body.append(productTemplate);
   });
+  saveProducts(products);
+  console.log('Products saved to storage');
 }
 
 
-function addToBakset() {
-  console.log('Added to basket');
+function saveProducts(products) {
+  localStorage.setItem('products', JSON.stringify(products));
 }
+
+function getProductFromStorage(id) {
+  const products = JSON.parse(localStorage.getItem('products'));
+  return products.find(product => product.id === id);
+}
+
+function addToBasket(id, button) {
+  const inBasket = basket.find(item => item.id === id);
+  if (inBasket) {
+    button.innerText = 'In Basket';
+    button.disabled = true;
+  }
+  button.addEventListener('click', event => {
+    const basketItem = getProductFromStorage(id);
+    event.target.innerText = 'In Basket';
+    console.log(event.target);
+    event.target.disabled = true;
+    console.log(basketItem);
+  });
+  // console.log('Added to basket, product id:', id);
+}
+
+
+// CART //
+
+
+const basketBtn = document.querySelector('.cart-btn');
+const closeBasketBtn = document.querySelector('.close-cart');
+const clearBasketBtn = document.querySelector('.Clear-cart');
+const basketDOM = document.querySelector('.cart');
+const basketOverlay = document.querySelector('.cart-overlay');
+const basketContent = document.querySelector('.cart-content');
+const basketItems = document.querySelector('.cart-items');
+const basketTotal = document.querySelector('.cart-total');
+const products = document.querySelector('#products');
+
+const basket = [];
+
 
 function setupListeners() {
   document.querySelector('.our-products').addEventListener('click', renderProducts);
   document.querySelector('#btn-login').addEventListener('click', login);
   document.querySelector('#btn-logout').addEventListener('click', logout);
-  document.querySelector('#btn-checkout').addEventListener('click', checkout);
+  document.querySelector('.btn-checkout').addEventListener('click', checkout);
 }
 
 async function init() {
