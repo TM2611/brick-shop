@@ -141,7 +141,7 @@ function saveProducts(products) {
 
 function getProductFromStorage(id) {
   const products = JSON.parse(localStorage.getItem('products'));
-  return products.find(product => product.id === id);
+  return products.find(product => product.id === id); // Find product with id equivalent to parameter
 }
 
 function addToBasket(id, button) {
@@ -152,10 +152,9 @@ function addToBasket(id, button) {
   }
   button.addEventListener('click', event => {
     const basketItem = getProductFromStorage(id);
-    event.target.innerText = 'In Basket';
-    console.log(event.target);
-    event.target.disabled = true;
     console.log(basketItem);
+    event.target.innerText = 'In Basket';
+    event.target.disabled = true;
   });
   // console.log('Added to basket, product id:', id);
 }
