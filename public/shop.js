@@ -113,90 +113,125 @@ async function renderProducts() {
   }
   const products = await fetchProducts();
   products.forEach(product => {
-    const t1 = document.querySelector('#products');
+    const t1 = document.querySelector('#product-template');
     const productTemplate = t1.content.cloneNode(true); // Clone necessary?
     const img = productTemplate.querySelector('#product-img');
     const productName = productTemplate.querySelector('#product-name');
     const productPrice = productTemplate.querySelector('#product-price');
     const productDesc = productTemplate.querySelector('#product-desc');
     const basketBtn = productTemplate.querySelector('.btn-atb');
-    const basketID = productTemplate.querySelector('.add-to-basket');
-    // basketID.setAttribute('data-id', product.id);
-    basketID.dataset.id = product.id;
-    // basketBtn.addEventListener('click', addToBasket(basketID.getAttribute('data-id'), basketBtn));
-    basketBtn.addEventListener('click', newAddToBasket);
+    const productID = productTemplate.querySelector('.add-to-basket');
+    productID.dataset.id = product.id;
+    basketBtn.addEventListener('click', AddToBasket);
     img.src = `${product.imgSrc}`;
     img.alt = `${product.imgSrc}`;
     productName.textContent = `${product.name}`;
-    productPrice.textContent = `${(product.price / 100).toFixed(2)}`;
+    productPrice.textContent = `£${(product.price / 100).toFixed(2)}`;
     productDesc.textContent = `${product.description}`;
     document.body.append(productTemplate);
   });
-  saveProducts(products);
-  console.log('Products saved to storage');
+  // saveProducts(products);
+  // console.log('Products saved to storage');
 }
 
 
-function saveProducts(products) {
-  localStorage.setItem('products', JSON.stringify(products));
-}
+// function saveProducts(products) {
+//   localStorage.setItem('products', JSON.stringify(products));
+// }
 
-function getProductFromStorage(id) {
-  const products = JSON.parse(localStorage.getItem('products'));
-  return products.find(product => product.id === id); // Find product with id equivalent to parameter
-}
-
-function addToBasket(id, button) {
-  const inBasket = basket.find(item => item.id === id);
-  if (inBasket) {
-    button.innerText = 'In Basket';
-    button.disabled = true;
-  }
-  button.addEventListener('click', event => {
-    const basketItem = getProductFromStorage(id);
-    console.log(basketItem);
-    event.target.innerText = 'In Basket';
-    event.target.disabled = true;
-  });
-  // console.log('Added to basket, product id:', id);
-}
-
-function newAddToBasket(e) {
-  const id = parseInt(e.target.parentNode.dataset.id);
-  const inBasket = basket.includes(id);
-  e.target.innerText = 'In Basket';
-  e.target.disabled = true;
-  if (!inBasket) {
-    basket.push(id);
-  }
-  console.log(basket);
-}
+// function getProductFromStorage(id) {
+//   const products = JSON.parse(localStorage.getItem('products'));
+//   return products.find(product => product.id === id); // Find product with id equivalent to parameter
+// }
 
 
-// CART //
-
-
-const basketBtn = document.querySelector('.cart-btn');
-const closeBasketBtn = document.querySelector('.close-cart');
-const clearBasketBtn = document.querySelector('.Clear-cart');
-const basketDOM = document.querySelector('.cart');
-const basketOverlay = document.querySelector('.cart-overlay');
-const basketContent = document.querySelector('.cart-content');
-const basketItems = document.querySelector('.cart-items');
-const basketTotal = document.querySelector('.cart-total');
-const products = document.querySelector('#products');
+// BASKET //
 
 const basket = []; // IDs of items in basket
 
+// const basketBtn = document.querySelector('.basket-btn');
+// const closeBasketBtn = document.querySelector('.close-basket');
+// const clearBasketBtn = document.querySelector('.Clear-basket');
+// const basketOverlay = document.querySelector('.basket-overlay');
+// const basketContent = document.querySelector('.basket-content');
+// const basketItems = document.querySelector('.basket-items');
+// const basketTotal = document.querySelector('.basket-total');
+// const products = document.querySelector('#products');
+
+// const basketQuantity = document.querySelector('.basket-quantity');
+// const basketDOM = document.querySelector('.basket');
+// ^Functions sometimes failed to find global ?
+
+async function AddToBasket(e) {
+  const products = await fetchProducts(); // necessary?
+  const itemID = parseInt(e.target.parentNode.dataset.id);
+  const inBasket = basket.includes(itemID);
+  const basketQuantity = document.querySelector('.basket-quantity');
+  basketQuantity.innerText = parseInt(basketQuantity.innerText) + 1;
+  e.target.innerText = 'In Basket';
+  e.target.disabled = true;
+  if (!inBasket) {
+    const product = products.find(({ id }) => id === itemID);
+    const t2 = document.querySelector('#basket-item-template');
+    const itemTemplate = t2.content.cloneNode(true); // Why is clone necessary ?
+    const basketItem = itemTemplate.querySelector('.basket-item');
+    const img = itemTemplate.querySelector('#basket-img');
+    const productName = itemTemplate.querySelector('#basket-name');
+    const productPrice = itemTemplate.querySelector('#basket-price');
+    const basketDOM = document.querySelector('.basket');
+    const removeItem = itemTemplate.querySelector('.remove-item');
+    basket.push(itemID); // Add ID to basket array
+    basketItem.dataset.id = itemID; // Set ID in DOM
+    removeItem.innerText = 'Remove';
+    removeItem.addEventListener('click', removeBasketItem);
+    img.src = `${product.imgSrc}`;
+    img.alt = `${product.imgSrc}`;
+    productName.textContent = `${product.name}`;
+    productPrice.textContent = `£${(product.price / 100).toFixed(2)}`;
+    basketDOM.append(itemTemplate);
+    console.log(basket);
+  }
+}
+
+function viewBasket() {
+  console.log(basket);
+  const basketDOM = document.querySelector('.basket');
+  const basketOverlay = document.querySelector('.basket-overlay');
+  basketDOM.classList.add('showBasket');
+  basketOverlay.classList.add('transparentBcg');
+}
+
+function closeBasket() {
+  const basket = document.querySelector('.basket');
+  const basketOverlay = document.querySelector('.basket-overlay');
+  basket.classList.remove('showBasket');
+  basketOverlay.classList.remove('transparentBcg');
+}
+
+function removeBasketItem(e) {
+  const itemID = parseInt(e.target.parentNode.parentNode.dataset.id);
+  const index = basket.indexOf(itemID);
+  const basketQuantity = document.querySelector('.basket-quantity');
+  basket.splice(index, 1); // Remove ID from array
+  e.target.parentElement.parentElement.remove(); // Remove item from DOM
+  basketQuantity.innerText = parseInt(basketQuantity.innerText) - 1;
+
+  // TODO:
+  // Re-enable add to basket button
+  // Change button text back to 'add to basket'
+}
 
 function setupListeners() {
-  document.querySelector('.our-products').addEventListener('click', renderProducts);
+  // document.querySelector('.our-products').addEventListener('click', renderProducts);
   document.querySelector('#btn-login').addEventListener('click', login);
   document.querySelector('#btn-logout').addEventListener('click', logout);
   document.querySelector('.btn-checkout').addEventListener('click', checkout);
+  document.querySelector('.basket-btn').addEventListener('click', viewBasket);
+  document.querySelector('.close-basket').addEventListener('click', closeBasket);
 }
 
 async function init() {
+  renderProducts();
   await initializeAuth0Client();
   await setupListeners();
   await updateAuthUI();

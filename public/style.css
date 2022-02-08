@@ -4,7 +4,7 @@
   --mainBlack: #222;
   --mainGrey: #ececec;
   --mainSpacing: 0.1rem;
-  --mainTransition: all 0.3s linear;
+  --mainTransition: all 0.2s linear;
   --basketBtn: rgb(19, 160, 255);
 }
 
@@ -47,7 +47,7 @@ label {
   cursor: pointer;
 }
 
-.basket-items{
+.basket-quantity{
   position: absolute;
   bottom: 0.5rem;
   left: 1rem;
@@ -133,8 +133,8 @@ label {
 }
 
 /* ---------------End of Products ---------------- */
-/* --------------- Cart ---------------- */
-.cart-overlay {
+/* --------------- basket ---------------- */
+  .basket-overlay {
   position: fixed;
   top: 0;
   right: 0;
@@ -145,7 +145,7 @@ label {
   z-index: 2;
   visibility: hidden;
 }
-.cart {
+.basket {
   position: fixed;
   top: 0;
   right: 0;
@@ -157,49 +157,49 @@ label {
   padding: 1.5rem;
   transition: var(--mainTransition);
   transform: translateX(100%);
-}
+} 
 /* Dynamically added with JS */
-.showCart {
+.showBasket {
   transform: translateX(0);
 }
 .transparentBcg {
   visibility: visible;
 }
 @media screen and (min-width: 768px) {
-  .cart {
+  .basket {
     width: 30vw;
     min-width: 450px;
   }
 }
 
-.close-cart {
+.close-basket {
   font-size: 1.7rem;
   cursor: pointer;
 }
-.cart h2 {
+.basket h2 {
   text-transform: capitalize;
   text-align: center;
   letter-spacing: var(--mainSpacing);
   margin-bottom: 2rem;
 }
-/*---------- Cart Item -------------------- */
-.cart-item {
+/*---------- basket Item -------------------- */
+.basket-item {
   display: grid;
   align-items: center;
   grid-template-columns: auto 1fr auto;
   grid-column-gap: 1.5rem;
   margin: 1.5rem 0;
 }
-.cart-item img {
+.basket-item img {
   width: 75px;
   height: 75px;
 }
-.cart-item h4 {
+.basket-item h4 {
   font-size: 0.85rem;
   text-transform: capitalize;
   letter-spacing: var(--mainSpacing);
 }
-.cart-item h5 {
+.basket-item h5 {
   margin: 0.5rem 0;
   letter-spacing: var(--mainSpacing);
 }
@@ -215,16 +215,16 @@ label {
   color: var(--primaryColor);
   cursor: pointer;
 }
-/*---------- End of Cart Item -------------------- */
+/*---------- End of basket Item -------------------- */
 
-.cart-footer {
+.basket-footer {
   margin-top: 2rem;
   letter-spacing: var(--mainSpacing);
   text-align: center;
 }
-.cart-footer h3 {
+.basket-footer h3 {
   text-transform: capitalize;
   margin-bottom: 1rem;
 }
 
-/* --------------- End of Cart ---------------- */
+/* --------------- End of basket ---------------- */
