@@ -121,8 +121,10 @@ async function renderProducts() {
     const productDesc = productTemplate.querySelector('#product-desc');
     const basketBtn = productTemplate.querySelector('.btn-atb');
     const basketID = productTemplate.querySelector('.add-to-basket');
-    basketID.setAttribute('data-id', product.id);
-    basketBtn.addEventListener('click', addToBasket(basketID.getAttribute('data-id'), basketBtn));
+    // basketID.setAttribute('data-id', product.id);
+    basketID.dataset.id = product.id;
+    // basketBtn.addEventListener('click', addToBasket(basketID.getAttribute('data-id'), basketBtn));
+    basketBtn.addEventListener('click', newAddToBasket);
     img.src = `${product.imgSrc}`;
     img.alt = `${product.imgSrc}`;
     productName.textContent = `${product.name}`;
@@ -159,6 +161,17 @@ function addToBasket(id, button) {
   // console.log('Added to basket, product id:', id);
 }
 
+function newAddToBasket(e) {
+  const id = parseInt(e.target.parentNode.dataset.id);
+  const inBasket = basket.includes(id);
+  e.target.innerText = 'In Basket';
+  e.target.disabled = true;
+  if (!inBasket) {
+    basket.push(id);
+  }
+  console.log(basket);
+}
+
 
 // CART //
 
@@ -173,7 +186,7 @@ const basketItems = document.querySelector('.cart-items');
 const basketTotal = document.querySelector('.cart-total');
 const products = document.querySelector('#products');
 
-const basket = [];
+const basket = []; // IDs of items in basket
 
 
 function setupListeners() {
