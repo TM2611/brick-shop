@@ -119,10 +119,10 @@ async function renderProducts() {
     const productName = productTemplate.querySelector('#product-name');
     const productPrice = productTemplate.querySelector('#product-price');
     const productDesc = productTemplate.querySelector('#product-desc');
-    const basketBtn = productTemplate.querySelector('.btn-atb');
-    const productID = productTemplate.querySelector('.add-to-basket');
-    productID.dataset.id = product.id;
-    basketBtn.addEventListener('click', AddToBasket);
+    const addToBasket = productTemplate.querySelector('.add-to-basket');
+    const addToBasketBtn = productTemplate.querySelector('.btn-atb');
+    addToBasket.dataset.id = product.id;
+    addToBasketBtn.addEventListener('click', AddToBasket);
     img.src = `${product.imgSrc}`;
     img.alt = `${product.imgSrc}`;
     productName.textContent = `${product.name}`;
@@ -189,12 +189,10 @@ async function AddToBasket(e) {
     productName.textContent = `${product.name}`;
     productPrice.textContent = `£${(product.price / 100).toFixed(2)}`;
     basketDOM.append(itemTemplate);
-    console.log(basket);
   }
 }
 
 function viewBasket() {
-  console.log(basket);
   const basketDOM = document.querySelector('.basket');
   const basketOverlay = document.querySelector('.basket-overlay');
   basketDOM.classList.add('showBasket');
@@ -215,10 +213,16 @@ function removeBasketItem(e) {
   basket.splice(index, 1); // Remove ID from array
   e.target.parentElement.parentElement.remove(); // Remove item from DOM
   basketQuantity.innerText = parseInt(basketQuantity.innerText) - 1;
-
-  // TODO:
-  // Re-enable add to basket button
-  // Change button text back to 'add to basket'
+  // Find ATB button of product with an id === itemID
+  const addToBasketList = document.querySelectorAll('.add-to-basket');
+  for (const atb of addToBasketList) {
+    if (itemID === parseInt(atb.dataset.id)) {
+      const atbBtn = atb.querySelector('.btn');
+      atbBtn.innerText = 'Add to Basket'; // Reset 'Add to Basket' button
+      atbBtn.disabled = false;
+      break;
+    }
+  }
 }
 
 function setupListeners() {
