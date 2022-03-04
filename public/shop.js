@@ -147,7 +147,7 @@ async function renderProducts() {
 
 // BASKET //
 
-const basket = []; // IDs of items in basket
+let basket = []; // IDs of items in basket
 
 // const basketBtn = document.querySelector('.basket-btn');
 // const closeBasketBtn = document.querySelector('.close-basket');
@@ -213,17 +213,43 @@ function removeBasketItem(e) {
   basket.splice(index, 1); // Remove ID from array
   e.target.parentElement.parentElement.remove(); // Remove item from DOM
   basketQuantity.innerText = parseInt(basketQuantity.innerText) - 1;
-  // Find ATB button of product with an id === itemID
+  resetAddToBasketBtn(itemID);
+}
+
+
+function resetAddToBasketBtn(itemID = 'n/a') {
   const addToBasketList = document.querySelectorAll('.add-to-basket');
-  for (const atb of addToBasketList) {
-    if (itemID === parseInt(atb.dataset.id)) {
+  if (itemID === 'n/a') { // Reset all atb buttons
+    for (const atb of addToBasketList) {
       const atbBtn = atb.querySelector('.btn');
-      atbBtn.innerText = 'Add to Basket'; // Reset 'Add to Basket' button
+      atbBtn.innerText = 'Add to Basket';
       atbBtn.disabled = false;
-      break;
+    }
+  } else { // Reset button with specified ID
+    for (const atb of addToBasketList) {
+      if (itemID === parseInt(atb.dataset.id)) {
+        const atbBtn = atb.querySelector('.btn');
+        atbBtn.innerText = 'Add to Basket'; // Reset 'Add to Basket' button in DOM
+        atbBtn.disabled = false;
+        break;
+      }
     }
   }
 }
+
+function clearBasket() {
+  const basketItems = document.querySelectorAll('.basket-item');
+  for (const elem of basketItems) {
+    elem.remove();
+  }
+  basket = [];
+  document.querySelector('.basket-quantity').innerText = 0;
+  resetAddToBasketBtn();
+}
+
+// function increaseQuantity(e) {
+//   console.log(e);
+// }
 
 function setupListeners() {
   // document.querySelector('.our-products').addEventListener('click', renderProducts);
@@ -232,6 +258,7 @@ function setupListeners() {
   document.querySelector('.btn-checkout').addEventListener('click', checkout);
   document.querySelector('.basket-btn').addEventListener('click', viewBasket);
   document.querySelector('.close-basket').addEventListener('click', closeBasket);
+  document.querySelector('.clear-basket').addEventListener('click', clearBasket);
 }
 
 async function init() {
