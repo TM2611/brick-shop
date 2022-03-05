@@ -149,19 +149,6 @@ async function renderProducts() {
 
 let basket = []; // IDs of items in basket
 
-// const basketBtn = document.querySelector('.basket-btn');
-// const closeBasketBtn = document.querySelector('.close-basket');
-// const clearBasketBtn = document.querySelector('.Clear-basket');
-// const basketOverlay = document.querySelector('.basket-overlay');
-// const basketContent = document.querySelector('.basket-content');
-// const basketItems = document.querySelector('.basket-items');
-// const basketTotal = document.querySelector('.basket-total');
-// const products = document.querySelector('#products');
-
-// const basketQuantity = document.querySelector('.basket-quantity');
-// const basketDOM = document.querySelector('.basket');
-// ^Functions sometimes failed to find global ?
-
 async function AddToBasket(e) {
   const products = await fetchProducts(); // necessary?
   const itemID = parseInt(e.target.parentNode.dataset.id);
@@ -179,11 +166,21 @@ async function AddToBasket(e) {
     const productName = itemTemplate.querySelector('#basket-name');
     const productPrice = itemTemplate.querySelector('#basket-price');
     const basketDOM = document.querySelector('.basket');
-    const removeItem = itemTemplate.querySelector('.remove-item');
+    const removeItemBtn = itemTemplate.querySelector('.remove-item');
+    const increaseBtn = itemTemplate.querySelector('.fa-chevron-up');
+    const decreaseBtn = itemTemplate.querySelector('.fa-chevron-down');
+    const itemAmount = itemTemplate.querySelector('.item-amount');
+
+    // Setup template listeners
+    increaseBtn.addEventListener('click', increaseQuantity);
+    decreaseBtn.addEventListener('click', decreaseQuantity);
+    removeItemBtn.addEventListener('click', removeBasketItem);
+
     basket.push(itemID); // Add ID to basket array
     basketItem.dataset.id = itemID; // Set ID in DOM
-    removeItem.innerText = 'Remove';
-    removeItem.addEventListener('click', removeBasketItem);
+    itemAmount.innerText = 1;
+    removeItemBtn.innerText = 'Remove';
+
     img.src = `${product.imgSrc}`;
     img.alt = `${product.imgSrc}`;
     productName.textContent = `${product.name}`;
@@ -247,9 +244,17 @@ function clearBasket() {
   resetAddToBasketBtn();
 }
 
-// function increaseQuantity(e) {
-//   console.log(e);
-// }
+function increaseQuantity(e) {
+  const itemAmount = e.target.parentNode.querySelector('.item-amount');
+  itemAmount.innerText = parseInt(itemAmount.innerText) + 1;
+}
+
+function decreaseQuantity(e) {
+  const itemAmount = e.target.parentNode.querySelector('.item-amount');
+  if (!(itemAmount.innerText <= 1)) {
+    itemAmount.innerText = parseInt(itemAmount.innerText) - 1;
+  }
+}
 
 function setupListeners() {
   // document.querySelector('.our-products').addEventListener('click', renderProducts);
