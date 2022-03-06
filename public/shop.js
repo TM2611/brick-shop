@@ -50,6 +50,11 @@ async function renderProducts() {
     const addToBasketBtn = productTemplate.querySelector('.btn-atb');
     addToBasket.dataset.id = product.id;
     addToBasketBtn.addEventListener('click', ba.AddToBasket);
+    addToBasketBtn.innerText = 'Add to Basket';
+    if (ba.basket.includes(product.id)) {
+      addToBasketBtn.innerText = 'In Basket';
+      addToBasketBtn.disabled = true;
+    }
     img.src = `${product.imgSrc}`;
     img.alt = `${product.imgSrc}`;
     productName.textContent = `${product.name}`;
@@ -57,6 +62,7 @@ async function renderProducts() {
     productDesc.textContent = `${product.description}`;
     document.body.append(productTemplate);
   });
+
   // saveProducts(products);
   // console.log('Products saved to storage');
 }
@@ -83,11 +89,12 @@ function setupListeners() {
 }
 
 async function init() {
-  renderProducts();
   await auth.initializeAuth0Client();
-  await setupListeners();
   await auth.updateAuthUI();
   await auth.handleAuth0Redirect();
+  await ba.initBasket();
+  setupListeners();
+  renderProducts();
 }
 
 window.addEventListener('load', init);
