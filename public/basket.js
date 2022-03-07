@@ -6,42 +6,45 @@ import fetchProducts from './shop.js';
 export let basket; // IDs of items in basket
 
 
-// TODO:
 export async function initBasket() {
-  basket = JSON.parse(localStorage.getItem('basket'));
-  // Add items in basket array to basket
-  const products = await fetchProducts(); // necessary?
-  const basketQuantity = document.querySelector('.basket-quantity');
-  basketQuantity.innerText = 0;
-  for (const basketID of basket) {
-    const product = products.find(({ id }) => id === basketID);
-    const t2 = document.querySelector('#basket-item-template');
-    const itemTemplate = t2.content.cloneNode(true); // Why is clone necessary ?
-    const basketItem = itemTemplate.querySelector('.basket-item');
-    const img = itemTemplate.querySelector('#basket-img');
-    const productName = itemTemplate.querySelector('#basket-name');
-    const productPrice = itemTemplate.querySelector('#basket-price');
+  const isBasketEmpty = localStorage.getItem('basket') === null;
+  if (!isBasketEmpty) {
+    basket = JSON.parse(localStorage.getItem('basket'));
     const basketDOM = document.querySelector('.basket');
-    const removeItemBtn = itemTemplate.querySelector('.remove-item');
-    const increaseBtn = itemTemplate.querySelector('.fa-chevron-up');
-    const decreaseBtn = itemTemplate.querySelector('.fa-chevron-down');
-    const itemAmount = itemTemplate.querySelector('.item-amount');
-    basketItem.dataset.id = product.id; // Set ID in DOM
-    itemAmount.innerText = 1;
-    basketQuantity.innerText = parseInt(basketQuantity.innerText) + 1;
-    removeItemBtn.innerText = 'Remove';
-    img.src = `${product.imgSrc}`;
-    img.alt = `${product.imgSrc}`;
-    productName.textContent = `${product.name}`;
-    productPrice.textContent = `£${(product.price / 100).toFixed(2)}`;
-    basketDOM.append(itemTemplate);
-
-    // Setup template listeners
-    increaseBtn.addEventListener('click', increaseQuantity);
-    decreaseBtn.addEventListener('click', decreaseQuantity);
-    removeItemBtn.addEventListener('click', removeBasketItem);
+    const products = await fetchProducts(); // necessary?
+    const basketQuantity = document.querySelector('.basket-quantity');
+    const t2 = document.querySelector('#basket-item-template');
+    basketQuantity.innerText = 0;
+    for (const itemID of basket) {
+      const itemTemplate = t2.content.cloneNode(true);
+      const basketItem = itemTemplate.querySelector('.basket-item');
+      const img = itemTemplate.querySelector('#basket-img');
+      const productName = itemTemplate.querySelector('#basket-name');
+      const productPrice = itemTemplate.querySelector('#basket-price');
+      const removeItemBtn = itemTemplate.querySelector('.remove-item');
+      const increaseBtn = itemTemplate.querySelector('.fa-chevron-up');
+      const decreaseBtn = itemTemplate.querySelector('.fa-chevron-down');
+      const itemAmount = itemTemplate.querySelector('.item-amount');
+      const product = products.find(({ id }) => id === itemID);
+      basketItem.dataset.id = product.id; // Set ID in DOM
+      basketQuantity.innerText = parseInt(basketQuantity.innerText) + 1;
+      removeItemBtn.innerText = 'Remove';
+      img.src = `${product.imgSrc}`;
+      img.alt = `${product.imgSrc}`;
+      productName.textContent = `${product.name}`;
+      productPrice.textContent = `£${(product.price / 100).toFixed(2)}`;
+      increaseBtn.addEventListener('click', increaseQuantity);
+      decreaseBtn.addEventListener('click', decreaseQuantity);
+      removeItemBtn.addEventListener('click', removeBasketItem);
+      // TODO: Save basket item quantity in local storage
+      itemAmount.innerText = 1; // = item quantinty from storage
+      basketDOM.append(itemTemplate);
+    }
+    return;
   }
+  basket = [];
 }
+
 
 function removeBasketItem(e) {
   const itemID = parseInt(e.target.parentNode.parentNode.dataset.id);
@@ -87,43 +90,39 @@ function decreaseQuantity(e) {
   }
 }
 
+
 export async function AddToBasket(e) {
-  const products = await fetchProducts(); // necessary?
   const itemID = parseInt(e.target.parentNode.dataset.id);
-  const inBasket = basket.includes(itemID);
+  const products = await fetchProducts(); // necessary?
+  const basketDOM = document.querySelector('.basket');
+  const product = products.find(({ id }) => id === itemID);
+  const t2 = document.querySelector('#basket-item-template');
+  const itemTemplate = t2.content.cloneNode(true); // Why is clone necessary ?
+  const basketItem = itemTemplate.querySelector('.basket-item');
+  const img = itemTemplate.querySelector('#basket-img');
+  const productName = itemTemplate.querySelector('#basket-name');
+  const productPrice = itemTemplate.querySelector('#basket-price');
+  const removeItemBtn = itemTemplate.querySelector('.remove-item');
+  const increaseBtn = itemTemplate.querySelector('.fa-chevron-up');
+  const decreaseBtn = itemTemplate.querySelector('.fa-chevron-down');
+  const itemAmount = itemTemplate.querySelector('.item-amount');
   const basketQuantity = document.querySelector('.basket-quantity');
   basketQuantity.innerText = parseInt(basketQuantity.innerText) + 1;
+  basketItem.dataset.id = itemID; // Set ID in DOM
+  removeItemBtn.innerText = 'Remove';
+  img.src = `${product.imgSrc}`;
+  img.alt = `${product.imgSrc}`;
+  productName.textContent = `${product.name}`;
+  productPrice.textContent = `£${(product.price / 100).toFixed(2)}`;
+  increaseBtn.addEventListener('click', increaseQuantity);
+  decreaseBtn.addEventListener('click', decreaseQuantity);
+  removeItemBtn.addEventListener('click', removeBasketItem);
+  basket.push(itemID); // Add ID to basket array
+  localStorage.setItem('basket', JSON.stringify(basket));
+  itemAmount.innerText = 1;
   e.target.innerText = 'In Basket';
   e.target.disabled = true;
-  if (!inBasket) {
-    const product = products.find(({ id }) => id === itemID);
-    const t2 = document.querySelector('#basket-item-template');
-    const itemTemplate = t2.content.cloneNode(true); // Why is clone necessary ?
-    const basketItem = itemTemplate.querySelector('.basket-item');
-    const img = itemTemplate.querySelector('#basket-img');
-    const productName = itemTemplate.querySelector('#basket-name');
-    const productPrice = itemTemplate.querySelector('#basket-price');
-    const basketDOM = document.querySelector('.basket');
-    const removeItemBtn = itemTemplate.querySelector('.remove-item');
-    const increaseBtn = itemTemplate.querySelector('.fa-chevron-up');
-    const decreaseBtn = itemTemplate.querySelector('.fa-chevron-down');
-    const itemAmount = itemTemplate.querySelector('.item-amount');
-    basket.push(itemID); // Add ID to basket array
-    localStorage.setItem('basket', JSON.stringify(basket));
-    basketItem.dataset.id = itemID; // Set ID in DOM
-    itemAmount.innerText = 1;
-    removeItemBtn.innerText = 'Remove';
-    img.src = `${product.imgSrc}`;
-    img.alt = `${product.imgSrc}`;
-    productName.textContent = `${product.name}`;
-    productPrice.textContent = `£${(product.price / 100).toFixed(2)}`;
-    basketDOM.append(itemTemplate);
-
-    // Setup template listeners
-    increaseBtn.addEventListener('click', increaseQuantity);
-    decreaseBtn.addEventListener('click', decreaseQuantity);
-    removeItemBtn.addEventListener('click', removeBasketItem);
-  }
+  basketDOM.append(itemTemplate);
 }
 
 
