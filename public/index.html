@@ -62,10 +62,10 @@
           <template id ="basket-item-template">
             <!-- data-id allows remove-item to know id of product to be removed -->
             <div class="basket-item" data-id> 
-              <img id = "basket-img">
+              <img id = "basket-product-img">
               <div>
-                <h4 id = "basket-name"></h4>
-                <h5 id = "basket-price"></h5>
+                <h4 id = "basket-product-name"></h4>
+                <h5>£<span id="basket-product-price">0</span></h5>
                 <span class="remove-item"></span>
               </div>
               <div>
@@ -76,7 +76,7 @@
             </div>
           </template>
           <div class="basket-footer">
-            <h3>Total : £ <span class="basket-total"></span>0</h3>
+            <h3>Total : £<span class="basket-total">0.00</span></h3>
             <button class="clear-basket banner-btn">Clear basket</button>
             <button class="btn-checkout banner-btn" disabled>Checkout</button>
           </div>
