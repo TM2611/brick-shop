@@ -1,6 +1,6 @@
 
 
-import fetchProducts from './shop.js';
+import fetchProducts from './main.js';
 /* global localStorage */
 
 export let basket; // IDs of items in basket
