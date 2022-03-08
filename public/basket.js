@@ -10,7 +10,7 @@ export async function initBasket() {
   const isBasketEmpty = localStorage.getItem('basket') === null;
   if (!isBasketEmpty) {
     basket = JSON.parse(localStorage.getItem('basket'));
-    const products = await fetchProducts(); // necessary?
+    const products = await fetchProducts(); // retrieve from storage / DB ?
     const basketDOM = document.querySelector('.basket');
     const basketQuantityDOM = document.querySelector('.basket-quantity');
     const t2 = document.querySelector('#basket-item-template');
@@ -37,8 +37,8 @@ export async function initBasket() {
       img.alt = `${product.imgSrc}`;
       productName.textContent = product.name;
       productPriceDOM.textContent = price.toFixed(2);
-      increaseBtn.addEventListener('click', increaseQuantity);
-      decreaseBtn.addEventListener('click', decreaseQuantity);
+      increaseBtn.addEventListener('click', increaseItemQuantity);
+      decreaseBtn.addEventListener('click', decreaseItemQuantity);
       removeItemBtn.addEventListener('click', removeBasketItem);
       // TODO: Save basket item quantity in local storage
       itemAmountDOM.textContent = 1; // = item quantinty from storage
@@ -81,7 +81,7 @@ function resetAddToBasketBtn(itemID = 'n/a') {
       atbBtn.innerText = 'Add to Basket';
       atbBtn.disabled = false;
     }
-  } else { // Reset button with specified ID
+  } else { // Reset button with ID passed as an argument
     for (const atb of addToBasketList) {
       if (itemID === parseInt(atb.dataset.id)) {
         const atbBtn = atb.querySelector('.btn');
@@ -91,10 +91,9 @@ function resetAddToBasketBtn(itemID = 'n/a') {
       }
     }
   }
-  // updateTotalPrice()
 }
 
-function increaseQuantity(e) {
+function increaseItemQuantity(e) {
   const itemAmountDOM = e.target.parentNode.querySelector('.item-amount');
   const itemAmount = parseInt(itemAmountDOM.innerText);
   const productPriceDOM = e.target.parentNode.parentNode.querySelector('#basket-product-price');
@@ -105,7 +104,7 @@ function increaseQuantity(e) {
   basketTotalDOM.textContent = (basketTotal + price).toFixed(2);
 }
 
-function decreaseQuantity(e) {
+function decreaseItemQuantity(e) {
   const itemAmountDOM = e.target.parentNode.querySelector('.item-amount');
   const itemAmount = parseInt(itemAmountDOM.innerText);
   const productPriceDOM = e.target.parentNode.parentNode.querySelector('#basket-product-price');
@@ -120,11 +119,11 @@ function decreaseQuantity(e) {
 
 export async function AddToBasket(e) {
   const itemID = parseInt(e.target.parentNode.dataset.id);
-  const products = await fetchProducts(); // necessary?
+  const products = await fetchProducts(); // retrieve from storage / DB ?
   const basketDOM = document.querySelector('.basket');
   const product = products.find(({ id }) => id === itemID);
   const t2 = document.querySelector('#basket-item-template');
-  const itemTemplate = t2.content.cloneNode(true); // Why is clone necessary ?
+  const itemTemplate = t2.content.cloneNode(true);
   const basketItemDOM = itemTemplate.querySelector('.basket-item');
   const img = itemTemplate.querySelector('#basket-product-img');
   const productName = itemTemplate.querySelector('#basket-product-name');
@@ -144,8 +143,8 @@ export async function AddToBasket(e) {
   img.alt = `${product.imgSrc}`;
   productName.textContent = product.name;
   productPriceDOM.textContent = price.toFixed(2);
-  increaseBtn.addEventListener('click', increaseQuantity);
-  decreaseBtn.addEventListener('click', decreaseQuantity);
+  increaseBtn.addEventListener('click', increaseItemQuantity);
+  decreaseBtn.addEventListener('click', decreaseItemQuantity);
   removeItemBtn.addEventListener('click', removeBasketItem);
   basket.push(itemID); // Add ID to basket array
   localStorage.setItem('basket', JSON.stringify(basket));

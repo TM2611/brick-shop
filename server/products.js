@@ -1,4 +1,6 @@
 // Pence for price
+
+// Red, Blue, Yellow, Purple, White, Grey, Brown, Green, Orange, Black
 const products = [
   {
     id: 0,
