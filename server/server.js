@@ -21,7 +21,7 @@ app.get('/products', (req, res) => {
 app.use('/api', auth0.checkJwt);
 
 app.get('/api/checkout', async (req, res) => {
-  console.log('Checked Out succesfully');
+  await console.log('Checked Out succesfully');
 });
 
 // this will serve the files present in /public
