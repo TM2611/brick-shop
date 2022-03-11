@@ -29,7 +29,6 @@ export async function initBasket() {
       const decreaseBtn = itemTemplate.querySelector('.fa-chevron-down');
       const itemAmountDOM = itemTemplate.querySelector('.item-amount');
       const product = products.find(({ id }) => id === itemID);
-      debugger
       const price = product.price / 100;
       basketItemDOM.dataset.id = product.id; // Set ID in DOM
       basketQuantityDOM.textContent = basketQuantity + 1;
