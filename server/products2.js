@@ -14,6 +14,16 @@ const products = [
       'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores, error.',
     imgSrc: '/images/red.jpg',
   },
+  {
+    id: uuid(),
+    name: 'Green Brick',
+    colour: 'green',
+    price: 2299,
+    instock: 29,
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores, error.',
+    imgSrc: '/images/green.jpg',
+  },
 ];
 
 export { products };

@@ -29,6 +29,7 @@ export async function initBasket() {
       const decreaseBtn = itemTemplate.querySelector('.fa-chevron-down');
       const itemAmountDOM = itemTemplate.querySelector('.item-amount');
       const product = products.find(({ id }) => id === itemID);
+      debugger
       const price = product.price / 100;
       basketItemDOM.dataset.id = product.id; // Set ID in DOM
       basketQuantityDOM.textContent = basketQuantity + 1;
@@ -60,7 +61,7 @@ function removeBasketItem(e) {
   const price = parseFloat(productPriceDOM.textContent);
   const itemAmountDOM = basketItemDOM.querySelector('.item-amount');
   const itemAmount = parseInt(itemAmountDOM.textContent);
-  const itemID = parseInt(basketItemDOM.dataset.id);
+  const itemID = basketItemDOM.dataset.id;
   const index = basket.indexOf(itemID);
   const basketQuantityDOM = document.querySelector('.basket-quantity');
   const basketQuantity = parseInt(basketQuantityDOM.textContent);
@@ -83,7 +84,7 @@ function resetAddToBasketBtn(itemID = 'n/a') {
     }
   } else { // Reset button with ID passed as an argument
     for (const atb of addToBasketList) {
-      if (itemID === parseInt(atb.dataset.id)) {
+      if (itemID === atb.dataset.id) {
         const atbBtn = atb.querySelector('.btn');
         atbBtn.innerText = 'Add to Basket'; // Reset 'Add to Basket' button in DOM
         atbBtn.disabled = false;
@@ -118,7 +119,7 @@ function decreaseItemQuantity(e) {
 }
 
 export async function AddToBasket(e) {
-  const itemID = parseInt(e.target.parentNode.dataset.id);
+  const itemID = e.target.parentNode.dataset.id;
   const products = await fetchProducts(); // retrieve from storage / DB ?
   const basketDOM = document.querySelector('.basket');
   const product = products.find(({ id }) => id === itemID);
