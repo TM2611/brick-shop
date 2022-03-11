@@ -7,8 +7,7 @@ import authConfig from './auth_config.js';
 
 import auth0Helpers from './auth0_helper.js';
 
-// import { products } from './products.js';
-import { products } from './products2.js';
+import { products } from './products.js';
 
 const app = express();
 

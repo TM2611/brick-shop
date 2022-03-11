@@ -1,37 +1,39 @@
+import uuid from 'uuid-random';
+
 // Pence for price
 
 // Red, Blue, Yellow, Purple, White, Grey, Brown, Green, Orange, Black
+
 const products = [
   {
-    id: 0,
-    name: 'Red Brick',
+    id: uuid(),
+    name: 'Brick 1x1',
     colour: 'red',
-    price: 20,
-    instock: 100,
+    price: 6,
+    instock: 1020,
     description:
       'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores, error.',
-    imgSrc: '/images/red.jpg',
+    imgSrc: './images/single/purple/brick1x1.png',
   },
   {
-    id: 1,
-    name: 'Yellow Brick',
-    colour: 'yellow',
-    price: 2499,
-    instock: 43,
+    id: uuid(),
+    name: 'Brick 1x4',
+    colour: 'red',
+    price: 13,
+    instock: 723,
     description:
       'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores, error.',
-    imgSrc: '/images/yellow.jpeg',
+    imgSrc: './images/single/purple/brick1x4.png',
   },
   {
-    id: 2,
-    name: 'Green Brick',
-    colour: 'green',
-    price: 2299,
-    instock: 29,
+    id: uuid(),
+    name: 'Brick 2x2',
+    colour: 'red',
+    price: 12,
+    instock: 877,
     description:
       'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores, error.',
-    imgSrc: '/images/green.jpg',
+    imgSrc: './images/single/purple/brick2x2.png',
   },
 ];
-
 export { products };
