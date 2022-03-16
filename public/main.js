@@ -45,7 +45,7 @@ async function renderProducts() {
     const img = productTemplate.querySelector('#product-img');
     const productName = productTemplate.querySelector('#product-name');
     const productPrice = productTemplate.querySelector('#product-price');
-    const productDesc = productTemplate.querySelector('#product-desc');
+    // const productDesc = productTemplate.querySelector('#product-desc');
     const addToBasket = productTemplate.querySelector('.add-to-basket');
     const addToBasketBtn = productTemplate.querySelector('.btn-atb');
     addToBasket.dataset.id = product.id;
@@ -59,7 +59,7 @@ async function renderProducts() {
     img.alt = `${product.imgSrc}`;
     productName.textContent = `${product.name}`;
     productPrice.textContent = `£${(product.price / 100).toFixed(2)}`;
-    productDesc.textContent = `${product.description}`;
+    // productDesc.textContent = `${product.description}`;
     document.body.append(productTemplate);
   });
 
