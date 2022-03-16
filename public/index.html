@@ -34,18 +34,16 @@
         <template id="product-template">
           <div class="item">
             <div class= "item-container">
-              <div class="item-image">
-                <img id = "product-img">
-              </div>
-              <div class="desc">
-                <h2 id="product-name"></h2>
+              <img id = "product-img"> <!-- Added with JS -->
+              <div class="product-info">
+                <h1 id="product-name"></h1>
                 <h2 id="product-price"></h2>
                 <p id="product-desc"></p>
+                <div class="add-to-basket" data-id>
+                  <button class = "btn btn-atb"></button>
+                </div>
               </div>
-              <div class="add-to-basket" data-id>
-                <button class = "btn btn-atb"></button>
-              </div>
-            <div>
+            </div>
           </div>        
         </template>
       </div>

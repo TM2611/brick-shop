@@ -1,5 +1,3 @@
-
-
 import fetchProducts from './main.js';
 /* global localStorage */
 

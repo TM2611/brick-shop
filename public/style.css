@@ -5,7 +5,8 @@
   --mainGrey: #ececec;
   --mainSpacing: 0.1rem;
   --mainTransition: all 0.2s linear;
-  --basketBtn: rgb(19, 160, 255);
+  /* --basketBtn: rgb(19, 160, 255); */
+  --basketBtn: #f09d51
 }
 
 .hidden {
@@ -66,47 +67,63 @@ label {
 
 .our-products {
   cursor: pointer;
+  width: fit-content;
 }
 
-.products-container {
-  /* display: grid;
+/* .products-container {
+  display: grid;
   width: 90vw;
   max-width: 1170px;
   margin: 0 auto;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); */
-  border: solid 3px red;
-}
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+} */
 
 .item {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
+  margin: 2px;
+  border: 1px solid grey;
+  height: auto;
+  width: auto;
+  float: left;
+  text-align: center;
 }
 
 .item .item-container{
-  border: solid 0.5px;
-  width: 40%;
-  border-radius: 20px;
-  padding: 1rem;
-  position: relative;
-  margin: 1rem;
-}
+  display: grid;
+  /* width: 90vw; */
+  height: 32vw;
+  max-width: 1170px;
+  margin: 0 auto;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  position:relative;
+} 
 
 .item img{
-  width: 150px;
-  padding: 0.5rem;
+  width: 250px;
+  height: 250px;
+  display: inline;
+  margin: 3px;
+}
+.item img:hover {
+  border: 1px solid yellow;
 }
 
+.product-img{
+  border: 1px solid red;
+}
 .item .fa-plus-square{
   font-weight: 200;
   font-size: 1.2em ;
 }
 
-.item .item-container .desc{
-  padding: 0.5rem
+.item .item-container .product-info{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 15% .75rem .75rem .75rem;
+  background-color: transparent;
+  background-position-y: -1px;
+  text-align: left;
 }
 
 
@@ -114,9 +131,9 @@ label {
   display: flex;
   justify-content: center;
   align-items: center;
-  top: 10px;
+  bottom: 30px;
   right: 10px;
-  
+
   position: absolute;
 }
 
@@ -127,7 +144,7 @@ label {
   color: var(--mainWhite)
 }
 .btn-atb{
-  background-color: var(--basketBtn);
+  background-color: var(--primaryColor);
   padding: 10px;
   text-align: center;
 }
@@ -212,7 +229,7 @@ label {
 }
 .fa-chevron-up,
 .fa-chevron-down {
-  color: var(--primaryColor);
+  color: var(--basketBtn);
   cursor: pointer;
 }
 /*---------- End of basket Item -------------------- */
