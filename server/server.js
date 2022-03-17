@@ -39,8 +39,8 @@ app.get('/auth_config', (req, res) => {
 
 // Filter
 app.get('/products/single/:colour', (req, res) => {
-  const products = filterColour(req.params.colour);
-  debugger
+  const filteredProducts = filterColour(req.params.colour);
+  res.json(filteredProducts);
 });
 
 // start the server
@@ -52,23 +52,14 @@ app.listen(PORT, () => {
 // TODO: async wrap?
 
 
-// TODO: move to filter.js
-async function filterColour(colour) {
+// TODO: import from filter.js
+
+function filterColour(colour) {
   const filteredProducts = [];
-  const products = await fetchProducts();
   products.forEach(product => {
     if (product.colour === colour) {
       filteredProducts.push(product);
     }
   });
   return filteredProducts;
-}
-
-// TODO: remove from server (in main.js)
-async function fetchProducts() {
-  const response = await fetch('/products');
-  if (!response.ok) {
-    throw response;
-  }
-  return response.json();
 }
