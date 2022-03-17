@@ -1,4 +1,4 @@
-import fetchProducts from './main.js';
+import fetchAllProducts from './main.js';
 /* global localStorage */
 
 export let basket; // IDs of items in basket
@@ -8,7 +8,7 @@ export async function initBasket() {
   const isBasketEmpty = localStorage.getItem('basket') === null;
   if (!isBasketEmpty) {
     basket = JSON.parse(localStorage.getItem('basket'));
-    const products = await fetchProducts(); // retrieve from storage / DB ?
+    const products = await fetchAllProducts(); // retrieve from storage / DB ?
     const basketDOM = document.querySelector('.basket');
     const basketQuantityDOM = document.querySelector('.basket-quantity');
     const t2 = document.querySelector('#basket-item-template');
@@ -117,7 +117,7 @@ function decreaseItemQuantity(e) {
 
 export async function AddToBasket(e) {
   const itemID = e.target.parentNode.dataset.id;
-  const products = await fetchProducts(); // retrieve from storage / DB ?
+  const products = await fetchAllProducts(); // retrieve from storage / DB ?
   const basketDOM = document.querySelector('.basket');
   const product = products.find(({ id }) => id === itemID);
   const t2 = document.querySelector('#basket-item-template');

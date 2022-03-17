@@ -4,7 +4,6 @@
     <title></title>
     <link rel="icon" href="data:,"><!-- prevent favicon requests -->
     <link rel="stylesheet" href="style.css">
-    <script type="module" src="main.js" async defer></script>
     <script src="https://kit.fontawesome.com/76f1f6b390.js" crossorigin="anonymous"></script>
   </head>
   <body>
@@ -25,10 +24,38 @@
         <div id="login-status"></div>
       </div>
     </nav>
+    <!-- Header -->
+    <header>
+			<div class="colour-condition">
+        <!-- TODO: user label instead of span -->
+				<span id="filter-label">Colour</span> 
+				<select name="" id="select">
+          <option value="Default">Any</option>
+					<option value="red-filter">Red</option>
+					<option value="blue-filter">Blue</option>
+					<option value="yellow-filter">Yellow</option>
+          <option value="purple-filter">Purple</option>
+          <option value="white-filter">White</option>
+          <option value="black-filter">Black</option>
+          <option value="grey-filter">Grey</option>
+          <option value="brown-filter">Brown</option>
+          <option value="green-filter">Green</option>
+          <option value="orange-filter">Orange</option>
+				</select>
+			</div>
+      <div class="filter-condition">
+				<span id="filter-label">Sort by</span>
+				<select name="" id="select">
+					<option value="Default">Default</option>
+					<option value="LowToHigh">Price (Low to high)</option>
+					<option value="HighToLow">Price (High to low)</option>
+				</select>
+			</div>
+		</header>
     <!-- products -->
     <section class="product-list">         
       <div class="our-products">
-        <h2>View Products</h2>
+        <h2>View All Products</h2>
       </div>
       <div class="products-container">
         <template id="product-template">
@@ -81,7 +108,8 @@
         </div>
       </div>
     </div>
-
+    
+    <script type="module" src="main.js" async defer></script>
     <script src="https://cdn.auth0.com/js/auth0-spa-js/1.13/auth0-spa-js.production.js"></script>
     <script src="js/app.js"></script>  
   </body>
