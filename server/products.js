@@ -2,24 +2,6 @@ import uuid from 'uuid-random';
 
 // Pence for price
 
-/*
-prices
-b1x1 = 6
-b1x2 = 10
-b1x4 = 13
-b2x2 = 12
-b2x3 = 16
-b3x1 = 15
-b4x2 = 18
-
-p1x1 = 4
-p2x2 = 10
-p2x4 = 14
-
-*/
-
-// Red, Blue, Yellow, Purple, White, Grey, Brown, Green, Orange, Black
-
 const products = [
   // Purple
   {
