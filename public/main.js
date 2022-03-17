@@ -25,7 +25,7 @@ async function checkout() {
 }
 
 // PRODUCTS //
-export default async function fetchProducts() {
+export default async function fetchAllProducts() {
   const response = await fetch('/products');
   if (!response.ok) {
     throw response;
@@ -39,7 +39,7 @@ async function renderProducts() {
     // Products already displayed
     return;
   }
-  const products = await fetchProducts();
+  const products = await fetchAllProducts();
   products.forEach(product => {
     const t1 = document.querySelector('#product-template');
     const productTemplate = t1.content.cloneNode(true); // Clone necessary?
@@ -63,9 +63,6 @@ async function renderProducts() {
     // productDesc.textContent = `${product.description}`;
     document.body.append(productTemplate);
   });
-
-  // saveProducts(products);
-  // console.log('Products saved to storage');
 }
 
 async function renderFiltered(e) {
@@ -80,7 +77,7 @@ async function renderFiltered(e) {
   const products = await fetchFilteredProducts(e);
   products.forEach(product => {
     const t1 = document.querySelector('#product-template');
-    const productTemplate = t1.content.cloneNode(true); // Clone necessary?
+    const productTemplate = t1.content.cloneNode(true);
     const img = productTemplate.querySelector('#product-img');
     const productName = productTemplate.querySelector('#product-name');
     const productPrice = productTemplate.querySelector('#product-price');
@@ -101,20 +98,19 @@ async function renderFiltered(e) {
     // productDesc.textContent = `${product.description}`;
     document.body.append(productTemplate);
   });
-
-  // saveProducts(products);
-  // console.log('Products saved to storage');
 }
+
 async function fetchFilteredProducts(e) {
   const colour = (e.target.options[e.target.selectedIndex].text).toLowerCase();
-  const products = await fetch('/products/single/' + colour);
-  if (!products.ok) {
+  if (colour === 'any') {
+    return await fetchAllProducts();
+  }
+  const response = await fetch('/products/single/' + colour);
+  if (!response.ok) {
     throw response;
   }
-  return products.json();
+  return response.json();
 }
-
-
 
 function setupListeners() {
   document.querySelector('.our-products').addEventListener('click', renderProducts);
