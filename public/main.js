@@ -1,27 +1,12 @@
+/* eslint-disable no-undef */ // not recgonising fetch?
 import * as auth from './auth.js';
 import * as ba from './basket.js';
 // import * as fil from '../server/filter.js';
 
-/* eslint-disable no-undef */ // not recgonising fetch?
-async function checkout() {
-  // Get the access token from the Auth0 client
-  const token = await auth.auth0.getTokenSilently();
-
-  const el = document.getElementById('login-status');
-  const fetchOptions = {
-    credentials: 'same-origin',
-    method: 'GET',
-    // Give access to the bearer of the token.
-    headers: { Authorization: 'Bearer ' + token },
-  };
-  const response = await fetch('/api/checkout', fetchOptions);
-  if (!response.ok) {
-    // handle the error
-    el.textContent = 'Server error:\n' + response.status;
-    return;
-  }
-  // handle the response
-  console.log('Checkout successful!');
+// NAVBAR
+function toggleDropdown() {
+  // TODO: bug - display being overwritten
+  document.querySelector('.icon-options').classList.toggle('display');
 }
 
 // PRODUCTS //
@@ -113,10 +98,12 @@ async function fetchFilteredProducts(e) {
 }
 
 function setupListeners() {
+  // TODO: bug - toggleDropdown triggered when dropdown option clicked
+  document.querySelector('#login-icon').addEventListener('click', toggleDropdown);
   document.querySelector('.our-products').addEventListener('click', renderProducts);
   document.querySelector('#btn-login').addEventListener('click', auth.login);
   document.querySelector('#btn-logout').addEventListener('click', auth.logout);
-  document.querySelector('.btn-checkout').addEventListener('click', checkout);
+  document.querySelector('.btn-checkout').addEventListener('click', ba.checkout);
   document.querySelector('.basket-btn').addEventListener('click', ba.viewBasket);
   document.querySelector('.close-basket').addEventListener('click', ba.closeBasket);
   document.querySelector('.clear-basket').addEventListener('click', ba.clearBasket);

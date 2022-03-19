@@ -22,6 +22,13 @@ app.get('/products', (req, res) => {
   res.json(products);
 });
 
+
+app.get('/admin', (req, res) => {
+  res.send({
+    msg: 'Accessed admin page',
+  });
+});
+
 // protect /checkout from unauthenticated users
 app.use('/api', auth0.checkJwt);
 

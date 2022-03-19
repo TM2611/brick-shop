@@ -1,4 +1,6 @@
 import fetchAllProducts from './main.js';
+import * as auth from './auth.js';
+
 /* global localStorage */
 
 export let basket; // IDs of items in basket
@@ -179,4 +181,27 @@ export function clearBasket() {
   document.querySelector('.basket-quantity').textContent = 0;
   basketTotalDOM.textContent = (0).toFixed(2);
   resetAddToBasketBtn();
+}
+
+
+export async function checkout() {
+  // Get the access token from the Auth0 client
+  const token = await auth.auth0.getTokenSilently();
+
+  const el = document.getElementById('login-status');
+  const fetchOptions = {
+    credentials: 'same-origin',
+    method: 'GET',
+    // Give access to the bearer of the token.
+    headers: { Authorization: 'Bearer ' + token },
+  };
+  // eslint-disable-next-line no-undef -- fetch??
+  const response = await fetch('/api/checkout', fetchOptions);
+  if (!response.ok) {
+    // handle the error
+    el.textContent = 'Server error:\n' + response.status;
+    return;
+  }
+  // handle the response
+  console.log('Checkout successful!');
 }
