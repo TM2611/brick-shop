@@ -9,6 +9,18 @@ function toggleDropdown() {
   document.querySelector('.icon-options').classList.toggle('display');
 }
 
+function navbarDisplay() {
+  let prevScrollpos = window.pageYOffset;
+  const currentScrollPos = window.pageYOffset;
+  const navbar = document.querySelector('.navbar');
+  if (prevScrollpos > currentScrollPos) {
+    navbar.style.top = '0';
+  } else {
+    navbar.style.top = '-80px';
+  }
+  prevScrollpos = currentScrollPos;
+}
+
 // PRODUCTS //
 export default async function fetchAllProducts() {
   const response = await fetch('/products');
@@ -100,7 +112,7 @@ async function fetchFilteredProducts(e) {
 function setupListeners() {
   // TODO: bug - toggleDropdown triggered when dropdown option clicked
   document.querySelector('#login-icon').addEventListener('click', toggleDropdown);
-  document.querySelector('.our-products').addEventListener('click', renderProducts);
+  document.querySelector('.single-bricks').addEventListener('click', renderProducts);
   document.querySelector('#btn-login').addEventListener('click', auth.login);
   document.querySelector('#btn-logout').addEventListener('click', auth.logout);
   document.querySelector('.btn-checkout').addEventListener('click', ba.checkout);
@@ -108,6 +120,7 @@ function setupListeners() {
   document.querySelector('.close-basket').addEventListener('click', ba.closeBasket);
   document.querySelector('.clear-basket').addEventListener('click', ba.clearBasket);
   document.querySelector('#select').addEventListener('change', renderFiltered);
+  // window.addEventListener('scroll', navbarDisplay);
 }
 
 
