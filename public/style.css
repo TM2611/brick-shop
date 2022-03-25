@@ -6,8 +6,10 @@
   --mainSpacing: 0.1rem;
   --mainTransition: all 0.2s linear;
   /* --basketBtn: rgb(19, 160, 255); */
-  --basketBtn: #f09d51
+  --basketBtn: #f09d51 
 }
+
+/* TODO: dark mode - prefers-color-scheme*/
 
 .hidden {
   display: none;
@@ -17,54 +19,65 @@ label {
   margin-bottom: 10px;
   display: block;
 }
-/* --------------- Header ---------------- */
-header{
+/* --------------- Filters ---------------- */
+.filters{
   width: 100%;
   height: 100px;
   border-bottom: 2px solid #e5e5e5;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  padding: 2rem;
 }
-header ul li{
+.filter{
+  padding: 1.1rem;
+}
+
+.filters ul li{
   list-style: none;
   padding: 20px;
   margin: 10px;
   float: left;
   font-size: 20px;
   border-radius: 35px;
-  /*background: red;*/
-
 }
-header ul li a{
+
+.filters ul li a{
   color: inherit;
   text-decoration: none;
 }
-header ul li.active{
+
+.filters ul li.active{
   background: var(--gra);
 }
-header ul li.active a{
+
+.filters ul li.active a{
   color: white;
   font-weight: bold;
 }
+
 #filter-label{
   font-size: 1.2rem;
   color: var(--mainBlack);
-
 }
 /* --------------- End of Header ---------------- */
 
 /* --------------- Navbar ---------------- */
 .navbar {
-  position: sticky;
+  position: fixed;
   top: 0;
-  height: 60px;
+  height: 70px;
   width: 100%;
   display: flex;
   align-items: center;
   background: rgb(156, 156, 155);
   z-index: 1;
+  transition: top 0.3s;
 }
+.hide-nav{
+  /* TODO: use navbarHeight variable */
+  top:-70px;; 
+}
+
 .navbar-center {
   width: 100%;
   max-width: 1170px;
@@ -82,6 +95,7 @@ header ul li.active a{
 .basket-btn{
   position: relative;
   cursor: pointer;
+
 }
 
 .basket-quantity{
@@ -94,25 +108,72 @@ header ul li.active a{
   padding: 0 4px;
 }
 
- .btn-login, .btn-logout{
-  border: solid 4px red;
+ #btn-login, #btn-logout{
   cursor: pointer;
+}
+
+
+
+.non-visible{
+  visibility: hidden;
+}
+
+#login-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 100px;
+  background: var(--primaryColor);
+  display: none;
+  right: 10px;
+  position: absolute;
+
+}
+/* Overrides display none above */
+.display{
+  display: block !important; 
+}
+
+#login-icon:hover {
+  border: 1px solid yellow;
+  cursor: pointer;
+}
+
+#initial {
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-size: 40px;
+  top: 7px;
+  left: 15px;
+  position: relative;
+  
+}
+.icon-options {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  right: 75px
+}
+
+.icon-options a {
+  color: black;
+  font-weight: bold;
+  font-size: 20px;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
 }
 
 /* Products */
 
-.our-products {
+.single-bricks {
   cursor: pointer;
   width: fit-content;
 }
-
-/* .products-container {
-  display: grid;
-  width: 90vw;
-  max-width: 1170px;
-  margin: 0 auto;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-} */
 
 .item {
   margin: 2px;
@@ -125,9 +186,7 @@ header ul li.active a{
 
 .item .item-container{
   display: grid;
-  /* width: 90vw; */
-  height: 32vw;
-  max-width: 1170px;
+  height: 22vh;
   margin: 0 auto;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   position:relative;

@@ -1,6 +1,10 @@
 import uuid from 'uuid-random';
 
 // Pence for price
+// LIMIT, OFFSET, QUERY ORDER BY.
+// const params = new URLSearchParams(window.location.search);
+// const page = params.get('page') || 0;
+
 
 const products = [
   // Purple

@@ -25,15 +25,20 @@ export async function initializeAuth0Client() {
 // update the state of all authentication-related elements
 export async function updateAuthUI() {
   const isAuthenticated = await auth0.isAuthenticated();
-  document.getElementById('btn-login').disabled = isAuthenticated;
-  document.getElementById('btn-logout').disabled = !isAuthenticated;
-  document.querySelector('.btn-checkout').disabled = !isAuthenticated;
+  // document.getElementById('btn-login').disabled = isAuthenticated;
+  // document.getElementById('btn-logout').disabled = !isAuthenticated;
+  // document.querySelector('.btn-checkout').disabled = !isAuthenticated;
 
   if (isAuthenticated) {
     // Content no longer gated
     const user = await auth0.getUser();
-    const loginStatus = document.querySelector('#login-status');
-    loginStatus.textContent = 'Logged in as ' + user.name;
+    const loginBtn = document.querySelector('#btn-login');
+    const loginIcon = document.querySelector('#login-icon');
+    const initialDOM = document.querySelector('#initial');
+    const initial = (user.name.charAt(0)).toUpperCase();
+    initialDOM.textContent = initial;
+    loginIcon.classList.add('display');
+    loginBtn.classList.add('non-visible');
   }
 }
 

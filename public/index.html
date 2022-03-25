@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang = "en">
   <head>
-    <title></title>
+    <title>Lego Store</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
     <link rel="icon" href="data:,"><!-- prevent favicon requests -->
     <link rel="stylesheet" href="style.css">
     <script src="https://kit.fontawesome.com/76f1f6b390.js" crossorigin="anonymous"></script>
@@ -12,22 +14,28 @@
         <span class="nav-icon">
           <i class="fas fa-bars"></i>
         </span>
-        <img src="https://via.placeholder.com/200x50" alt="">
+        <img src="https://via.placeholder.com/66x66" alt="">
         <div class="basket-btn">
           <span class="nav-icon">
             <i class="fas fa-shopping-basket"></i>
           </span>
           <div class="basket-quantity">0</div>
         </div>
-        <button id="btn-login" disabled>Log in</button>
-        <button id="btn-logout" disabled>Log out</button>
-        <div id="login-status"></div>
+        <button id="btn-login">LOG IN</button>
+        <div id="login-icon"><span id="initial"></span>
+          <div class= "icon-options"> 
+            <a href="#">Profile</a>
+            <a href="#">Orders</a>
+            <a href="#">Settings</a>
+            <a id="btn-logout" href="#">Log out</a>
+          </div>
+        </div>
       </div>
     </nav>
-    <!-- Header -->
-    <header>
-			<div class="colour-condition">
-        <!-- TODO: user label instead of span -->
+    <!-- Filters -->
+    <div class = "filters">
+			<div class="filter colour-filter">
+        <!-- TODO: use label instead of span -->
 				<span id="filter-label">Colour</span> 
 				<select name="" id="select">
           <option value="Default">Any</option>
@@ -43,7 +51,7 @@
           <option value="orange-filter">Orange</option>
 				</select>
 			</div>
-      <div class="filter-condition">
+      <div class="filter price-filter">
 				<span id="filter-label">Sort by</span>
 				<select name="" id="select">
 					<option value="Default">Default</option>
@@ -51,11 +59,11 @@
 					<option value="HighToLow">Price (High to low)</option>
 				</select>
 			</div>
-		</header>
+		</div>
     <!-- products -->
     <section class="product-list">         
-      <div class="our-products">
-        <h2>View All Products</h2>
+      <div class="single-bricks">
+        <h2>View Singles</h2>
       </div>
       <div class="products-container">
         <template id="product-template">
@@ -103,7 +111,7 @@
           <div class="basket-footer">
             <h3>Total : £<span class="basket-total">0.00</span></h3>
             <button class="clear-basket banner-btn">Clear basket</button>
-            <button class="btn-checkout banner-btn" disabled>Checkout</button>
+            <button class="btn-checkout banner-btn">Checkout</button>
           </div>
         </div>
       </div>
