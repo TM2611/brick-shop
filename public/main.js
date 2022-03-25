@@ -116,7 +116,7 @@ async function fetchFilteredProducts(e) {
   if (colour === 'any') {
     return await fetchAllProducts();
   }
-  const response = await fetch('/products/single/' + colour);
+  const response = await fetch('/single/colour/' + colour);
   if (!response.ok) {
     throw response;
   }

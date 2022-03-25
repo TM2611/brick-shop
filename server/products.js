@@ -1,7 +1,7 @@
 import uuid from 'uuid-random';
 
 // Pence for price
-// LIMIT, OFFSET, QUERY ORDER BY.
+// LIMIT, OFFSET for pages, QUERY ORDER BY.
 // const params = new URLSearchParams(window.location.search);
 // const page = params.get('page') || 0;
 

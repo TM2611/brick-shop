@@ -11,23 +11,12 @@ import authConfig from './auth_config.js';
 
 import auth0Helpers from './auth0_helper.js';
 
-import { products } from './products.js';
+import * as sqlp from './sqlLiteProduct.js';
 
 
 const app = express();
 
 const auth0 = auth0Helpers(authConfig);
-
-app.get('/products', (req, res) => {
-  res.json(products);
-});
-
-
-app.get('/admin', (req, res) => {
-  res.send({
-    msg: 'Accessed admin page',
-  });
-});
 
 // // protect /checkout from unauthenticated users
 // app.use('/api', auth0.checkJwt);
@@ -44,29 +33,35 @@ app.get('/auth_config', (req, res) => {
   res.json(authConfig);
 });
 
-// Filter
-app.get('/products/single/:colour', (req, res) => {
-  const filteredProducts = filterColour(req.params.colour);
-  res.json(filteredProducts);
+app.get('/admin', (req, res) => {
+  res.send({
+    msg: 'Accessed admin page',
+  });
 });
+
+async function getSingles(req, res) {
+  res.json(await sqlp.findSingles());
+}
+
+// Filter
+async function getSingleColour(req, res) {
+  res.json(await sqlp.filterColour(req.params.colour));
+}
+
+// wrap async function for express.js error handling
+function asyncWrap(f) {
+  return (req, res, next) => {
+    Promise.resolve(f(req, res, next))
+      .catch((e) => next(e || new Error()));
+  };
+}
+
+app.get('/singles', asyncWrap(getSingles));
+app.get('single/colour/:colour', asyncWrap(getSingleColour));
+
 
 // start the server
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
-
-// TODO: async wrap?
-
-
-// TODO: import from filter.js
-
-function filterColour(colour) {
-  const filteredProducts = [];
-  products.forEach(product => {
-    if (product.colour === colour) {
-      filteredProducts.push(product);
-    }
-  });
-  return filteredProducts;
-}
