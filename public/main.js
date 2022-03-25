@@ -1,22 +1,34 @@
 /* eslint-disable no-undef */ // not recgonising fetch?
 import * as auth from './auth.js';
 import * as ba from './basket.js';
-// import * as fil from '../server/filter.js';
 
+// import * as fil from '../server/filter.js';
+let prevScrollpos;
 // NAVBAR
-function toggleDropdown() {
-  // TODO: bug - display being overwritten
-  document.querySelector('.icon-options').classList.toggle('display');
+function showDropdown(e) {
+  if (e.target.closest('.icon-options')) {
+    // we are inside the menu, ignore the click
+    return;
+  }
+  document.querySelector('.icon-options').classList.add('display');
+}
+
+function closeDropdown(e) {
+  // Hide dropdown if user clicks outside of dropdown or login icon
+  const initial = document.querySelector('#initial');
+  const icon = document.querySelector('#login-icon');
+  if (!(e.target.closest('.icon-options')) && ((e.target !== icon) && (e.target !== initial))) {
+    document.querySelector('.icon-options').classList.remove('display');
+  }
 }
 
 function navbarDisplay() {
-  let prevScrollpos = window.pageYOffset;
   const currentScrollPos = window.pageYOffset;
   const navbar = document.querySelector('.navbar');
   if (prevScrollpos > currentScrollPos) {
-    navbar.style.top = '0';
+    navbar.classList.remove('hide-nav');
   } else {
-    navbar.style.top = '-80px';
+    navbar.classList.add('hide-nav');
   }
   prevScrollpos = currentScrollPos;
 }
@@ -29,6 +41,8 @@ export default async function fetchAllProducts() {
   }
   return response.json();
 }
+
+//TODO: change append body
 
 async function renderProducts() {
   const item = document.querySelector('.item');
@@ -111,16 +125,19 @@ async function fetchFilteredProducts(e) {
 
 function setupListeners() {
   // TODO: bug - toggleDropdown triggered when dropdown option clicked
-  document.querySelector('#login-icon').addEventListener('click', toggleDropdown);
+  document.querySelector('#login-icon').addEventListener('click', showDropdown);
   document.querySelector('.single-bricks').addEventListener('click', renderProducts);
   document.querySelector('#btn-login').addEventListener('click', auth.login);
   document.querySelector('#btn-logout').addEventListener('click', auth.logout);
-  document.querySelector('.btn-checkout').addEventListener('click', ba.checkout);
+  // document.querySelector('.btn-checkout').addEventListener('click', ba.checkout);
+  document.querySelector('.btn-checkout').addEventListener('click', ba.checkoutPage);
+
   document.querySelector('.basket-btn').addEventListener('click', ba.viewBasket);
   document.querySelector('.close-basket').addEventListener('click', ba.closeBasket);
   document.querySelector('.clear-basket').addEventListener('click', ba.clearBasket);
   document.querySelector('#select').addEventListener('change', renderFiltered);
-  // window.addEventListener('scroll', navbarDisplay);
+  window.addEventListener('scroll', navbarDisplay);
+  window.addEventListener('click', closeDropdown);
 }
 
 

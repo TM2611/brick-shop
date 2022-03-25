@@ -29,12 +29,12 @@ app.get('/admin', (req, res) => {
   });
 });
 
-// protect /checkout from unauthenticated users
-app.use('/api', auth0.checkJwt);
+// // protect /checkout from unauthenticated users
+// app.use('/api', auth0.checkJwt);
 
-app.get('/api/checkout', async (req, res) => {
-  await console.log('Checked Out succesfully');
-});
+// app.get('/api/checkout', async (req, res) => {
+//   await console.log('Checked Out succesfully');
+// });
 
 // this will serve the files present in /public
 app.use(express.static(path.join(path.dirname(url.fileURLToPath(import.meta.url)), '../public')));
