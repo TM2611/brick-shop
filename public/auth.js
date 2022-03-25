@@ -38,7 +38,7 @@ export async function updateAuthUI() {
     const initial = (user.name.charAt(0)).toUpperCase();
     initialDOM.textContent = initial;
     loginIcon.classList.toggle('display');
-    loginBtn.classList.toggle('display');
+    loginBtn.classList.toggle('non-visible');
   }
 }
 

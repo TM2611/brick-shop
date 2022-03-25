@@ -103,6 +103,10 @@ header ul li.active a{
   display: block;
 }
 
+.non-visible{
+  visibility: hidden;
+}
+
 #login-icon {
   width: 60px;
   height: 60px;
