@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */ // TODO: not recgonising fetch?
+ // TODO: not recgonising fetch?
 import * as auth from './auth.js';
 import * as ba from './basket.js';
 
@@ -33,8 +33,8 @@ function navbarDisplay() {
 }
 
 // PRODUCTS //
-export default async function fetchAllProducts() {
-  const response = await fetch('/products');
+export default async function fetchAllSingles() {
+  const response = await fetch('/singles');
   if (!response.ok) {
     throw response;
   }
@@ -47,7 +47,7 @@ async function renderProducts() {
     // Products already displayed
     return;
   }
-  const products = await fetchAllProducts();
+  const products = await fetchAllSingles();
   products.forEach(product => {
     const t1 = document.querySelector('#product-template');
     const productTemplate = t1.content.cloneNode(true); // Clone necessary?
@@ -69,7 +69,6 @@ async function renderProducts() {
     productName.textContent = `${product.name}`;
     productPrice.textContent = `£${(product.price / 100).toFixed(2)}`;
     // productDesc.textContent = `${product.description}`;
-    // TODO: change append body
     document.body.append(productTemplate);
   });
 }
@@ -112,7 +111,7 @@ async function renderFiltered(e) {
 async function fetchFilteredProducts(e) {
   const colour = (e.target.options[e.target.selectedIndex].text).toLowerCase();
   if (colour === 'any') {
-    return await fetchAllProducts();
+    return await fetchAllSingles();
   }
   const response = await fetch('/single/colour/' + colour);
   if (!response.ok) {

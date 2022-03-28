@@ -3,7 +3,7 @@ import sqlite from 'sqlite';
 
 async function init() {
   const db = await sqlite.open('./database.sqlite', { verbose: true });
-  await db.migrate({ migrationsPath: './migrations-sqlite' });
+  await db.migrate({ migrationsPath: './server/migrations-sqlite' });
   return db;
 }
 
@@ -16,7 +16,7 @@ export async function filterColour(colour) {
 
 export async function findSingles() {
   const db = await dbConn;
-  return db.all('SELECT * FROM Messages WHERE type="brick" OR type="plate" ORDER BY instock');
+  return db.all('SELECT * FROM Product WHERE type="brick" OR type="plate" ORDER BY instock');
 }
 
 // TODO: add and edit products (admin)

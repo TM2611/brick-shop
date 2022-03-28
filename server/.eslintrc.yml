@@ -1,0 +1,4 @@
+extends: portsoc
+env:
+  - node: true
+root: true

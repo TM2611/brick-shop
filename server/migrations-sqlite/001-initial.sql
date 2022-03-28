@@ -1,3 +1,4 @@
+-- Up
 CREATE TABLE Product
 (
   id CHAR(36) PRIMARY KEY,
@@ -19,4 +20,5 @@ VALUES
   ('fs3dsd', 'Brick 1x2', 'purple', 'brick', 20, 7100, 'description', './images/single/purple/brick1x1.png'),
   ('sd3fs', 'Brick 1x1', 'red', 'brick', 20, 8100, 'description', './images/single/red/brick1x1.png');
 
+-- Down 
 DROP TABLE Products;
