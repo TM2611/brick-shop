@@ -11,6 +11,7 @@ CREATE TABLE Product
   imgsrc varchar(40) not null
 );
 
+-- TODO: UUID?
 INSERT INTO Product
   (id, pName, colour, pType, price, instock, info, imgSrc)
 VALUES

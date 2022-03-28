@@ -124,7 +124,6 @@ async function fetchFilteredProducts(e) {
 }
 
 function setupListeners() {
-  // TODO: bug - toggleDropdown triggered when dropdown option clicked
   document.querySelector('#login-icon').addEventListener('click', showDropdown);
   document.querySelector('.single-bricks').addEventListener('click', renderProducts);
   document.querySelector('#btn-login').addEventListener('click', auth.login);
