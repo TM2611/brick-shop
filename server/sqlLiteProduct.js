@@ -16,7 +16,7 @@ export async function filterColour(colour) {
 
 export async function findSingles() {
   const db = await dbConn;
-  return db.all('SELECT * FROM Product WHERE type="brick" OR type="plate" ORDER BY instock');
+  return db.all('SELECT * FROM Product ORDER BY instock');
 }
 
 // TODO: add and edit products (admin)

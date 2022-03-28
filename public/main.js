@@ -64,9 +64,10 @@ async function renderProducts() {
       addToBasketBtn.innerText = 'In Basket';
       addToBasketBtn.disabled = true;
     }
-    img.src = `${product.imgSrc}`;
-    img.alt = `${product.imgSrc}`;
-    productName.textContent = `${product.name}`;
+    debugger
+    img.src = `${product.imgsrc}`;
+    img.alt = `${product.imgsrc}`;
+    productName.textContent = `${product.pName}`;
     productPrice.textContent = `£${(product.price / 100).toFixed(2)}`;
     // productDesc.textContent = `${product.description}`;
     document.body.append(productTemplate);
