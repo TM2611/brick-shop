@@ -8,49 +8,48 @@ export let basket; // IDs of items in basket
 
 export async function initBasket() {
   const isBasketEmpty = localStorage.getItem('basket') === null;
-  if (!isBasketEmpty) {
-    basket = JSON.parse(localStorage.getItem('basket'));
-    const products = await fetchAllProducts(); // retrieve from storage / DB ?
-    const basketDOM = document.querySelector('.basket');
-    const basketQuantityDOM = document.querySelector('.basket-quantity');
-    const t2 = document.querySelector('#basket-item-template');
-    const basketTotalDOM = document.querySelector('.basket-total');
-    let total = 0;
-    basketQuantityDOM.textContent = 0;
-    for (const itemID of basket) {
-      const basketQuantity = parseInt(basketQuantityDOM.textContent);
-      const itemTemplate = t2.content.cloneNode(true);
-      const basketItemDOM = itemTemplate.querySelector('.basket-item');
-      const img = itemTemplate.querySelector('#basket-product-img');
-      const productName = itemTemplate.querySelector('#basket-product-name');
-      const productPriceDOM = itemTemplate.querySelector('#basket-product-price');
-      const removeItemBtn = itemTemplate.querySelector('.remove-item');
-      const increaseBtn = itemTemplate.querySelector('.fa-chevron-up');
-      const decreaseBtn = itemTemplate.querySelector('.fa-chevron-down');
-      const itemAmountDOM = itemTemplate.querySelector('.item-amount');
-      const product = products.find(({ id }) => id === itemID);
-      const price = product.price / 100;
-      basketItemDOM.dataset.id = product.id; // Set ID in DOM
-      basketQuantityDOM.textContent = basketQuantity + 1;
-      removeItemBtn.textContent = 'Remove';
-      img.src = `${product.imgSrc}`;
-      img.alt = `${product.imgSrc}`;
-      productName.textContent = product.name;
-      productPriceDOM.textContent = price.toFixed(2);
-      increaseBtn.addEventListener('click', increaseItemQuantity);
-      decreaseBtn.addEventListener('click', decreaseItemQuantity);
-      removeItemBtn.addEventListener('click', removeBasketItem);
-      // TODO: Save basket item quantity in local storage
-      itemAmountDOM.textContent = 1; // = item quantinty from storage
-      basketDOM.append(itemTemplate);
-      total += price;
-    }
-    basketTotalDOM.textContent = total.toFixed(2);
+  if (isBasketEmpty) {
+    basket = [];
     return;
   }
-  basket = [];
+  basket = JSON.parse(localStorage.getItem('basket'));
+  const products = await fetchAllProducts(); // retrieve from storage / DB ?
+  const basketDOM = document.querySelector('.basket');
+  const basketQuantityDOM = document.querySelector('.basket-quantity');
+  const t2 = document.querySelector('#basket-item-template');
+  const basketTotalDOM = document.querySelector('.basket-total');
+  let total = 0;
+  basketQuantityDOM.textContent = 0;
+  for (const itemID of basket) {
+    const basketQuantity = parseInt(basketQuantityDOM.textContent);
+    const itemTemplate = t2.content.cloneNode(true);
+    const basketItemDOM = itemTemplate.querySelector('.basket-item');
+    const img = itemTemplate.querySelector('#basket-product-img');
+    const productName = itemTemplate.querySelector('#basket-product-name');
+    const productPriceDOM = itemTemplate.querySelector('#basket-product-price');
+    const removeItemBtn = itemTemplate.querySelector('.remove-item');
+    const increaseBtn = itemTemplate.querySelector('.fa-chevron-up');
+    const decreaseBtn = itemTemplate.querySelector('.fa-chevron-down');
+    const itemAmountDOM = itemTemplate.querySelector('.item-amount');
+    const product = products.find(({ id }) => id === itemID);
+    const price = product.price / 100;
+    basketItemDOM.dataset.id = product.id; // Set ID in DOM
+    basketQuantityDOM.textContent = basketQuantity + 1;
+    removeItemBtn.textContent = 'Remove';
+    img.src = `${product.imgSrc}`;
+    img.alt = `${product.imgSrc}`;
+    productName.textContent = product.name;
+    productPriceDOM.textContent = price.toFixed(2);
+    increaseBtn.addEventListener('click', increaseItemQuantity);
+    decreaseBtn.addEventListener('click', decreaseItemQuantity);
+    removeItemBtn.addEventListener('click', removeBasketItem);
+    // TODO: Save basket item quantity in local storage
+    itemAmountDOM.textContent = 1; // = item quantinty from storage
+    basketDOM.append(itemTemplate);
+    total += price;
+  }
+  basketTotalDOM.textContent = total.toFixed(2);
 }
-
 
 function removeBasketItem(e) {
   const basketItemDOM = e.target.parentNode.parentNode;
