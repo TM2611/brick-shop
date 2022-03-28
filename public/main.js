@@ -1,8 +1,7 @@
-/* eslint-disable no-undef */ // not recgonising fetch?
+/* eslint-disable no-undef */ // TODO: not recgonising fetch?
 import * as auth from './auth.js';
 import * as ba from './basket.js';
 
-// import * as fil from '../server/filter.js';
 let prevScrollpos;
 // NAVBAR
 function showDropdown(e) {
@@ -42,8 +41,6 @@ export default async function fetchAllProducts() {
   return response.json();
 }
 
-//TODO: change append body
-
 async function renderProducts() {
   const item = document.querySelector('.item');
   if (document.body.contains(item)) {
@@ -72,6 +69,7 @@ async function renderProducts() {
     productName.textContent = `${product.name}`;
     productPrice.textContent = `£${(product.price / 100).toFixed(2)}`;
     // productDesc.textContent = `${product.description}`;
+    // TODO: change append body
     document.body.append(productTemplate);
   });
 }

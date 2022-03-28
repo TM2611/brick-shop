@@ -26,6 +26,4 @@ export async function findSingles() {
 //   const id = uuid();
 //   await db.run('INSERT INTO Messages VALUES (?, ?, ?, ?, ?, ?, ?)',
 //     [id, pName, colour, pType, price, instock, info, imgsrc]);
-
-//   return listMessages();
 // }
