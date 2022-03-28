@@ -1,18 +1,18 @@
 import fetchAllProducts from './main.js';
 import * as auth from './auth.js';
 
-/* global localStorage */
+// TODO: have to clear localstorage after changing code? normal?
 
-export let basket; // IDs of items in basket
+export let basket; // IDs and quantities of items in basket
 
 
 export async function initBasket() {
   const isBasketEmpty = localStorage.getItem('basket') === null;
   if (isBasketEmpty) {
-    basket = [];
+    basket = new Map();
     return;
   }
-  basket = JSON.parse(localStorage.getItem('basket'));
+  basket = new Map(JSON.parse(localStorage.basket));
   const products = await fetchAllProducts(); // retrieve from storage / DB ?
   const basketDOM = document.querySelector('.basket');
   const basketQuantityDOM = document.querySelector('.basket-quantity');
@@ -20,7 +20,7 @@ export async function initBasket() {
   const basketTotalDOM = document.querySelector('.basket-total');
   let total = 0;
   basketQuantityDOM.textContent = 0;
-  for (const itemID of basket) {
+  for (const [item, quantity] of basket.entries()) {
     const basketQuantity = parseInt(basketQuantityDOM.textContent);
     const itemTemplate = t2.content.cloneNode(true);
     const basketItemDOM = itemTemplate.querySelector('.basket-item');
@@ -31,7 +31,7 @@ export async function initBasket() {
     const increaseBtn = itemTemplate.querySelector('.fa-chevron-up');
     const decreaseBtn = itemTemplate.querySelector('.fa-chevron-down');
     const itemAmountDOM = itemTemplate.querySelector('.item-amount');
-    const product = products.find(({ id }) => id === itemID);
+    const product = products.find(({ id }) => id === item); // TODO: retrieve single product?
     const price = product.price / 100;
     basketItemDOM.dataset.id = product.id; // Set ID in DOM
     basketQuantityDOM.textContent = basketQuantity + 1;
@@ -43,8 +43,7 @@ export async function initBasket() {
     increaseBtn.addEventListener('click', increaseItemQuantity);
     decreaseBtn.addEventListener('click', decreaseItemQuantity);
     removeItemBtn.addEventListener('click', removeBasketItem);
-    // TODO: Save basket item quantity in local storage
-    itemAmountDOM.textContent = 1; // = item quantinty from storage
+    itemAmountDOM.textContent = quantity; // = item quantinty from storage
     basketDOM.append(itemTemplate);
     total += price;
   }
@@ -60,11 +59,10 @@ function removeBasketItem(e) {
   const itemAmountDOM = basketItemDOM.querySelector('.item-amount');
   const itemAmount = parseInt(itemAmountDOM.textContent);
   const itemID = basketItemDOM.dataset.id;
-  const index = basket.indexOf(itemID);
   const basketQuantityDOM = document.querySelector('.basket-quantity');
   const basketQuantity = parseInt(basketQuantityDOM.textContent);
-  basket.splice(index, 1); // Remove ID from array
-  localStorage.setItem('basket', JSON.stringify(basket));
+  basket.delete(itemID);
+  localStorage.basket = JSON.stringify(Array.from(basket));
   basketItemDOM.remove(); // Remove item from DOM
   basketQuantityDOM.textContent = basketQuantity - 1;
   // TODO: bug: removing 3 1x2 bricks (60p) causes negative sign in total
@@ -93,32 +91,41 @@ function resetAddToBasketBtn(itemID = 'n/a') {
 }
 
 function increaseItemQuantity(e) {
+  const itemID = e.target.parentElement.parentElement.dataset.id;
+  let itemAmount = basket.get(itemID);
   const itemAmountDOM = e.target.parentNode.querySelector('.item-amount');
-  const itemAmount = parseInt(itemAmountDOM.innerText);
   const productPriceDOM = e.target.parentNode.parentNode.querySelector('#basket-product-price');
   const price = parseFloat(productPriceDOM.textContent);
   const basketTotalDOM = document.querySelector('.basket-total');
   const basketTotal = parseFloat(basketTotalDOM.textContent);
-  itemAmountDOM.textContent = itemAmount + 1;
+  itemAmount += 1;
+  basket.set(itemID, itemAmount);
+  localStorage.basket = JSON.stringify(Array.from(basket));
+  itemAmountDOM.textContent = itemAmount;
   basketTotalDOM.textContent = (basketTotal + price).toFixed(2);
 }
 
 function decreaseItemQuantity(e) {
+  const itemID = e.target.parentElement.parentElement.dataset.id;
+  let itemAmount = basket.get(itemID);
   const itemAmountDOM = e.target.parentNode.querySelector('.item-amount');
-  const itemAmount = parseInt(itemAmountDOM.innerText);
   const productPriceDOM = e.target.parentNode.parentNode.querySelector('#basket-product-price');
   const price = parseFloat(productPriceDOM.textContent);
   const basketTotalDOM = document.querySelector('.basket-total');
   const basketTotal = parseFloat(basketTotalDOM.textContent);
   if (!(itemAmountDOM.textContent <= 1)) {
-    itemAmountDOM.textContent = itemAmount - 1;
+    itemAmount -= 1;
+    basket.set(itemID, itemAmount);
+    localStorage.basket = JSON.stringify(Array.from(basket));
+    itemAmountDOM.textContent = itemAmount;
     basketTotalDOM.textContent = (basketTotal - price).toFixed(2);
   }
 }
 
+
 export async function AddToBasket(e) {
   const itemID = e.target.parentNode.dataset.id;
-  const products = await fetchAllProducts(); // retrieve from storage / DB ?
+  const products = await fetchAllProducts(); // TODO: fetch single product? (or retrieve from storage / DB ?)
   const basketDOM = document.querySelector('.basket');
   const product = products.find(({ id }) => id === itemID);
   const t2 = document.querySelector('#basket-item-template');
@@ -130,12 +137,12 @@ export async function AddToBasket(e) {
   const removeItemBtn = itemTemplate.querySelector('.remove-item');
   const increaseBtn = itemTemplate.querySelector('.fa-chevron-up');
   const decreaseBtn = itemTemplate.querySelector('.fa-chevron-down');
-  const itemAmount = itemTemplate.querySelector('.item-amount');
-  const basketQuantity = document.querySelector('.basket-quantity');
+  const itemAmountDOM = itemTemplate.querySelector('.item-amount');
+  const basketQuantityDOM = document.querySelector('.basket-quantity');
   const basketTotalDOM = document.querySelector('.basket-total');
   const basketTotal = parseFloat(basketTotalDOM.textContent);
   const price = product.price / 100;
-  basketQuantity.textContent = parseInt(basketQuantity.textContent) + 1;
+  basketQuantityDOM.textContent = parseInt(basketQuantityDOM.textContent) + 1;
   basketItemDOM.dataset.id = itemID; // Set ID in DOM
   removeItemBtn.textContent = 'Remove';
   img.src = `${product.imgSrc}`;
@@ -145,9 +152,9 @@ export async function AddToBasket(e) {
   increaseBtn.addEventListener('click', increaseItemQuantity);
   decreaseBtn.addEventListener('click', decreaseItemQuantity);
   removeItemBtn.addEventListener('click', removeBasketItem);
-  basket.push(itemID); // Add ID to basket array
-  localStorage.setItem('basket', JSON.stringify(basket));
-  itemAmount.textContent = 1;
+  basket.set(itemID, 1);
+  localStorage.basket = JSON.stringify(Array.from(basket));
+  itemAmountDOM.textContent = 1;
   e.target.textContent = 'In Basket';
   e.target.disabled = true;
   basketTotalDOM.textContent = (basketTotal + price).toFixed(2);
@@ -163,9 +170,9 @@ export function viewBasket() {
 }
 
 export function closeBasket() {
-  const basket = document.querySelector('.basket');
+  const basketDOM = document.querySelector('.basket');
   const basketOverlay = document.querySelector('.basket-overlay');
-  basket.classList.remove('showBasket');
+  basketDOM.classList.remove('showBasket');
   basketOverlay.classList.remove('transparentBcg');
 }
 
@@ -175,7 +182,7 @@ export function clearBasket() {
   for (const elem of basketItems) {
     elem.remove();
   }
-  basket = [];
+  basket = new Map();
   localStorage.removeItem('basket');
   document.querySelector('.basket-quantity').textContent = 0;
   basketTotalDOM.textContent = (0).toFixed(2);
