@@ -42,6 +42,11 @@ export async function sortMostPopular(colour) {
   return db.all('SELECT * FROM Product WHERE colour = ? ORDER BY instock', colour);
 }
 
+// LIMIT, OFFSET, QUERY ORDER BY.
+// const params = new URLSearchParams(window.location.search);
+// const page = params.get('page') || 0;
+
+
 // TODO: add and edit products (admin)
 
 // export async function addProduct(product) {
