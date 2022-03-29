@@ -1,18 +1,14 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
 import express from 'express';
+
 import path from 'path';
+
 import url from 'url';
 
 import authConfig from './auth_config.js';
 
-// import * as fil from './filter.js';
-// import filterColour from './filter.js';
-
 import auth0Helpers from './auth0_helper.js';
 
-import * as sqlp from './sqlLiteProduct.js';
-
+import * as products from './products.js';
 
 const app = express();
 
@@ -39,13 +35,45 @@ app.get('/admin', (req, res) => {
   });
 });
 
-async function getSingles(req, res) {
-  res.json(await sqlp.findSingles());
+async function getAllSingles(req, res) {
+  res.json(await products.findAllSingles());
 }
 
-// Filter
+
 async function getSingleColour(req, res) {
-  res.json(await sqlp.filterColour(req.params.colour));
+  const result = await products.filterColour(req.params.colour)
+  if (!result) {
+    res.status(404).send('No match for that colour');
+    return;
+  }
+  res.json(result);
+}
+
+async function getLowToHigh(req, res) {
+  const result = await products.sortLowToHigh(req.params.colour)
+  if (!result) {
+    res.status(404).send('No match for that colour');
+    return;
+  }
+  res.json(result);
+}
+
+async function getHighToLow(req, res) {
+  const result = await products.sortHighToLow(req.params.colour)
+  if (!result) {
+    res.status(404).send('No match for that colour');
+    return;
+  }
+  res.json(result);
+}
+
+async function getMostPopular(req, res) {
+  const result = await product.sortMostPopular(req.params.colour)
+  if (!result) {
+    res.status(404).send('No match for that colour');
+    return;
+  }
+  res.json(result);
 }
 
 // wrap async function for express.js error handling
@@ -56,8 +84,12 @@ function asyncWrap(f) {
   };
 }
 
-app.get('/singles', asyncWrap(getSingles));
-app.get('single/colour/:colour', asyncWrap(getSingleColour));
+//Routes
+app.get('/single', asyncWrap(getAllSingles));
+app.get('/single/colour/:colour', asyncWrap(getSingleColour));
+app.get('/single/colour/:colour/PriceHightolow', asyncWrap(getHighToLow));
+app.get('/single/colour/:colour/PriceLowtohigh', asyncWrap(getLowToHigh));
+app.get('/single/colour/:colour/MostPopular', asyncWrap(getMostPopular));
 
 
 // start the server

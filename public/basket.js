@@ -1,8 +1,6 @@
 import fetchAllProducts from './main.js';
 import * as auth from './auth.js';
 
-/* global localStorage */
-
 export let basket; // IDs of items in basket
 
 
@@ -33,15 +31,14 @@ export async function initBasket() {
       basketItemDOM.dataset.id = product.id; // Set ID in DOM
       basketQuantityDOM.textContent = basketQuantity + 1;
       removeItemBtn.textContent = 'Remove';
-      img.src = `${product.imgSrc}`;
-      img.alt = `${product.imgSrc}`;
-      productName.textContent = product.name;
+      img.src = `${product.imgsrc}`;
+      img.alt = `${product.imgsrc}`;
+      productName.textContent = product.pName;
       productPriceDOM.textContent = price.toFixed(2);
       increaseBtn.addEventListener('click', increaseItemQuantity);
       decreaseBtn.addEventListener('click', decreaseItemQuantity);
       removeItemBtn.addEventListener('click', removeBasketItem);
-      // TODO: Save basket item quantity in local storage
-      itemAmountDOM.textContent = 1; // = item quantinty from storage
+      itemAmountDOM.textContent = 1;
       basketDOM.append(itemTemplate);
       total += price;
     }
@@ -139,9 +136,9 @@ export async function AddToBasket(e) {
   basketQuantity.textContent = parseInt(basketQuantity.textContent) + 1;
   basketItemDOM.dataset.id = itemID; // Set ID in DOM
   removeItemBtn.textContent = 'Remove';
-  img.src = `${product.imgSrc}`;
-  img.alt = `${product.imgSrc}`;
-  productName.textContent = product.name;
+  img.src = `${product.imgsrc}`;
+  img.alt = `${product.imgsrc}`;
+  productName.textContent = product.pName;
   productPriceDOM.textContent = price.toFixed(2);
   increaseBtn.addEventListener('click', increaseItemQuantity);
   decreaseBtn.addEventListener('click', decreaseItemQuantity);

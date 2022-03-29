@@ -1,4 +1,5 @@
 -- Up
+
 CREATE TABLE Product
 (
   id CHAR(36) PRIMARY KEY,
@@ -6,13 +7,13 @@ CREATE TABLE Product
   colour varchar(20) not null,
   pType varchar (20) not null,
   price int not null,
-  -- pence
   instock int not null,
   info text not null,
   imgsrc varchar(40) not null
 );
 
--- TODO: UUID?
+-- Stock ordered by popularity (more popular, less stock)
+
 INSERT INTO Product
   (id, pName, colour, pType, price, instock, info, imgSrc)
 VALUES
@@ -117,5 +118,7 @@ VALUES
   ('d3g2jg2', 'Plate 2x2', 'black', 'plate', 10, 11277, 'description', './images/single/black/plate2x2.png'),
   ('a2dfs93h', 'Plate 2x3', 'black', 'plate', 14, 13717, 'description', './images/single/black/plate2x3.png');
 
--- Down 
-DROP TABLE Products;
+-- Down
+
+
+DROP TABLE Product;
