@@ -63,7 +63,7 @@ async function renderProducts() {
     addToBasket.dataset.id = product.id;
     addToBasketBtn.addEventListener('click', ba.AddToBasket);
     addToBasketBtn.innerText = 'Add to Basket';
-    if (ba.basket.includes(product.id)) {
+    if (ba.basket.has(product.id)) {
       addToBasketBtn.innerText = 'In Basket';
       addToBasketBtn.disabled = true;
     }
@@ -98,7 +98,7 @@ async function renderFiltered(e) {
     addToBasket.dataset.id = product.id;
     addToBasketBtn.addEventListener('click', ba.AddToBasket);
     addToBasketBtn.innerText = 'Add to Basket';
-    if (ba.basket.includes(product.id)) {
+    if (ba.basket.has(product.id)) {
       addToBasketBtn.innerText = 'In Basket';
       addToBasketBtn.disabled = true;
     }
