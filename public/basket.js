@@ -2,9 +2,7 @@ import fetchAllProducts from './main.js';
 import * as auth from './auth.js';
 
 // TODO: have to clear localstorage after changing code? normal?
-
 export let basket; // IDs and quantities of items in basket
-
 
 export async function initBasket() {
   const isBasketEmpty = localStorage.getItem('basket') === null;
@@ -145,9 +143,9 @@ export async function AddToBasket(e) {
   basketQuantityDOM.textContent = parseInt(basketQuantityDOM.textContent) + 1;
   basketItemDOM.dataset.id = itemID; // Set ID in DOM
   removeItemBtn.textContent = 'Remove';
-  img.src = `${product.imgSrc}`;
-  img.alt = `${product.imgSrc}`;
-  productName.textContent = product.name;
+  img.src = `${product.imgsrc}`;
+  img.alt = `${product.imgsrc}`;
+  productName.textContent = product.pName;
   productPriceDOM.textContent = price.toFixed(2);
   increaseBtn.addEventListener('click', increaseItemQuantity);
   decreaseBtn.addEventListener('click', decreaseItemQuantity);

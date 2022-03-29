@@ -1,8 +1,6 @@
-/* eslint-disable no-undef */ // not recgonising fetch?
 import * as auth from './auth.js';
 import * as ba from './basket.js';
 
-// import * as fil from '../server/filter.js';
 let prevScrollpos;
 // NAVBAR
 function showDropdown(e) {
@@ -34,15 +32,13 @@ function navbarDisplay() {
 }
 
 // PRODUCTS //
-export default async function fetchAllProducts() {
-  const response = await fetch('/products');
+export default async function fetchAllSingles() {
+  const response = await fetch('/single');
   if (!response.ok) {
     throw response;
   }
   return response.json();
 }
-
-//TODO: change append body
 
 async function renderProducts() {
   const item = document.querySelector('.item');
@@ -50,14 +46,13 @@ async function renderProducts() {
     // Products already displayed
     return;
   }
-  const products = await fetchAllProducts();
+  const products = await fetchAllSingles();
   products.forEach(product => {
     const t1 = document.querySelector('#product-template');
-    const productTemplate = t1.content.cloneNode(true); // Clone necessary?
+    const productTemplate = t1.content.cloneNode(true);
     const img = productTemplate.querySelector('#product-img');
     const productName = productTemplate.querySelector('#product-name');
     const productPrice = productTemplate.querySelector('#product-price');
-    // const productDesc = productTemplate.querySelector('#product-desc');
     const addToBasket = productTemplate.querySelector('.add-to-basket');
     const addToBasketBtn = productTemplate.querySelector('.btn-atb');
     addToBasket.dataset.id = product.id;
@@ -67,11 +62,10 @@ async function renderProducts() {
       addToBasketBtn.innerText = 'In Basket';
       addToBasketBtn.disabled = true;
     }
-    img.src = `${product.imgSrc}`;
-    img.alt = `${product.imgSrc}`;
-    productName.textContent = `${product.name}`;
+    img.src = `${product.imgsrc}`;
+    img.alt = `${product.imgsrc}`;
+    productName.textContent = `${product.pName}`;
     productPrice.textContent = `£${(product.price / 100).toFixed(2)}`;
-    // productDesc.textContent = `${product.description}`;
     document.body.append(productTemplate);
   });
 }
@@ -102,21 +96,70 @@ async function renderFiltered(e) {
       addToBasketBtn.innerText = 'In Basket';
       addToBasketBtn.disabled = true;
     }
-    img.src = `${product.imgSrc}`;
-    img.alt = `${product.imgSrc}`;
-    productName.textContent = `${product.name}`;
+    img.src = `${product.imgsrc}`;
+    img.alt = `${product.imgsrc}`;
+    productName.textContent = `${product.pName}`;
     productPrice.textContent = `£${(product.price / 100).toFixed(2)}`;
     // productDesc.textContent = `${product.description}`;
     document.body.append(productTemplate);
   });
 }
 
+async function renderSorted(e) {
+  const item = document.querySelector('.item');
+  if (document.body.contains(item)) {
+    // Products already displayed
+    const productsDOM = document.querySelectorAll('.item');
+    for (const product of productsDOM) {
+      product.remove();
+    }
+  }
+  const products = await fetchSortedProducts(e);
+  products.forEach(product => {
+    const t1 = document.querySelector('#product-template');
+    const productTemplate = t1.content.cloneNode(true);
+    const img = productTemplate.querySelector('#product-img');
+    const productName = productTemplate.querySelector('#product-name');
+    const productPrice = productTemplate.querySelector('#product-price');
+    // const productDesc = productTemplate.querySelector('#product-desc');
+    const addToBasket = productTemplate.querySelector('.add-to-basket');
+    const addToBasketBtn = productTemplate.querySelector('.btn-atb');
+    addToBasket.dataset.id = product.id;
+    addToBasketBtn.addEventListener('click', ba.AddToBasket);
+    addToBasketBtn.innerText = 'Add to Basket';
+    if (ba.basket.includes(product.id)) {
+      addToBasketBtn.innerText = 'In Basket';
+      addToBasketBtn.disabled = true;
+    }
+    img.src = `${product.imgsrc}`;
+    img.alt = `${product.imgsrc}`;
+    productName.textContent = `${product.pName}`;
+    productPrice.textContent = `£${(product.price / 100).toFixed(2)}`;
+    // productDesc.textContent = `${product.description}`;
+    document.body.append(productTemplate);
+  });
+}
+
+
 async function fetchFilteredProducts(e) {
   const colour = (e.target.options[e.target.selectedIndex].text).toLowerCase();
   if (colour === 'any') {
-    return await fetchAllProducts();
+    return await fetchAllSingles();
   }
-  const response = await fetch('/products/single/' + colour);
+  const response = await fetch('/single/colour/' + colour);
+  if (!response.ok) {
+    throw response;
+  }
+  return response.json();
+}
+
+async function fetchSortedProducts(e) {
+  const filter = document.querySelector('#colour-filter');
+  const colour = filter.options[filter.selectedIndex].text.toLowerCase();
+  const sdd = document.querySelector('#sort');
+  const regex = /[)( ]/g ; //Remove any brackets or spaces
+  const sort = sdd.options[sdd.selectedIndex].text.replace(regex, '');
+  const response = await fetch(`/single/colour/${colour}/${sort}`);
   if (!response.ok) {
     throw response;
   }
@@ -124,7 +167,6 @@ async function fetchFilteredProducts(e) {
 }
 
 function setupListeners() {
-  // TODO: bug - toggleDropdown triggered when dropdown option clicked
   document.querySelector('#login-icon').addEventListener('click', showDropdown);
   document.querySelector('.single-bricks').addEventListener('click', renderProducts);
   document.querySelector('#btn-login').addEventListener('click', auth.login);
@@ -135,7 +177,8 @@ function setupListeners() {
   document.querySelector('.basket-btn').addEventListener('click', ba.viewBasket);
   document.querySelector('.close-basket').addEventListener('click', ba.closeBasket);
   document.querySelector('.clear-basket').addEventListener('click', ba.clearBasket);
-  document.querySelector('#select').addEventListener('change', renderFiltered);
+  document.querySelector('#colour-filter').addEventListener('change', renderFiltered);
+  document.querySelector('#sort').addEventListener('change', renderSorted);
   window.addEventListener('scroll', navbarDisplay);
   window.addEventListener('click', closeDropdown);
 }

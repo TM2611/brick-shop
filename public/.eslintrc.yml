@@ -1,0 +1,5 @@
+extends: portsoc
+# Client side linting
+env: 
+  - browser: true 
+root: true
