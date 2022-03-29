@@ -8,7 +8,10 @@
   /* --basketBtn: rgb(19, 160, 255); */
   --basketBtn: #f09d51 
 }
-
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
 /* TODO: dark mode - prefers-color-scheme*/
 
 .hidden {
