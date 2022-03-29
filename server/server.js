@@ -68,7 +68,7 @@ async function getHighToLow(req, res) {
 }
 
 async function getMostPopular(req, res) {
-  const result = await product.sortMostPopular(req.params.colour)
+  const result = await products.sortMostPopular(req.params.colour)
   if (!result) {
     res.status(404).send('No match for that colour');
     return;
