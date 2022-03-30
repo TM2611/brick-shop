@@ -65,7 +65,7 @@ async function renderProducts() {
     img.src = `${product.ProductImage}`;
     img.alt = `${product.ProductImage}`;
     productName.textContent = `${product.ProductName}`;
-    productPrice.textContent = `£${(product.price / 100).toFixed(2)}`;
+    productPrice.textContent = `£${(product.Price / 100).toFixed(2)}`;
     document.body.append(productTemplate);
   });
 }
@@ -99,7 +99,7 @@ async function renderFiltered(e) {
     img.src = `${product.ProductImage}`;
     img.alt = `${product.ProductImage}`;
     productName.textContent = `${product.ProductName}`;
-    productPrice.textContent = `£${(product.price / 100).toFixed(2)}`;
+    productPrice.textContent = `£${(product.Price / 100).toFixed(2)}`;
     // productDesc.textContent = `${product.description}`;
     document.body.append(productTemplate);
   });
@@ -134,7 +134,7 @@ async function renderSorted(e) {
     img.src = `${product.ProductImage}`;
     img.alt = `${product.ProductImage}`;
     productName.textContent = `${product.ProductName}`;
-    productPrice.textContent = `£${(product.price / 100).toFixed(2)}`;
+    productPrice.textContent = `£${(product.Price / 100).toFixed(2)}`;
     // productDesc.textContent = `${product.description}`;
     document.body.append(productTemplate);
   });
@@ -171,9 +171,8 @@ function setupListeners() {
   document.querySelector('.single-bricks').addEventListener('click', renderProducts);
   document.querySelector('#btn-login').addEventListener('click', auth.login);
   document.querySelector('#btn-logout').addEventListener('click', auth.logout);
-  // document.querySelector('.btn-checkout').addEventListener('click', ba.checkout);
+  document.querySelector('.profile').addEventListener('click', ba.viewProfile);
   document.querySelector('.btn-checkout').addEventListener('click', ba.checkoutPage);
-
   document.querySelector('.basket-btn').addEventListener('click', ba.viewBasket);
   document.querySelector('.close-basket').addEventListener('click', ba.closeBasket);
   document.querySelector('.clear-basket').addEventListener('click', ba.clearBasket);

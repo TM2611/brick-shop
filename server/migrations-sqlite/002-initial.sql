@@ -34,8 +34,10 @@ CREATE TABLE OrderProduct
 CREATE TABLE Customer
 (
   CustomerID varchar(30) PRIMARY KEY,
-  FirstName varchar(40) not null,
-  SecondName varchar(40) not null,
+  Email varchar(100),
+  FirstName varchar(40),
+  -- TODO: Auth0 doesn't require names? Not null?
+  SecondName varchar(40),
   CustomerPassword nvarchar(50),
   Phone varchar(15)
 );
