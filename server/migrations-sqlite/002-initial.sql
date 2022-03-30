@@ -46,7 +46,7 @@ CREATE TABLE Category
   CategoryDesc text
 );
 
--- Stock ordered by popularity (more popular, less stock)
+-- TODO: Stock ordered by popularity (more popular, less stock)
 
 INSERT INTO Product
   (ProductID, ProductName, Colour, CategoryName, Price, UnitsInStock , ProductDesc, ProductImage)
