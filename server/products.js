@@ -10,12 +10,12 @@ const dbConn = init();
 
 export async function filterColour(colour) {
   const db = await dbConn;
-  return db.all('SELECT * FROM Product WHERE colour = ? ORDER BY instock', colour);
+  return db.all('SELECT * FROM Product WHERE Colour = ? ORDER BY UnitsInStock ', colour);
 }
 
 export async function findAllSingles() {
   const db = await dbConn;
-  return db.all('SELECT * FROM Product ORDER BY instock');
+  return db.all('SELECT * FROM Product ORDER BY UnitsInStock ');
 }
 
 export async function sortHighToLow(colour) {
@@ -23,7 +23,7 @@ export async function sortHighToLow(colour) {
   if (colour === 'any') {
     return db.all('SELECT * FROM Product ORDER BY price DESC')
   }
-  return db.all('SELECT * FROM Product WHERE colour = ? ORDER BY price DESC', colour);
+  return db.all('SELECT * FROM Product WHERE Colour = ? ORDER BY price DESC', colour);
 }
 
 export async function sortLowToHigh(colour) {
@@ -31,15 +31,15 @@ export async function sortLowToHigh(colour) {
   if (colour === 'any') {
     return db.all('SELECT * FROM Product ORDER BY price')
   }
-  return db.all('SELECT * FROM Product WHERE colour = ? ORDER BY price', colour);
+  return db.all('SELECT * FROM Product WHERE Colour = ? ORDER BY price', colour);
 }
 
 export async function sortMostPopular(colour) {
   const db = await dbConn;
   if (colour === 'any') {
-    return db.all('SELECT * FROM Product ORDER BY instock')
+    return db.all('SELECT * FROM Product ORDER BY UnitsInStock ')
   }
-  return db.all('SELECT * FROM Product WHERE colour = ? ORDER BY instock', colour);
+  return db.all('SELECT * FROM Product WHERE Colour = ? ORDER BY UnitsInStock ', colour);
 }
 
 // LIMIT, OFFSET, QUERY ORDER BY.
@@ -53,5 +53,5 @@ export async function sortMostPopular(colour) {
 //   const db = await dbConn;
 //   const id = uuid();
 //   await db.run('INSERT INTO Messages VALUES (?, ?, ?, ?, ?, ?, ?)',
-//     [id, pName, colour, pType, price, instock, info, imgsrc]);
+//     [id, ProductName, colour, pType, price, UnitsInStock , info, ProductImage]);
 // }

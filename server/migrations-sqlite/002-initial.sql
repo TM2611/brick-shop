@@ -3,13 +3,47 @@
 CREATE TABLE Product
 (
   ProductID CHAR(36) PRIMARY KEY,
-  ProductName varchar(40) not null,
-  Colour varchar(20) not null,
-  CategoryName varchar (20) not null,
+  ProductName varchar(20) not null,
+  Colour varchar (20) not null,
+  CategoryName varchar(30) not null,
   Price int not null,
   UnitsInStock int not null,
   ProductDesc text not null,
-  ProductImage varchar(40) not null
+  ProductImage varchar(40) not null,
+  FOREIGN KEY (CategoryName) REFERENCES Category(CategoryName)
+);
+
+CREATE TABLE Orders
+(
+  OrderID CHAR(36) not null,
+  CustomerID varchar (30) not null,
+  OrderNumber varchar(16) not null,
+  OrderDate datetime not null,
+  FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID)
+);
+
+CREATE TABLE OrderProduct
+(
+  ProductID CHAR(36) PRIMARY KEY,
+  OrderID CHAR(36) not null,
+  Quantity int not null,
+  FOREIGN KEY (ProductID) REFERENCES Product(ProductID),
+  FOREIGN KEY (OrderID) REFERENCES Orders(OrderID)
+);
+
+CREATE TABLE Customer
+(
+  CustomerID varchar(30) PRIMARY KEY,
+  FirstName varchar(40) not null,
+  SecondName varchar(40) not null,
+  CustomerPassword nvarchar(50),
+  Phone varchar(15)
+);
+
+CREATE TABLE Category
+(
+  CategoryName varchar(30) PRIMARY KEY,
+  CategoryDesc text
 );
 
 -- Stock ordered by popularity (more popular, less stock)

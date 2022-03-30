@@ -34,9 +34,9 @@ export async function initBasket() {
     basketItemDOM.dataset.id = product.id; // Set ID in DOM
     basketQuantityDOM.textContent = basketQuantity + 1;
     removeItemBtn.textContent = 'Remove';
-    img.src = `${product.imgsrc}`;
-    img.alt = `${product.imgsrc}`;
-    productName.textContent = product.pName;
+    img.src = `${product.ProductImage}`;
+    img.alt = `${product.ProductImage}`;
+    productName.textContent = product.ProductName;
     productPriceDOM.textContent = price.toFixed(2);
     increaseBtn.addEventListener('click', increaseItemQuantity);
     decreaseBtn.addEventListener('click', decreaseItemQuantity);
@@ -143,9 +143,9 @@ export async function AddToBasket(e) {
   basketQuantityDOM.textContent = parseInt(basketQuantityDOM.textContent) + 1;
   basketItemDOM.dataset.id = itemID; // Set ID in DOM
   removeItemBtn.textContent = 'Remove';
-  img.src = `${product.imgsrc}`;
-  img.alt = `${product.imgsrc}`;
-  productName.textContent = product.pName;
+  img.src = `${product.ProductImage}`;
+  img.alt = `${product.ProductImage}`;
+  productName.textContent = product.ProductName;
   productPriceDOM.textContent = price.toFixed(2);
   increaseBtn.addEventListener('click', increaseItemQuantity);
   decreaseBtn.addEventListener('click', decreaseItemQuantity);

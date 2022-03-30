@@ -62,9 +62,9 @@ async function renderProducts() {
       addToBasketBtn.innerText = 'In Basket';
       addToBasketBtn.disabled = true;
     }
-    img.src = `${product.imgsrc}`;
-    img.alt = `${product.imgsrc}`;
-    productName.textContent = `${product.pName}`;
+    img.src = `${product.ProductImage}`;
+    img.alt = `${product.ProductImage}`;
+    productName.textContent = `${product.ProductName}`;
     productPrice.textContent = `£${(product.price / 100).toFixed(2)}`;
     document.body.append(productTemplate);
   });
@@ -96,9 +96,9 @@ async function renderFiltered(e) {
       addToBasketBtn.innerText = 'In Basket';
       addToBasketBtn.disabled = true;
     }
-    img.src = `${product.imgsrc}`;
-    img.alt = `${product.imgsrc}`;
-    productName.textContent = `${product.pName}`;
+    img.src = `${product.ProductImage}`;
+    img.alt = `${product.ProductImage}`;
+    productName.textContent = `${product.ProductName}`;
     productPrice.textContent = `£${(product.price / 100).toFixed(2)}`;
     // productDesc.textContent = `${product.description}`;
     document.body.append(productTemplate);
@@ -131,9 +131,9 @@ async function renderSorted(e) {
       addToBasketBtn.innerText = 'In Basket';
       addToBasketBtn.disabled = true;
     }
-    img.src = `${product.imgsrc}`;
-    img.alt = `${product.imgsrc}`;
-    productName.textContent = `${product.pName}`;
+    img.src = `${product.ProductImage}`;
+    img.alt = `${product.ProductImage}`;
+    productName.textContent = `${product.ProductName}`;
     productPrice.textContent = `£${(product.price / 100).toFixed(2)}`;
     // productDesc.textContent = `${product.description}`;
     document.body.append(productTemplate);
