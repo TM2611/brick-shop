@@ -65,7 +65,7 @@ async function renderProducts() {
     img.src = `${product.ProductImage}`;
     img.alt = `${product.ProductImage}`;
     productName.textContent = `${product.ProductName}`;
-    productPrice.textContent = `£${(product.price / 100).toFixed(2)}`;
+    productPrice.textContent = `£${(product.Price / 100).toFixed(2)}`;
     document.body.append(productTemplate);
   });
 }
@@ -99,7 +99,7 @@ async function renderFiltered(e) {
     img.src = `${product.ProductImage}`;
     img.alt = `${product.ProductImage}`;
     productName.textContent = `${product.ProductName}`;
-    productPrice.textContent = `£${(product.price / 100).toFixed(2)}`;
+    productPrice.textContent = `£${(product.Price / 100).toFixed(2)}`;
     // productDesc.textContent = `${product.description}`;
     document.body.append(productTemplate);
   });
@@ -134,7 +134,7 @@ async function renderSorted(e) {
     img.src = `${product.ProductImage}`;
     img.alt = `${product.ProductImage}`;
     productName.textContent = `${product.ProductName}`;
-    productPrice.textContent = `£${(product.price / 100).toFixed(2)}`;
+    productPrice.textContent = `£${(product.Price / 100).toFixed(2)}`;
     // productDesc.textContent = `${product.description}`;
     document.body.append(productTemplate);
   });
