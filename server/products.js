@@ -1,7 +1,7 @@
 import sqlite from 'sqlite';
 
 async function init() {
-  const db = await sqlite.open('./database.sqlite', { verbose: true });
+  const db = await sqlite.open('./db.sqlite', { verbose: true });
   await db.migrate({ migrationsPath: './server/migrations-sqlite' });
   return db;
 }
