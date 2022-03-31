@@ -40,7 +40,7 @@ async function renderProducts() {
       product.remove();
     }
   }
-  const products = await fetchFilteredProducts();
+  const products = await fetchSingles();
   products.forEach(product => {
     const t1 = document.querySelector('#product-template');
     const productTemplate = t1.content.cloneNode(true);
@@ -67,7 +67,7 @@ async function renderProducts() {
 }
 
 
-async function fetchFilteredProducts() {
+async function fetchSingles() {
   const filter = document.querySelector('#colour-filter');
   const colour = filter.options[filter.selectedIndex].text.toLowerCase();
   const sort = document.querySelector('#sort');

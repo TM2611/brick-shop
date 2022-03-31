@@ -1,4 +1,4 @@
-import fetchAllProducts from './main.js';
+import fetchAllSingles from './main.js';
 import * as auth from './auth.js';
 
 // TODO: have to clear localstorage after changing code? normal?
@@ -11,7 +11,7 @@ export async function initBasket() {
     return;
   }
   basket = new Map(JSON.parse(localStorage.basket));
-  const products = await fetchAllProducts(); // retrieve from storage / DB ?
+  const products = await fetchAllSingles(); // retrieve from storage / DB ?
   const basketDOM = document.querySelector('.basket');
   const basketQuantityDOM = document.querySelector('.basket-quantity');
   const t2 = document.querySelector('#basket-item-template');
@@ -123,7 +123,7 @@ function decreaseItemQuantity(e) {
 
 export async function AddToBasket(e) {
   const itemID = e.target.parentNode.dataset.id;
-  const products = await fetchAllProducts(); // TODO: fetch single product? (or retrieve from storage / DB ?)
+  const products = await fetchAllSingles(); // TODO: fetch single product? (or retrieve from storage / DB ?)
   const basketDOM = document.querySelector('.basket');
   const product = products.find(({ ProductID }) => ProductID === itemID);
   const t2 = document.querySelector('#basket-item-template');
