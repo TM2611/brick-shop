@@ -14,8 +14,8 @@ const app = express();
 
 const auth0 = auth0Helpers(authConfig);
 
-// // protect /checkout from unauthenticated users
-// app.use('/api', auth0.checkJwt);
+ // protect /api from unauthenticated users
+app.use('/api', auth0.checkJwt);
 
 // this will serve the files present in /public
 app.use(express.static(path.join(path.dirname(url.fileURLToPath(import.meta.url)), '../public')));
@@ -88,6 +88,12 @@ app.get('/single/colour/:colour/PriceLowtohigh', asyncWrap(getLowToHigh));
 app.get('/single/colour/:colour/MostPopular', asyncWrap(getMostPopular));
 
 app.get('/api/profile', async (req, res) => {
+  const userId = auth0.getUserID(req);
+  const profile = await auth0.getProfile(req);
+  res.send(`Hello user ${userId}, here's your profile:\n${JSON.stringify(profile, null, 2)}`);
+});
+
+app.get('/api/checkout', async (req, res) => {
   const userId = auth0.getUserID(req);
   const profile = await auth0.getProfile(req);
   res.send(`Hello user ${userId}, here's your profile:\n${JSON.stringify(profile, null, 2)}`);
