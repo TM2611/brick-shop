@@ -188,7 +188,6 @@ export function clearBasket() {
 }
 
 
-//TODO: user null
 export async function viewProfile() {
   // Get the access token from the Auth0 client
   const token = await auth.auth0.getTokenSilently();
