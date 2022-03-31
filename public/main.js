@@ -55,10 +55,10 @@ async function renderProducts() {
     const productPrice = productTemplate.querySelector('#product-price');
     const addToBasket = productTemplate.querySelector('.add-to-basket');
     const addToBasketBtn = productTemplate.querySelector('.btn-atb');
-    addToBasket.dataset.id = product.id;
+    addToBasket.dataset.id = product.ProductID;
     addToBasketBtn.addEventListener('click', ba.AddToBasket);
     addToBasketBtn.innerText = 'Add to Basket';
-    if (ba.basket.has(product.id)) {
+    if (ba.basket.has(product.ProductID)) {
       addToBasketBtn.innerText = 'In Basket';
       addToBasketBtn.disabled = true;
     }
@@ -89,10 +89,10 @@ async function renderFiltered(e) {
     // const productDesc = productTemplate.querySelector('#product-desc');
     const addToBasket = productTemplate.querySelector('.add-to-basket');
     const addToBasketBtn = productTemplate.querySelector('.btn-atb');
-    addToBasket.dataset.id = product.id;
+    addToBasket.dataset.id = product.ProductID;
     addToBasketBtn.addEventListener('click', ba.AddToBasket);
     addToBasketBtn.innerText = 'Add to Basket';
-    if (ba.basket.has(product.id)) {
+    if (ba.basket.has(product.ProductID)) {
       addToBasketBtn.innerText = 'In Basket';
       addToBasketBtn.disabled = true;
     }
@@ -124,10 +124,10 @@ async function renderSorted(e) {
     // const productDesc = productTemplate.querySelector('#product-desc');
     const addToBasket = productTemplate.querySelector('.add-to-basket');
     const addToBasketBtn = productTemplate.querySelector('.btn-atb');
-    addToBasket.dataset.id = product.id;
+    addToBasket.dataset.id = product.ProductID;
     addToBasketBtn.addEventListener('click', ba.AddToBasket);
     addToBasketBtn.innerText = 'Add to Basket';
-    if (ba.basket.has(product.id)) {
+    if (ba.basket.has(product.ProductID)) {
       addToBasketBtn.innerText = 'In Basket';
       addToBasketBtn.disabled = true;
     }
