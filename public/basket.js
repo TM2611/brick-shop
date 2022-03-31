@@ -30,8 +30,8 @@ export async function initBasket() {
     const decreaseBtn = itemTemplate.querySelector('.fa-chevron-down');
     const itemAmountDOM = itemTemplate.querySelector('.item-amount');
     const product = products.find(({ id }) => id === item); // TODO: retrieve single product?
-    const price = product.price / 100;
-    basketItemDOM.dataset.id = product.ProductID; // Set ID in DOM
+    const price = product.Price / 100;
+    basketItemDOM.dataset.id = product.id; // Set ID in DOM
     basketQuantityDOM.textContent = basketQuantity + 1;
     removeItemBtn.textContent = 'Remove';
     img.src = `${product.ProductImage}`;
@@ -188,27 +188,26 @@ export function clearBasket() {
 }
 
 
-// export async function checkout() {
-//   // Get the access token from the Auth0 client
-//   const token = await auth.auth0.getTokenSilently();
-
-//   const el = document.getElementById('login-status');
-//   const fetchOptions = {
-//     credentials: 'same-origin',
-//     method: 'GET',
-//     // Give access to the bearer of the token.
-//     headers: { Authorization: 'Bearer ' + token },
-//   };
-//   // eslint-disable-next-line no-undef -- fetch??
-//   const response = await fetch('/api/checkout', fetchOptions);
-//   if (!response.ok) {
-//     // handle the error
-//     el.textContent = 'Server error:\n' + response.status;
-//     return;
-//   }
-//   // handle the response
-//   console.log('Checkout successful!');
-// }
-export function checkoutPage() {
-  window.location.pathname = 'checkout.html';
+//TODO: user null
+export async function viewProfile() {
+  // Get the access token from the Auth0 client
+  const token = await auth.auth0.getTokenSilently();
+  const fetchOptions = {
+    credentials: 'same-origin',
+    method: 'GET',
+    // Give access to the bearer of the token.
+    headers: { Authorization: 'Bearer ' + token },
+  };
+  const response = await fetch('/api/profile', fetchOptions);
+  if (!response.ok) {
+    // handle the error
+    el.textContent = 'Server error:\n' + response.status;
+    return;
+  }
+  // handle the response
+  console.log(await response.text());
 }
+
+// export function checkoutPage() {
+//   window.location.pathname = 'checkout.html';
+// }
