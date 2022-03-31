@@ -2,20 +2,20 @@
 
 CREATE TABLE Product
 (
-  id CHAR(36) PRIMARY KEY,
-  pName varchar(40) not null,
-  colour varchar(20) not null,
-  pType varchar (20) not null,
-  price int not null,
-  instock int not null,
-  info text not null,
-  imgsrc varchar(40) not null
+  ProductID CHAR(36) PRIMARY KEY,
+  ProductName varchar(40) not null,
+  Colour varchar(20) not null,
+  CategoryName varchar (20) not null,
+  Price int not null,
+  UnitsInStock int not null,
+  ProductDesc text not null,
+  ProductImage varchar(40) not null
 );
 
 -- Stock ordered by popularity (more popular, less stock)
 
 INSERT INTO Product
-  (id, pName, colour, pType, price, instock, info, imgSrc)
+  (ProductID, ProductName, Colour, CategoryName, Price, UnitsInStock , ProductDesc, ProductImage)
 VALUES
   ('as5fgd', 'Brick 1x1', 'purple', 'brick', 6, 9100, 'description', './images/single/purple/brick1x1.png'),
   ('ha76sd8', 'Brick 1x2', 'purple', 'brick', 10, 9100, 'description', './images/single/purple/brick1x2.png'),

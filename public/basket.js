@@ -29,14 +29,14 @@ export async function initBasket() {
     const increaseBtn = itemTemplate.querySelector('.fa-chevron-up');
     const decreaseBtn = itemTemplate.querySelector('.fa-chevron-down');
     const itemAmountDOM = itemTemplate.querySelector('.item-amount');
-    const product = products.find(({ id }) => id === item); // TODO: retrieve single product?
-    const price = product.price / 100;
-    basketItemDOM.dataset.id = product.id; // Set ID in DOM
+    const product = products.find(({ ProductID }) => ProductID === item); // TODO: retrieve single product?
+    const price = product.Price / 100;
+    basketItemDOM.dataset.id = product.ProductID; // Set ID in DOM
     basketQuantityDOM.textContent = basketQuantity + 1;
     removeItemBtn.textContent = 'Remove';
-    img.src = `${product.imgsrc}`;
-    img.alt = `${product.imgsrc}`;
-    productName.textContent = product.pName;
+    img.src = `${product.ProductImage}`;
+    img.alt = `${product.ProductImage}`;
+    productName.textContent = product.ProductName;
     productPriceDOM.textContent = price.toFixed(2);
     increaseBtn.addEventListener('click', increaseItemQuantity);
     decreaseBtn.addEventListener('click', decreaseItemQuantity);
@@ -125,7 +125,7 @@ export async function AddToBasket(e) {
   const itemID = e.target.parentNode.dataset.id;
   const products = await fetchAllProducts(); // TODO: fetch single product? (or retrieve from storage / DB ?)
   const basketDOM = document.querySelector('.basket');
-  const product = products.find(({ id }) => id === itemID);
+  const product = products.find(({ ProductID }) => ProductID === itemID);
   const t2 = document.querySelector('#basket-item-template');
   const itemTemplate = t2.content.cloneNode(true);
   const basketItemDOM = itemTemplate.querySelector('.basket-item');
@@ -139,13 +139,13 @@ export async function AddToBasket(e) {
   const basketQuantityDOM = document.querySelector('.basket-quantity');
   const basketTotalDOM = document.querySelector('.basket-total');
   const basketTotal = parseFloat(basketTotalDOM.textContent);
-  const price = product.price / 100;
+  const price = product.Price / 100;
   basketQuantityDOM.textContent = parseInt(basketQuantityDOM.textContent) + 1;
   basketItemDOM.dataset.id = itemID; // Set ID in DOM
   removeItemBtn.textContent = 'Remove';
-  img.src = `${product.imgsrc}`;
-  img.alt = `${product.imgsrc}`;
-  productName.textContent = product.pName;
+  img.src = `${product.ProductImage}`;
+  img.alt = `${product.ProductImage}`;
+  productName.textContent = product.ProductName;
   productPriceDOM.textContent = price.toFixed(2);
   increaseBtn.addEventListener('click', increaseItemQuantity);
   decreaseBtn.addEventListener('click', decreaseItemQuantity);
@@ -188,27 +188,26 @@ export function clearBasket() {
 }
 
 
-// export async function checkout() {
-//   // Get the access token from the Auth0 client
-//   const token = await auth.auth0.getTokenSilently();
-
-//   const el = document.getElementById('login-status');
-//   const fetchOptions = {
-//     credentials: 'same-origin',
-//     method: 'GET',
-//     // Give access to the bearer of the token.
-//     headers: { Authorization: 'Bearer ' + token },
-//   };
-//   // eslint-disable-next-line no-undef -- fetch??
-//   const response = await fetch('/api/checkout', fetchOptions);
-//   if (!response.ok) {
-//     // handle the error
-//     el.textContent = 'Server error:\n' + response.status;
-//     return;
-//   }
-//   // handle the response
-//   console.log('Checkout successful!');
-// }
-export function checkoutPage() {
-  window.location.pathname = 'checkout.html';
+//TODO: user null
+export async function viewProfile() {
+  // Get the access token from the Auth0 client
+  const token = await auth.auth0.getTokenSilently();
+  const fetchOptions = {
+    credentials: 'same-origin',
+    method: 'GET',
+    // Give access to the bearer of the token.
+    headers: { Authorization: 'Bearer ' + token },
+  };
+  const response = await fetch('/api/profile', fetchOptions);
+  if (!response.ok) {
+    // handle the error
+    el.textContent = 'Server error:\n' + response.status;
+    return;
+  }
+  // handle the response
+  console.log(await response.text());
 }
+
+// export function checkoutPage() {
+//   window.location.pathname = 'checkout.html';
+// }

@@ -55,17 +55,17 @@ async function renderProducts() {
     const productPrice = productTemplate.querySelector('#product-price');
     const addToBasket = productTemplate.querySelector('.add-to-basket');
     const addToBasketBtn = productTemplate.querySelector('.btn-atb');
-    addToBasket.dataset.id = product.id;
+    addToBasket.dataset.id = product.ProductID;
     addToBasketBtn.addEventListener('click', ba.AddToBasket);
     addToBasketBtn.innerText = 'Add to Basket';
-    if (ba.basket.has(product.id)) {
+    if (ba.basket.has(product.ProductID)) {
       addToBasketBtn.innerText = 'In Basket';
       addToBasketBtn.disabled = true;
     }
-    img.src = `${product.imgsrc}`;
-    img.alt = `${product.imgsrc}`;
-    productName.textContent = `${product.pName}`;
-    productPrice.textContent = `£${(product.price / 100).toFixed(2)}`;
+    img.src = `${product.ProductImage}`;
+    img.alt = `${product.ProductImage}`;
+    productName.textContent = `${product.ProductName}`;
+    productPrice.textContent = `£${(product.Price / 100).toFixed(2)}`;
     document.body.append(productTemplate);
   });
 }
@@ -89,17 +89,17 @@ async function renderFiltered(e) {
     // const productDesc = productTemplate.querySelector('#product-desc');
     const addToBasket = productTemplate.querySelector('.add-to-basket');
     const addToBasketBtn = productTemplate.querySelector('.btn-atb');
-    addToBasket.dataset.id = product.id;
+    addToBasket.dataset.id = product.ProductID;
     addToBasketBtn.addEventListener('click', ba.AddToBasket);
     addToBasketBtn.innerText = 'Add to Basket';
-    if (ba.basket.has(product.id)) {
+    if (ba.basket.has(product.ProductID)) {
       addToBasketBtn.innerText = 'In Basket';
       addToBasketBtn.disabled = true;
     }
-    img.src = `${product.imgsrc}`;
-    img.alt = `${product.imgsrc}`;
-    productName.textContent = `${product.pName}`;
-    productPrice.textContent = `£${(product.price / 100).toFixed(2)}`;
+    img.src = `${product.ProductImage}`;
+    img.alt = `${product.ProductImage}`;
+    productName.textContent = `${product.ProductName}`;
+    productPrice.textContent = `£${(product.Price / 100).toFixed(2)}`;
     // productDesc.textContent = `${product.description}`;
     document.body.append(productTemplate);
   });
@@ -124,17 +124,17 @@ async function renderSorted(e) {
     // const productDesc = productTemplate.querySelector('#product-desc');
     const addToBasket = productTemplate.querySelector('.add-to-basket');
     const addToBasketBtn = productTemplate.querySelector('.btn-atb');
-    addToBasket.dataset.id = product.id;
+    addToBasket.dataset.id = product.ProductID;
     addToBasketBtn.addEventListener('click', ba.AddToBasket);
     addToBasketBtn.innerText = 'Add to Basket';
-    if (ba.basket.has(product.id)) {
+    if (ba.basket.has(product.ProductID)) {
       addToBasketBtn.innerText = 'In Basket';
       addToBasketBtn.disabled = true;
     }
-    img.src = `${product.imgsrc}`;
-    img.alt = `${product.imgsrc}`;
-    productName.textContent = `${product.pName}`;
-    productPrice.textContent = `£${(product.price / 100).toFixed(2)}`;
+    img.src = `${product.ProductImage}`;
+    img.alt = `${product.ProductImage}`;
+    productName.textContent = `${product.ProductName}`;
+    productPrice.textContent = `£${(product.Price / 100).toFixed(2)}`;
     // productDesc.textContent = `${product.description}`;
     document.body.append(productTemplate);
   });
@@ -171,9 +171,8 @@ function setupListeners() {
   document.querySelector('.single-bricks').addEventListener('click', renderProducts);
   document.querySelector('#btn-login').addEventListener('click', auth.login);
   document.querySelector('#btn-logout').addEventListener('click', auth.logout);
-  // document.querySelector('.btn-checkout').addEventListener('click', ba.checkout);
+  document.querySelector('.profile').addEventListener('click', ba.viewProfile);
   document.querySelector('.btn-checkout').addEventListener('click', ba.checkoutPage);
-
   document.querySelector('.basket-btn').addEventListener('click', ba.viewBasket);
   document.querySelector('.close-basket').addEventListener('click', ba.closeBasket);
   document.querySelector('.clear-basket').addEventListener('click', ba.clearBasket);
