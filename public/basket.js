@@ -29,9 +29,9 @@ export async function initBasket() {
     const increaseBtn = itemTemplate.querySelector('.fa-chevron-up');
     const decreaseBtn = itemTemplate.querySelector('.fa-chevron-down');
     const itemAmountDOM = itemTemplate.querySelector('.item-amount');
-    const product = products.find(({ id }) => id === item); // TODO: retrieve single product?
+    const product = products.find(({ ProductID }) => ProductID === item); // TODO: retrieve single product?
     const price = product.Price / 100;
-    basketItemDOM.dataset.id = product.id; // Set ID in DOM
+    basketItemDOM.dataset.id = product.ProductID; // Set ID in DOM
     basketQuantityDOM.textContent = basketQuantity + 1;
     removeItemBtn.textContent = 'Remove';
     img.src = `${product.ProductImage}`;
