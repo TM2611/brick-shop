@@ -11,7 +11,7 @@ function showDropdown(e) {
   document.querySelector('.icon-options').classList.add('display');
 }
 
-function closeDropdown(e) {
+export function closeDropdown(e) {
   // Hide dropdown if user clicks outside of dropdown or login icon
   const initial = document.querySelector('#initial');
   const icon = document.querySelector('#login-icon');
@@ -20,7 +20,7 @@ function closeDropdown(e) {
   }
 }
 
-function navbarDisplay() {
+export function navbarDisplay() {
   const currentScrollPos = window.pageYOffset;
   const navbar = document.querySelector('.navbar');
   if (prevScrollpos > currentScrollPos) {
