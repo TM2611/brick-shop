@@ -76,6 +76,9 @@ async function fetchSingles() {
   if (colour === 'any' && sortType === 'MostPopular') {
     return await fetchAllSingles();
   }
+  else if (colour === 'any' && sortType !== 'MostPopular'){
+    return await fetchSingleSorted(sortType);
+  }
   else if (colour !== 'any' && sortType !== 'MostPopular'){ 
     return await fetchSingleColourSorted(colour, sortType);
   }
@@ -107,6 +110,13 @@ async function fetchSingleColourSorted(colour, sortType){
   return response.json();
 }
 
+async function fetchSingleSorted(sortType){
+  const response = await fetch(`/single/sort/${sortType}`);
+  if (!response.ok) {
+    throw response;
+  }
+  return response.json();
+}
 function setupListeners() {
   document.querySelector('#login-icon').addEventListener('click', showDropdown);
   document.querySelector('.single-bricks').addEventListener('click', renderProducts);

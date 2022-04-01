@@ -42,6 +42,17 @@ export async function sortMostPopular(colour) {
   return db.all('SELECT * FROM Product WHERE Colour = ? ORDER BY UnitsInStock ', colour);
 }
 
+export async function sortAllSingles(sort) {
+  const db = await dbConn;
+  if (sort === 'PriceLowtohigh') {
+    return db.all('SELECT * FROM Product ORDER BY price')
+  }
+  else if (sort === 'PriceHightolow') {
+    return db.all('SELECT * FROM Product ORDER BY price DESC')
+  }
+  //MostPopular
+  return db.all('SELECT * FROM Product ORDER BY UnitsInStock ')
+}
 // LIMIT, OFFSET, QUERY ORDER BY.
 // const params = new URLSearchParams(window.location.search);
 // const page = params.get('page') || 0;
