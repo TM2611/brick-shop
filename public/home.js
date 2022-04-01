@@ -1,9 +1,7 @@
 import * as main from './main.js';
+import * as fjs from './fetch.js';
 import * as auth from './auth.js';
 import * as ba from './basket.js';
-
-
-// NAVBAR
 
 
 async function renderProducts() {
@@ -15,7 +13,7 @@ async function renderProducts() {
       product.remove();
     }
   }
-  const products = await fetchSingles();
+  const products = await fjs.fetchSingles();
   products.forEach(product => {
     const t1 = document.querySelector('#product-template');
     const productTemplate = t1.content.cloneNode(true);
@@ -42,56 +40,7 @@ async function renderProducts() {
 }
 
 
-async function fetchSingles() {
-  const filter = document.querySelector('#colour-filter');
-  const colour = filter.options[filter.selectedIndex].text.toLowerCase();
-  const sort = document.querySelector('#sort');
-  const regex = /[)( ]/g ; //Remove any brackets or spaces
-  const sortType = sort.options[sort.selectedIndex].text.replace(regex, '');
-  if (colour === 'any' && sortType === 'MostPopular') {
-    return await fetchAllSingles();
-  }
-  else if (colour === 'any' && sortType !== 'MostPopular'){
-    return await fetchSingleSorted(sortType);
-  }
-  else if (colour !== 'any' && sortType !== 'MostPopular'){ 
-    return await fetchSingleColourSorted(colour, sortType);
-  }
-  //Most popular is default, no sorting needed
-  return await fetchSingleColour(colour)
-}
 
-export default async function fetchAllSingles() {
-  const response = await fetch('/single'); // By Most Popular
-  if (!response.ok) {
-    throw response;
-  }
-  return response.json();
-}
-
-async function fetchSingleColour(colour){
-  const response = await fetch('/single/colour/' + colour);
-  if (!response.ok) {
-    throw response;
-  }
-  return response.json();
-}
-
-async function fetchSingleColourSorted(colour, sortType){
-  const response = await fetch(`/single/colour/${colour}/${sortType}`);
-  if (!response.ok) {
-    throw response;
-  }
-  return response.json();
-}
-
-async function fetchSingleSorted(sortType){
-  const response = await fetch(`/single/sort/${sortType}`);
-  if (!response.ok) {
-    throw response;
-  }
-  return response.json();
-}
 function setupListeners() {
   document.querySelector('#login-icon').addEventListener('click', main.showDropdown);
   document.querySelector('.single-bricks').addEventListener('click', renderProducts);
