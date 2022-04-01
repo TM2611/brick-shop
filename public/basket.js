@@ -1,4 +1,4 @@
-import fetchAllSingles from './main.js';
+import fetchAllSingles from './home.js';
 import * as auth from './auth.js';
 
 // TODO: have to clear localstorage after changing code? normal?
