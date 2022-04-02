@@ -10,12 +10,25 @@ import auth0Helpers from './auth0_helper.js';
 
 import * as products from './products.js';
 
+import {requiredScopes as requiredScopes} from 'express-oauth2-jwt-bearer';
+
 const app = express();
 
 const auth0 = auth0Helpers(authConfig);
 
  // protect /api from unauthenticated users
 app.use('/api', auth0.checkJwt);
+
+// Middleware to configure individual routes to look for 'read:admin' scope
+const checkScopes = requiredScopes('read:admin');
+
+app.get('/api/admin', auth0.checkJwt, checkScopes, function(req, res) {
+  console.log(checkScopes);
+  res.json({
+    message: 'Hello from a private endpoint! You need to be authenticated and have a scope of read:admin to see this.'
+  });
+});
+
 
 // this will serve the files present in /public
 app.use(express.static(path.join(path.dirname(url.fileURLToPath(import.meta.url)), '../public')));
