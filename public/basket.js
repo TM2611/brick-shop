@@ -50,9 +50,9 @@ export async function initBasket() {
 
 function removeBasketItem(e) {
   const basketItemDOM = e.target.parentNode.parentNode;
+  const productPriceDOM = e.target.parentNode.querySelector('#basket-product-price');
   const basketTotalDOM = document.querySelector('.basket-total');
   const basketTotal = parseFloat(basketTotalDOM.textContent);
-  const productPriceDOM = e.target.parentNode.querySelector('#basket-product-price');
   const price = parseFloat(productPriceDOM.textContent);
   const itemAmountDOM = basketItemDOM.querySelector('.item-amount');
   const itemAmount = parseInt(itemAmountDOM.textContent);
@@ -88,6 +88,7 @@ function resetAddToBasketBtn(itemID = 'n/a') {
   }
 }
 
+//TODO: If on checkout page, update quantity on the page
 function increaseItemQuantity(e) {
   const itemID = e.target.parentElement.parentElement.dataset.id;
   let itemAmount = basket.get(itemID);
