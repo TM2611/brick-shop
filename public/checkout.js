@@ -43,7 +43,10 @@ async function renderBasket(){
 function removeCheckoutItem(e){
   const checkoutItemDOM = e.target.parentNode.parentNode;
   const itemID = checkoutItemDOM.dataset.id
-  debugger
+  //TODO: not working, cant access template data-ids of basket items
+  // const t2 = document.querySelector('#basket-item-template');
+  // const itemTemplate = t2.content.cloneNode(true);
+  // const basketItemDOM = itemTemplate.querySelector('.basket-item');
 
 }
 
