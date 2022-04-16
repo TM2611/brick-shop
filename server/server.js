@@ -141,8 +141,18 @@ function asyncWrap(f) {
   };
 }
 
+async function getSingleSorted(req, res) {
+  const result = await products.sortAllSingles(req.params.sort)
+  if (!result) {
+    res.status(404).send('No match for that colour');
+    return;
+  }
+  res.json(result);
+}
+
 //Routes
 app.get('/single', asyncWrap(getAllSingles));
+app.get('/single/sort/:sort', asyncWrap(getSingleSorted));
 app.get('/single/colour/:colour', asyncWrap(getSingleColour));
 app.get('/single/colour/:colour/PriceHightolow', asyncWrap(getHighToLow));
 app.get('/single/colour/:colour/PriceLowtohigh', asyncWrap(getLowToHigh));

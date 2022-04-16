@@ -340,6 +340,8 @@ label {
   margin-bottom: 2rem;
 }
 
+/* TODO: replace pixels. */
+
 /*---------- basket Item -------------------- */
 .basket-item {
   display: grid;

@@ -1,4 +1,4 @@
-import fetchAllProducts from './main.js';
+import * as fjs from './fetch.js';
 import * as auth from './auth.js';
 
 // TODO: have to clear localstorage after changing code? normal?
@@ -11,7 +11,7 @@ export async function initBasket() {
     return;
   }
   basket = new Map(JSON.parse(localStorage.basket));
-  const products = await fetchAllProducts(); // retrieve from storage / DB ?
+  const products = await fjs.fetchAllSingles(); // retrieve from storage / DB ?
   const basketDOM = document.querySelector('.basket');
   const basketQuantityDOM = document.querySelector('.basket-quantity');
   const t2 = document.querySelector('#basket-item-template');
@@ -50,9 +50,9 @@ export async function initBasket() {
 
 function removeBasketItem(e) {
   const basketItemDOM = e.target.parentNode.parentNode;
+  const productPriceDOM = e.target.parentNode.querySelector('#basket-product-price');
   const basketTotalDOM = document.querySelector('.basket-total');
   const basketTotal = parseFloat(basketTotalDOM.textContent);
-  const productPriceDOM = e.target.parentNode.querySelector('#basket-product-price');
   const price = parseFloat(productPriceDOM.textContent);
   const itemAmountDOM = basketItemDOM.querySelector('.item-amount');
   const itemAmount = parseInt(itemAmountDOM.textContent);
@@ -88,6 +88,7 @@ function resetAddToBasketBtn(itemID = 'n/a') {
   }
 }
 
+//TODO: If on checkout page, update quantity on the page
 function increaseItemQuantity(e) {
   const itemID = e.target.parentElement.parentElement.dataset.id;
   let itemAmount = basket.get(itemID);
@@ -123,7 +124,7 @@ function decreaseItemQuantity(e) {
 
 export async function AddToBasket(e) {
   const itemID = e.target.parentNode.dataset.id;
-  const products = await fetchAllProducts(); // TODO: fetch single product? (or retrieve from storage / DB ?)
+  const products = await fjs.fetchAllSingles(); // TODO: fetch single product? (or retrieve from storage / DB ?)
   const basketDOM = document.querySelector('.basket');
   const product = products.find(({ ProductID }) => ProductID === itemID);
   const t2 = document.querySelector('#basket-item-template');
@@ -207,6 +208,6 @@ export async function viewProfile() {
   console.log(await response.text());
 }
 
-// export function checkoutPage() {
-//   window.location.pathname = 'checkout.html';
-// }
+export function checkoutPage() {
+  window.location.pathname = 'checkout.html';
+}
