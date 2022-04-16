@@ -4,8 +4,8 @@ import * as auth from './auth.js';
 
 function setupListeners() {
   // Setup future listeners;
-  formFetchListener()
-  //document.querySelector('#removeProduct').addEventListener('click', callServer)
+  // formFetchListener()
+  // document.querySelector('#removeProduct').addEventListener('click', callServer)
 
 }
 

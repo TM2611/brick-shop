@@ -1,3 +1,5 @@
+// Functions needed across multiple pages
+
 let prevScrollpos;
 
 export function showDropdown(e) {
@@ -26,4 +28,4 @@ export function navbarDisplay() {
     navbar.classList.add('hide-nav');
   }
   prevScrollpos = currentScrollPos;
-
+}

@@ -142,7 +142,7 @@ function asyncWrap(f) {
 }
 
 async function getSingleSorted(req, res) {
-  const result = await products.sortAllSingles(req.params.sort)
+  const result = await pjs.sortAllSingles(req.params.sort)
   if (!result) {
     res.status(404).send('No match for that colour');
     return;
