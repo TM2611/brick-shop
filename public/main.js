@@ -66,7 +66,7 @@ async function renderProducts() {
     img.alt = `${product.ProductImage}`;
     productName.textContent = `${product.ProductName}`;
     productPrice.textContent = `£${(product.Price / 100).toFixed(2)}`;
-    document.body.append(productTemplate);
+    document.querySelector('.products-container').append(productTemplate);
   });
 }
 
@@ -101,7 +101,7 @@ async function renderFiltered(e) {
     productName.textContent = `${product.ProductName}`;
     productPrice.textContent = `£${(product.Price / 100).toFixed(2)}`;
     // productDesc.textContent = `${product.description}`;
-    document.body.append(productTemplate);
+    document.querySelector('.products-container').append(productTemplate);
   });
 }
 
@@ -136,7 +136,7 @@ async function renderSorted(e) {
     productName.textContent = `${product.ProductName}`;
     productPrice.textContent = `£${(product.Price / 100).toFixed(2)}`;
     // productDesc.textContent = `${product.description}`;
-    document.body.append(productTemplate);
+    document.querySelector('.products-container').append(productTemplate);
   });
 }
 

@@ -188,7 +188,6 @@ export function clearBasket() {
 }
 
 
-//TODO: user null
 export async function viewProfile() {
   // Get the access token from the Auth0 client
   const token = await auth.auth0.getTokenSilently();
@@ -198,7 +197,7 @@ export async function viewProfile() {
     // Give access to the bearer of the token.
     headers: { Authorization: 'Bearer ' + token },
   };
-  const response = await fetch('/api/profile', fetchOptions);
+  const response = await fetch('/profile', fetchOptions);
   if (!response.ok) {
     // handle the error
     el.textContent = 'Server error:\n' + response.status;
