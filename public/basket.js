@@ -198,7 +198,7 @@ export async function viewProfile() {
     // Give access to the bearer of the token.
     headers: { Authorization: 'Bearer ' + token },
   };
-  const response = await fetch('/api/profile', fetchOptions);
+  const response = await fetch('/profile', fetchOptions);
   if (!response.ok) {
     // handle the error
     el.textContent = 'Server error:\n' + response.status;

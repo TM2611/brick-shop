@@ -26,4 +26,4 @@ export function navbarDisplay() {
     navbar.classList.add('hide-nav');
   }
   prevScrollpos = currentScrollPos;
-}
+

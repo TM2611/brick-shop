@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+  <title>Upload Product – Lego</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <link rel="icon" href="data:,"><!-- prevent favicon requests -->
+  <link rel="stylesheet" href="style.css">
+  <script src="https://kit.fontawesome.com/76f1f6b390.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <h1><a href="/admin.html">Return to Admin Dashboard</a></h1>
+
+  <section class="remove-body">
+  <h2 class="remove-heading">Remove a Product</h2>
+  <!-- TODO: change /test/upload to /admin/upload once auth fixed-->
+    <p class ="remove-prompt">Enter the ID of the product you wish to remove</p>
+    <form id ="removeProduct" action="/test/product/id" method="post" enctype="application/x-www-form-urlencoded">
+      <p><input id ="id-input" name="id" type="text" autofocus size="40" placeholder="product ID" minlength="4" maxlength="100" required></p>
+      <p><input name="submit" type="submit" value="Submit"></p>
+    </form>
+  </section>
+  <pre id="server-response"></pre>
+  <script type="module" src="remove.js" async defer></script>
+  <!-- <script src="https://cdn.auth0.com/js/auth0-spa-js/1.13/auth0-spa-js.production.js"></script> -->
+</body>
+
