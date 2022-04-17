@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang = "en">
+  <head>
+    <title>Lego Store</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <link rel="icon" href="data:,"><!-- prevent favicon requests -->
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/76f1f6b390.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+
+
+    <div class="container">
+      <div class="checkout-page-header"></div>
+      <div class="address-section">
+        <div class="address-header section-header">
+          <h3 class="checkout-step">1</h3>
+          <h3 class="header-title">Delivery Address</h3>
+        </div>
+        <div class="display-address">
+          <ul class="display-address-ul">
+            <li class="display-address-name">Mr Taylor McFarlane</li>
+            <li class="display-address-line1">123 Malibu Road</li>
+            <li class="display-address-line2">Southsea</li>
+            <li class="display-address-region">Portsmouth</li>
+            <li class="display-address-post-code">PO24H6</li>            
+          </ul>
+        </div>
+        <div class="change-address">Change</div>
+      </div>
+      <div class="payment-method-section">
+        <div class="payment-method-header section-header">
+          <h3 class="checkout-step">2</h3>
+          <h3 class="header-title">Payment Method</h3>
+        </div>
+        <div class="display-payment-info"></div>
+        <div class="promo-code">
+          <p class="promo-prompt">Add a promo code</p>
+          <input type="text" class="promo-field">
+          <input type="submit" class="promo-submit">
+        </div>
+        <div class="change-payment">Change</div>
+      </div>
+      <div class="review-section">
+        <div class="review-header section-header">
+          <h3 class="checkout-step">3</h3>
+          <h3 class="header-title">Review</h3>
+        </div>
+        <!-- Checkout item -->
+        <template id ="checkout-item-template">
+          <!-- data-id allows remove-item to know id of product to be removed -->
+          <div class="checkout-item" data-id> 
+            <img id = "checkout-item-img">
+            <p id = "checkout-item-name"></p>
+            <p id="checkout-item-price">£<span id="checkout-item-value">0</span></p>
+            <!-- <span id="remove-checkout-item"></span> -->
+          </div>
+        </template>
+        <div class="checkout-items">
+          <!-- Dynamically added with JS -->
+        </div>
+        <div class="review-section-footer">
+          <h3 id="checkout-total">
+            <span id="checkout-pre-total">
+              <!-- Dynamically added with JS incase basket is empty-->
+            </span>
+            <span id="checkout-total-value"></span>
+          </h3>
+          <div id="empty-checkout-msg"></div>
+          <div id="continue-shopping"><a href="./index.html">Continue shopping</a></div>
+          <input type="submit" class="buy-btn" value="Buy Now">
+        </div>
+      </div>
+      <div class="summary-section"></div>
+    </div>
+
+
+
+    <script type="module" src="checkout2.js" async defer></script>
+    <script src="https://cdn.auth0.com/js/auth0-spa-js/1.13/auth0-spa-js.production.js"></script>
+  </body>
+</html>

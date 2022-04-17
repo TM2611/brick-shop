@@ -26,6 +26,7 @@ export async function renderCheckout(){
     const img = itemTemplate.querySelector('#checkout-item-img');
     const itemName = itemTemplate.querySelector('#checkout-item-name');
     const itemPrice = itemTemplate.querySelector('#checkout-item-value');
+    //TODO: remove #remove-checkout-item from html
     const removeItemBtn = itemTemplate.querySelector('#remove-checkout-item');
     const checkoutItemDom = itemTemplate.querySelector('.checkout-item');
     checkoutItemDom.dataset.id = product.ProductID;

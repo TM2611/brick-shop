@@ -17,6 +17,9 @@ export async function initBasket() {
     return;
   }
   basket = new Map(JSON.parse(localStorage.basket));
+  if(window.location.href.indexOf("checkout") != -1){ //if on checkout page
+    return;
+  }
   const products = await fjs.fetchAllSingles(); // retrieve from storage / DB ?
   const basketDOM = document.querySelector('.basket');
   const basketQuantityDOM = document.querySelector('.basket-quantity');
@@ -173,7 +176,7 @@ export function viewBasket() {
   basketDOM.classList.add('showBasket');
   basketOverlay.classList.add('transparentBcg');
 }
-
+// TODO: Close basket when click outside of overlay
 // TODO: closeBasket on checkoutpage resets basket total
 export async function closeBasket() {
   if(window.location.href.indexOf("checkout") != -1){ //if on checkout page
@@ -207,5 +210,7 @@ export function clearBasket() {
 
 
 export function checkoutPage() {
-  window.location.pathname = 'checkout.html';
+  // window.location.pathname = 'checkout.html';
+  window.location.pathname = 'checkout2.html';
+
 }

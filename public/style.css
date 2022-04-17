@@ -446,7 +446,7 @@ label {
 
 .checkout-item {
   display: grid;
-  grid-template-columns: 25vw 55vw 1fr;
+  grid-template-columns: 15vw 20vw 1fr;
   align-items: center;
 }
 
@@ -488,6 +488,145 @@ label {
 #pay {
   font-size: 3rem;
   margin-top: 2rem;
+}
+
+
+/* --------------- CHECKOUT2 -------------- */
+
+/* TODO: Refactor: flex instead of grid? */
+.container {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  grid-template-rows: 0.3fr .9fr 0.9fr 2.2fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "checkout-page-header checkout-page-header"
+    "address-section ."
+    "payment-method-section summary-section"
+    "review-section summary-section";
+}
+
+.checkout-page-header {
+  grid-area: checkout-page-header;
+}
+
+.address-section {
+  display: grid;
+  grid-template-columns: 1fr 1.9fr 0.6fr;
+  grid-template-rows: repeat(2, 1fr);
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "address-header display-address change-address"
+    "address-header display-address change-address";
+  grid-area: address-section;
+}
+
+.change-address {
+  grid-area: change-address;
+}
+
+.display-address {
+  grid-area: display-address;
+}
+
+.address-header {
+  grid-area: address-header;
+}
+
+.payment-method-section {
+  display: grid;
+  grid-template-columns: 1fr 1.9fr 0.6fr;
+  grid-template-rows: repeat(2, 1fr);
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "payment-method-header display-payment-info change-payment"
+    "payment-method-header promo-code change-payment";
+  grid-area: payment-method-section;
+}
+
+.change-payment {
+  grid-area: change-payment;
+}
+
+.display-payment-info {
+  grid-area: display-payment-info;
+}
+
+.promo-code {
+  grid-area: promo-code;
+}
+
+.payment-method-header {
+  grid-area: payment-method-header;
+}
+
+.review-section {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 0.2fr 2.3fr 0.5fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "review-header"
+    "checkout-items"
+    "review-section-footer";
+  grid-area: review-section;
+}
+
+.review-header {
+  grid-area: review-header;
+}
+
+.checkout-items {
+  grid-area: checkout-items;
+}
+
+.review-section-footer {
+  grid-area: review-section-footer;
+}
+
+.summary-section {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    ". . ."
+    ". . ."
+    ". . .";
+  grid-area: summary-section;
+}
+
+
+/* Custom */
+.section-header {
+  display: flex;
+  justify-content: flex-start;
+  margin-left: 1.2rem;
+  font-size: 1.4rem;
+}
+
+.header-title {
+  margin-left: 1.2rem;
+
+}
+
+.display-address-ul {
+  font-size: 1.4rem;
+}
+
+.change-address,
+.change-payment {
+  font-size: 1.25rem;
+}
+
+.promo-prompt {
+  font-size: 1.2rem;
+  margin-bottom: 0.65rem;
 }
 
 /* --------------- Payment -------------- */
