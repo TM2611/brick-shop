@@ -1,13 +1,19 @@
 import * as fjs from './fetch.js';
 import * as auth from './auth.js';
+import * as main from './main.js';
 
 // TODO: have to clear localstorage after changing code? normal?
 export let basket; // IDs and quantities of items in basket
 
 export async function initBasket() {
-  const isBasketEmpty = localStorage.getItem('basket') === null;
-  if (isBasketEmpty) {
+  const isBasketStorageEmpty = localStorage.getItem('basket') === null;
+  if (isBasketStorageEmpty) {
     basket = new Map();
+    return;
+  }
+  const isBasketDOMEmpty = document.querySelectorAll('.basket-item').length === 0
+  // isBasketDOMEmpty.length potentially > 0 if returning from checkout page
+  if (!isBasketDOMEmpty){
     return;
   }
   basket = new Map(JSON.parse(localStorage.basket));
@@ -43,7 +49,7 @@ export async function initBasket() {
     removeItemBtn.addEventListener('click', removeBasketItem);
     itemAmountDOM.textContent = quantity; // = item quantinty from storage
     basketDOM.append(itemTemplate);
-    total += price;
+    total += price; //TODO: price * quantity
   }
   basketTotalDOM.textContent = total.toFixed(2);
 }
@@ -168,7 +174,16 @@ export function viewBasket() {
   basketOverlay.classList.add('transparentBcg');
 }
 
-export function closeBasket() {
+// TODO: closeBasket on checkoutpage resets basket total
+export async function closeBasket() {
+  if(window.location.href.indexOf("checkout") != -1){ //if on checkout page
+    for (const item of document.querySelectorAll('.checkout-item')) {
+      item.remove();
+    }
+    window.location.reload() //Reload checkout page to re-render items 
+    // TODO: find alternative to reloading page?
+  } 
+
   const basketDOM = document.querySelector('.basket');
   const basketOverlay = document.querySelector('.basket-overlay');
   basketDOM.classList.remove('showBasket');
@@ -189,24 +204,7 @@ export function clearBasket() {
 }
 
 
-export async function viewProfile() {
-  // Get the access token from the Auth0 client
-  const token = await auth.auth0.getTokenSilently();
-  const fetchOptions = {
-    credentials: 'same-origin',
-    method: 'GET',
-    // Give access to the bearer of the token.
-    headers: { Authorization: 'Bearer ' + token },
-  };
-  const response = await fetch('/profile', fetchOptions);
-  if (!response.ok) {
-    // handle the error
-    el.textContent = 'Server error:\n' + response.status;
-    return;
-  }
-  // handle the response
-  console.log(await response.text());
-}
+
 
 export function checkoutPage() {
   window.location.pathname = 'checkout.html';

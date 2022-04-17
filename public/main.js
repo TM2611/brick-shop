@@ -1,5 +1,4 @@
 // Functions needed across multiple pages
-
 let prevScrollpos;
 
 export function showDropdown(e) {
@@ -19,6 +18,7 @@ export function closeDropdown(e) {
   }
 }
 
+//TODO: hide/show nav functionality not working
 export function navbarDisplay() {
   const currentScrollPos = window.pageYOffset;
   const navbar = document.querySelector('.navbar');
@@ -29,3 +29,25 @@ export function navbarDisplay() {
   }
   prevScrollpos = currentScrollPos;
 }
+
+
+export async function viewProfile() {
+  // Get the access token from the Auth0 client
+  const token = await auth.auth0.getTokenSilently();
+  const fetchOptions = {
+    credentials: 'same-origin',
+    method: 'GET',
+    // Give access to the bearer of the token.
+    headers: { Authorization: 'Bearer ' + token },
+  };
+  const response = await fetch('/profile', fetchOptions);
+  if (!response.ok) {
+    // handle the error
+    el.textContent = 'Server error:\n' + response.status;
+    return;
+  }
+  // handle the response
+  console.log(await response.text());
+}
+
+

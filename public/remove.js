@@ -33,7 +33,6 @@ function setupListeners() {
 // }
 
 async function callServer() {
-  debugger
   const el = document.getElementById('server-response');
   el.textContent = 'Checking Product…';
   const response = await fetch('/test/product/id', fetchOptions);

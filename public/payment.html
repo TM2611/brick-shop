@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang = "en">
+  <head>
+    <title>Lego Store</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <link rel="icon" href="data:,"><!-- prevent favicon requests -->
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/76f1f6b390.js" crossorigin="anonymous"></script>
+  </head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-content">
+      <h1 class="logo">LEGO</h1>
+      <ul class="menu-container">
+          <li class="menu-item">Home</li>
+          <li class="menu-item">Products</li>
+          <li class="menu-item">Kits</li>
+          <!-- <li class="menu-item red">For Sale</li> -->
+      </ul>
+      <div class="menu-icons-container">
+          <!-- <img src="Resources/Search.svg" alt="" class="icon">  -->
+          <div class="basket-btn">
+            <span class="nav-icon">
+              <i class="fas fa-shopping-basket"></i>
+            </span>
+            <div class="basket-quantity">0</div>
+          </div>
+          <!-- <img src="Resources/Profile.svg" alt="" class="icon">  -->
+          <button id="btn-login">LOG IN</button>
+          <div id="login-icon"><span id="initial"></span>
+            <div class= "icon-options"> 
+              <a href="#" class="profile">Profile</a> <!--TODO: Remove class? -->
+              <a href="#">Orders</a>
+              <a href="#">Settings</a>
+              <a id="btn-logout" href="#">Log out</a>
+            </div>
+          </div>
+      </div>
+    </div>
+  </nav>
+  <div class="payment-page-container">
+    <div class="progress-checkout-container">
+        <div class="progress-step-container">
+            <div class="step-check"></div>
+            <span class="step-title">Shipping</span>
+        </div>
+        <div class="progress-step-container">
+            <div class="step-check"></div>
+            <span class="step-title">Payment</span>
+        </div>
+        <div class="progress-step-container">
+            <div class="step-check"></div>
+            <span class="step-title">Review</span>
+        </div>
+    </div>
+    <div class="form-container">
+        <h2 class="form-title">Payment Details</h2>
+        <form action="" class="checkout-form">
+            <div class="input-line">
+                <label for="name">Name on card</label>
+                <input class="pay-text-input" type="text" name="name" id="name" placeholder="Your full name">
+            </div>
+            <div class="input-line">
+                <label for="name">Card number</label>
+                <input class="pay-text-input" type="text" name="name" id="name" placeholder="1111222233334444">
+            </div>
+            <div class="input-container">
+                <div class="input-line">
+                    <label for="name">Expiry Date</label>
+                    <input class="pay-text-input" type="text" name="name" id="name" placeholder="09-21">
+                </div>
+                <div class="input-line">
+                    <label for="name">CVC</label>
+                    <input class="pay-text-input" type="text" name="name" id="name" placeholder="***">
+                </div>
+            </div>
+            <input id="complete-payment" type="button" value="Complete Payment">
+        </form>
+    </div>
+  </div>
+</body>

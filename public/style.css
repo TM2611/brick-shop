@@ -85,7 +85,8 @@ label {
 /* --------------- End of Header ---------------- */
 
 /* --------------- Navbar ---------------- */
-.navbar {
+
+/* .navbar {
   position: r;
   top: 0;
   height: 70px;
@@ -95,6 +96,24 @@ label {
   background: rgb(156, 156, 155);
   z-index: 1;
   transition: top 0.3s;
+} */
+
+
+.navbar {
+  position: relative;
+  width: 100%;
+  top: 0;
+  left: 0;
+  height: 70px;
+  border-bottom: 1px solid #f2f2f2;
+  background-color: white;
+  background: rgb(156, 156, 155);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1;
+  transition: top 0.3s;
+  padding: 0 5%;
 }
 
 .hide-nav {
@@ -103,39 +122,63 @@ label {
   ;
 }
 
-.navbar-center {
+.navbar-content {
   width: 100%;
   max-width: 1170px;
   margin: 0 auto;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
   padding: 0 1.5rem;
 }
 
-.nav-icon {
-  font-size: 1.25rem
+.logo {
+  font-size: 26px;
+  font-weight: 800;
+}
+
+.logo:hover {
+  cursor: pointer;
+}
+
+.menu-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style-type: none;
+  font-size: 1.8rem;
+}
+
+.menu-item {
+  margin: 2rem;
+  cursor: pointer;
+  font-weight: 600;
 }
 
 .basket-btn {
   position: relative;
   cursor: pointer;
+  font-size: 2.3rem;
 
 }
 
+
+
 .basket-quantity {
   position: absolute;
-  bottom: 0.5rem;
-  left: 1rem;
+  bottom: 1.5rem;
+  left: 2.1rem;
   color: white;
   background-color: rgb(206, 136, 5);
   border-radius: 30%;
   padding: 0 4px;
+  font-size: 1.6rem;
+
 }
 
-#btn-login,
-#btn-logout {
+#btn-login {
   cursor: pointer;
+  margin: 2rem;
 }
 
 .non-visible {
@@ -148,9 +191,6 @@ label {
   border-radius: 100px;
   background: var(--primaryColor);
   display: none;
-  right: 10px;
-  position: absolute;
-
 }
 
 /* Overrides display none above */
@@ -176,13 +216,11 @@ label {
 
 .icon-options {
   display: none;
-  position: absolute;
   background-color: #f1f1f1;
   min-width: 160px;
   overflow: auto;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
-  right: 75px
 }
 
 .icon-options a {
@@ -397,6 +435,239 @@ label {
 
 /* --------------- End of basket ---------------- */
 
+
+
+
+/* --------------- CHECKOUT -------------- */
+
+.checkout-page-container {
+  margin: 50px;
+}
+
+.checkout-item {
+  display: grid;
+  grid-template-columns: 25vw 55vw 1fr;
+  align-items: center;
+}
+
+.checkout-items {
+  margin-bottom: 10vh;
+}
+
+#checkout-item-img {
+  height: 10vw;
+}
+
+
+#checkout-total,
+#checkout-title {
+  font-size: 2rem;
+}
+
+#checkout-total {
+  text-align: -webkit-right;
+}
+
+#checkout-item-name,
+#checkout-item-price {
+  font-size: 1.5rem;
+}
+
+
+
+
+#empty-checkout-msg {
+  margin-top: 3.125rem;
+}
+
+#continue-shopping {
+  margin-top: 1.563rem;
+  font-size: 1.35rem;
+}
+
+#pay {
+  font-size: 3rem;
+  margin-top: 2rem;
+}
+
+/* --------------- Payment -------------- */
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
+  /* transition: 0.5s; */
+}
+
+.payment-page-container {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 0 20%;
+}
+
+.red {
+  color: rgb(167, 33, 10);
+}
+
+.menu-icons-container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon {
+  filter: invert(1);
+  height: 25px;
+  margin: 1rem;
+}
+
+.progress-checkout-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 60%;
+}
+
+.progress-step-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.step-check {
+  background-color: rgb(0, 132, 255);
+  height: 30px;
+  width: 30px;
+  border-radius: 30px;
+  margin-bottom: 1rem;
+  position: relative;
+  background-image: url(Resources/check.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 60%;
+}
+
+.progress-step-container:nth-of-type(3) .step-check::after {
+  display: none;
+}
+
+.progress-step-container:nth-of-type(3) .step-check {
+  background-image: none;
+  background-color: white;
+  border: 2px solid grey;
+}
+
+.progress-step-container:nth-of-type(2) .step-check::after {
+  background-color: grey;
+}
+
+.progress-step-container:nth-of-type(2) .step-check {
+  background-image: none;
+  background-color: white;
+  border: 2px solid rgb(0, 132, 255);
+}
+
+.step-check::after {
+  content: "";
+  width: 15vw;
+  height: 2px;
+  background-color: inherit;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateX(100%) translateY(-50%);
+}
+
+.step-title {
+  color: grey;
+}
+
+.form-container {
+  width: 60%;
+  margin-top: 6rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.form-title {
+  font-size: 36px;
+  margin-bottom: 2.5rem;
+  font-weight: 500;
+  opacity: 0.8;
+}
+
+.checkout-form {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  width: 100%;
+}
+
+.input-line {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+label {
+  font-size: 16px;
+  color: grey;
+  margin-bottom: 0.5rem;
+}
+
+.pay-text-input {
+  width: 100%;
+  height: 2vh;
+  padding: 0 0.5rem;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  border: solid 2px grey;
+  font-size: 18px;
+}
+
+.pay-text-input::placeholder {
+  font-size: 14px;
+  color: #b9b9b9;
+}
+
+.input-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.input-container .input-line {
+  width: 48%;
+}
+
+#complete-payment {
+  background-color: rgb(0, 132, 255);
+  color: white;
+  font-weight: 500;
+  font-size: 18px;
+  height: 50px;
+  padding: 0 30px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#complete-payment:hover {
+  background-color: rgb(4, 88, 167);
+}
 
 /* --------------- ADMIN ---------------- */
 /* common styles */

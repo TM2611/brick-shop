@@ -5,16 +5,19 @@ import * as fjs from './fetch.js';
 
 
 
-async function renderBasket(){
+export async function renderCheckout(){
   const isBasketEmpty = localStorage.getItem('basket') === null;
   if (isBasketEmpty) {
     const emptyBasketMsg = document.querySelector('#empty-checkout-msg');
-    const continueShopping = document.querySelector('#continue-shopping');
+    // const continueShopping = document.querySelector('#continue-shopping');
     emptyBasketMsg.textContent = 'Your basket is Empty'
-    continueShopping.innerHTML = 'Click here to <a href="./index.html">continue shopping</a>'
+    // continueShopping.innerHTML = '<a href="./index.html">Continue shopping</a>'
     return;
   }
-  const container = document.querySelector('.checkout-page-container');
+  const container = document.querySelector('.checkout-items');
+  const pay = document.querySelector('#pay')
+  let total = document.querySelector('#checkout-total-value')
+  let preTotal =  document.querySelector('#checkout-pre-total')
   const products = await fjs.fetchAllSingles();
   for (const [itemID, quantity] of ba.basket.entries()) {
     const product = products.find(({ ProductID }) => ProductID === itemID);
@@ -22,22 +25,23 @@ async function renderBasket(){
     const itemTemplate = t1.content.cloneNode(true);
     const img = itemTemplate.querySelector('#checkout-item-img');
     const itemName = itemTemplate.querySelector('#checkout-item-name');
-    const itemPrice = itemTemplate.querySelector('#checkout-item-price');
-    const itemQuantity = itemTemplate.querySelector('#checkout-item-quantity');
-    const removeItemBtn = itemTemplate.querySelector('#checkout-remove-item');
+    const itemPrice = itemTemplate.querySelector('#checkout-item-value');
+    const removeItemBtn = itemTemplate.querySelector('#remove-checkout-item');
     const checkoutItemDom = itemTemplate.querySelector('.checkout-item');
     checkoutItemDom.dataset.id = product.ProductID;
     itemName.textContent = product.ProductName;
-    itemQuantity.textContent = quantity;
     img.src = product.ProductImage;
     img.alt = product.ProductImage;
     itemName.textContent = product.ProductName;
     itemPrice.textContent = (product.Price / 100).toFixed(2);
-    removeItemBtn.addEventListener('click', removeCheckoutItem)
+    //removeItemBtn.addEventListener('click', removeCheckoutItem)
     container.append(itemTemplate);
   }
-  // Dynamically Add Buy Now Button
-  // Dynamically Add Continue shopping Button
+  preTotal.textContent = 'Total : £'
+  total.textContent = document.querySelector('.basket-total').textContent;
+  pay.innerHTML = '<a href="./payment.html">Pay Now</a>'
+  // Add Buy Now Button
+  // Add Continue shopping Button
 }
 
 function removeCheckoutItem(e){
@@ -50,11 +54,11 @@ function removeCheckoutItem(e){
 
 }
 
+
 function setupListeners() {
   document.querySelector('#btn-login').addEventListener('click', auth.login);
   document.querySelector('#btn-logout').addEventListener('click', auth.logout);
-  document.querySelector('.profile').addEventListener('click', ba.viewProfile);
-  document.querySelector('.btn-checkout').addEventListener('click', ba.checkoutPage);
+  document.querySelector('.profile').addEventListener('click', main.viewProfile);
   document.querySelector('.basket-btn').addEventListener('click', ba.viewBasket);
   document.querySelector('.close-basket').addEventListener('click', ba.closeBasket);
   document.querySelector('.clear-basket').addEventListener('click', ba.clearBasket);
@@ -69,7 +73,7 @@ async function init() {
   await auth.updateAuthUI();
   await auth.handleAuth0Redirect();
   await ba.initBasket();
-  await renderBasket();
+  await renderCheckout();
   setupListeners();
 }
 

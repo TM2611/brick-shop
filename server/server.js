@@ -160,11 +160,10 @@ app.get('/single/colour/:colour/MostPopular', asyncWrap(getMostPopular));
 app.post('/test/upload', upload.single('picfile'), asyncWrap(postProduct));
 app.post('/test/product/id', asyncWrap(deleteProduct)); 
 app.get('/test/product/:id', asyncWrap(getProduct));
-// app.put('/test/product/', asyncWrap(addAProduct));
 app.delete('/test/product/name/:name', asyncWrap(deleteAllProductsByName));
 
 app.get('/profile', async (req, res) => {
-  const userId = auth0.getUserID(req);
+  const userId = auth0.getUserID(req); //TODO: UserID returning null
   const profile = await auth0.getProfile(req);
   res.send(`Hello user ${userId}, here's your profile:\n${JSON.stringify(profile, null, 2)}`);
 });

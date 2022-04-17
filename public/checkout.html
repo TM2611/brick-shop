@@ -10,25 +10,32 @@
   </head>
   <body>
     <nav class="navbar">
-      <div class="navbar-center">
-        <span class="nav-icon">
-          <i class="fas fa-bars"></i>
-        </span>
-        <img src="https://via.placeholder.com/66x66" alt="">
-        <div class="basket-btn">
-          <span class="nav-icon">
-            <i class="fas fa-shopping-basket"></i>
-          </span>
-          <div class="basket-quantity">0</div>
-        </div>
-        <button id="btn-login">LOG IN</button>
-        <div id="login-icon"><span id="initial"></span>
-          <div class= "icon-options"> 
-            <a href="#" class="profile">Profile</a> <!--TODO: Remove class? -->
-            <a href="#">Orders</a>
-            <a href="#">Settings</a>
-            <a id="btn-logout" href="#">Log out</a>
-          </div>
+      <div class="navbar-content">
+        <h1 class="logo">LEGO</h1>
+        <ul class="menu-container">
+            <li class="menu-item">Home</li>
+            <li class="menu-item">Products</li>
+            <li class="menu-item">Kits</li>
+            <!-- <li class="menu-item red">For Sale</li> -->
+        </ul>
+        <div class="menu-icons-container">
+            <!-- <img src="Resources/Search.svg" alt="" class="icon">  -->
+            <div class="basket-btn">
+              <span class="nav-icon">
+                <i class="fas fa-shopping-basket"></i>
+              </span>
+              <div class="basket-quantity">0</div>
+            </div>
+            <!-- <img src="Resources/Profile.svg" alt="" class="icon">  -->
+            <button id="btn-login">LOG IN</button>
+            <div id="login-icon"><span id="initial"></span>
+              <div class= "icon-options"> 
+                <a href="#" class="profile">Profile</a> <!--TODO: Remove class? -->
+                <a href="#">Orders</a>
+                <a href="#">Settings</a>
+                <a id="btn-logout" href="#">Log out</a>
+              </div>
+            </div>
         </div>
       </div>
     </nav>
@@ -60,12 +67,39 @@
           <div class="basket-footer">
             <h3>Total : £<span class="basket-total">0.00</span></h3>
             <button class="clear-basket banner-btn">Clear basket</button>
-            <button class="btn-checkout banner-btn">Checkout</button>
           </div>
         </div>
       </div>
     </div>
-    
+    <!-- End of basket -->
+    <div class="checkout-page-container">
+    <!-- Checkout -->
+    <h3 id="checkout-title">Order Summary</h3>
+    <!-- Checkout item -->
+      <template id ="checkout-item-template">
+        <!-- data-id allows remove-item to know id of product to be removed -->
+        <div class="checkout-item" data-id> 
+          <img id = "checkout-item-img">
+          <p id = "checkout-item-name"></p>
+          <p id="checkout-item-price">£<span id="checkout-item-value">0</span></p>
+          <!-- <span id="remove-checkout-item"></span> -->
+        </div>
+      </template>
+      <div class="checkout-items">
+        <!-- Dynamically added with JS -->
+      </div>
+      <div class="checkout-footer">
+        <h3 id="checkout-total">
+          <span id="checkout-pre-total">
+            <!-- Dynamically added with JS incase basket is empty-->
+          </span>
+          <span id="checkout-total-value"></span>
+        </h3>
+        <div id="empty-checkout-msg"></div>
+        <div id="continue-shopping"><a href="./index.html">Continue shopping</a></div>
+        <div id="pay"></div>
+      </div>
+    </div>
     <script type="module" src="checkout.js" async defer></script>
     <script src="https://cdn.auth0.com/js/auth0-spa-js/1.13/auth0-spa-js.production.js"></script>
   </body>
