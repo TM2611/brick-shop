@@ -56,22 +56,34 @@
             <div class="checkout-item-info">
               <p id = "checkout-item-name"></p>
               <div class="checkout-price-quantity">
-                <p class="checkout-item-quantity"><span class="checkout-item-quantity-value">1</span>x</p> 
+                <p class="checkout-item-quantity"><span class="checkout-item-quantity-value"></span>x</p> 
                 <p id="checkout-item-price">£<span id="checkout-item-value"></span></p>
               </div>
             </div>
           </div>
         </template>
-        <div class="checkout-items">
-          <!-- Dynamically added with JS -->
+        <div class="review-box">
+          <div class="review-box-title-container">
+            <h2 class="review-box-title">
+              <span class="box-title-basket">Basket</span>
+              <span class="box-title-items">x items</span>
+            </h2>
+          </div>
+          <div class="checkout-items-container">
+            <!-- Dynamically added with JS -->
+          </div>
+          <div class="review-box-footer">
+            <div class="review-box-order-total">
+              <span id="review-box-pre-total">
+                <!-- Dynamically added with JS incase basket is empty-->
+              </span>
+              <span class="review-box-total-value"></span>
+            </div>
+          </h3>
+          </div>
         </div>
         <div class="review-section-footer">
           <h3 id="checkout-total">
-            <span id="checkout-pre-total">
-              <!-- Dynamically added with JS incase basket is empty-->
-            </span>
-            <span id="checkout-total-value"></span>
-          </h3>
           <div id="empty-checkout-msg"></div>
           <div id="continue-shopping"><a href="./index.html">Continue shopping</a></div>
           <input type="submit" class="buy-btn" value="Buy Now">

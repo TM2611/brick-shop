@@ -14,10 +14,11 @@ export async function renderCheckout(){
     // continueShopping.innerHTML = '<a href="./index.html">Continue shopping</a>'
     return;
   }
-  const container = document.querySelector('.checkout-items');
+  const container = document.querySelector('.checkout-items-container');
   // const buyNowBtn = document.querySelector('#buy-btn')
-  // let total = document.querySelector('#checkout-total-value') //TODO: create function to calc total from basket local storage
-  let preTotal =  document.querySelector('#checkout-pre-total')
+  let preTotalDOM =  document.querySelector('#review-box-pre-total')
+  let totalDOM = document.querySelector('#review-box-total-value')
+  let total = 0;
   const products = await fjs.fetchAllSingles();
   for (const [itemID, quantity] of ba.basket.entries()) {
     const product = products.find(({ ProductID }) => ProductID === itemID);
@@ -27,17 +28,18 @@ export async function renderCheckout(){
     const itemName = itemTemplate.querySelector('#checkout-item-name');
     const itemPrice = itemTemplate.querySelector('#checkout-item-value');
     const checkoutItemDom = itemTemplate.querySelector('.checkout-item');
+    let itemQuantityDOM = itemTemplate.querySelector('.checkout-item-quantity-value');
     checkoutItemDom.dataset.id = product.ProductID;
     itemName.textContent = product.ProductName;
     img.src = product.ProductImage;
     img.alt = product.ProductImage;
     itemName.textContent = product.ProductName;
     itemPrice.textContent = (product.Price / 100).toFixed(2);
+    itemQuantityDOM.textContent = quantity
     container.append(itemTemplate);
   }
-  preTotal.textContent = 'Order Total : £'
-  // total.textContent = document.querySelector('.basket-total').textContent;
-}
+  preTotalDOM.textContent = 'Order Total : £'
+  //totalDOM.textContent
 
 function setupListeners() {
 }

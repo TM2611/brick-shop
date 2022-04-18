@@ -206,9 +206,6 @@ export function clearBasket() {
   resetAddToBasketBtn();
 }
 
-
-
-
 export function checkoutPage() {
   // window.location.pathname = 'checkout.html';
   window.location.pathname = 'checkout2.html';

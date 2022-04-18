@@ -516,7 +516,7 @@ label {
   grid-auto-flow: row;
   grid-template-areas:
     "review-header"
-    "checkout-items"
+    "checkout-items-container"
     "review-section-footer";
   grid-area: review-section;
 }
@@ -525,25 +525,25 @@ label {
   grid-area: review-header;
 }
 
-.checkout-items {
-  grid-area: checkout-items;
+.checkout-items-container {
+  grid-area: checkout-items-container;
   max-height: 30vh;
-  max-width: 40vw;
   overflow-x: hidden;
   overflow-y: scroll;
+  border: solid 1px grey;
 }
 
 .checkout-item {
   display: flex;
   align-items: center;
+  border-bottom: 1px solid #ccc;
 }
 
 #checkout-item-img {
   height: 10vw;
 }
 
-#checkout-total,
-#checkout-title {
+#review-box-pre-total {
   font-size: 2rem;
 }
 
@@ -571,6 +571,25 @@ label {
 
 .checkout-item-quantity {
   font-size: 1.5rem;
+}
+
+.review-box {
+  border: solid 1px grey;
+}
+
+.review-box-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 5vh;
+  max-width: 16%;
+  margin: 0 auto;
+}
+
+.review-box-order-total {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .review-section-footer {
