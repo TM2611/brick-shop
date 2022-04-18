@@ -18,6 +18,7 @@
           <h3 class="checkout-step">1</h3>
           <h3 class="header-title">Delivery Address</h3>
         </div>
+        <!-- Address section -->
         <div class="display-address">
           <ul class="display-address-ul">
             <li class="display-address-name">Mr Taylor McFarlane</li>
@@ -29,6 +30,7 @@
         </div>
         <div class="change-address">Change</div>
       </div>
+      <!-- Payemnt section -->
       <div class="payment-method-section">
         <div class="payment-method-header section-header">
           <h3 class="checkout-step">2</h3>
@@ -42,19 +44,22 @@
         </div>
         <div class="change-payment">Change</div>
       </div>
+      <!-- Review section -->
       <div class="review-section">
         <div class="review-header section-header">
           <h3 class="checkout-step">3</h3>
           <h3 class="header-title">Review</h3>
         </div>
-        <!-- Checkout item -->
         <template id ="checkout-item-template">
-          <!-- data-id allows remove-item to know id of product to be removed -->
-          <div class="checkout-item" data-id> 
+          <div class="checkout-item"> 
             <img id = "checkout-item-img">
-            <p id = "checkout-item-name"></p>
-            <p id="checkout-item-price">£<span id="checkout-item-value">0</span></p>
-            <!-- <span id="remove-checkout-item"></span> -->
+            <div class="checkout-item-info">
+              <p id = "checkout-item-name"></p>
+              <div class="checkout-price-quantity">
+                <p class="checkout-item-quantity"><span class="checkout-item-quantity-value">1</span>x</p> 
+                <p id="checkout-item-price">£<span id="checkout-item-value"></span></p>
+              </div>
+            </div>
           </div>
         </template>
         <div class="checkout-items">
