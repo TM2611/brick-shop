@@ -52,7 +52,7 @@ export async function initBasket() {
     removeItemBtn.addEventListener('click', removeBasketItem);
     itemAmountDOM.textContent = quantity; // = item quantinty from storage
     basketDOM.append(itemTemplate);
-    total += price; //TODO: price * quantity
+    total += price * quantity
   }
   basketTotalDOM.textContent = total.toFixed(2);
 }
