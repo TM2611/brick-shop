@@ -36,7 +36,29 @@
           <h3 class="checkout-step">2</h3>
           <h3 class="header-title">Payment Method</h3>
         </div>
-        <div class="display-payment-info"></div>
+        <div class="payment-info-container">
+          <!-- hide on submit -->
+          <div class="payment-input-fields">
+            <div class="payment-card-input-container">
+              <label for="cn-field">Card Number:</label>
+              <input id="cn-field" type="tel" inputmode="numeric" pattern="[0-9\s]{13,19}" autocomplete="cc-number" maxlength="19" placeholder="xxxx xxxx xxxx xxxx">
+            </div>
+            <div class="payment-name-input-container">
+              <label for="payment-name-field">Name on card:</label>
+              <input id="payment-name-field" type="text" maxlength="50">
+            </div>
+            <!-- TODO: implement user friendly dropdown for expiry-->
+            <div class="expiry-input-container">
+              <label for="exipry-field">Expiration date:</label>
+              <input id="expiry-field" type="text" maxlength="50">
+            </div>
+          </div>
+          
+          <div class="payment-info-display">
+            <!-- Display info submmited in forms -->
+          </div>
+
+        </div>
         <div class="promo-code">
           <p class="promo-prompt">Add a promo code</p>
           <input type="text" class="promo-field">
@@ -56,8 +78,8 @@
             <div class="checkout-item-info">
               <p id = "checkout-item-name"></p>
               <div class="checkout-price-quantity">
-                <p class="checkout-item-quantity"><span class="checkout-item-quantity-value"></span>x</p> 
-                <p id="checkout-item-price">£<span id="checkout-item-value"></span></p>
+                <p class="checkout-item-quantity"></p> 
+                <p id="checkout-item-price"></p>
               </div>
             </div>
           </div>
@@ -65,8 +87,8 @@
         <div class="review-box">
           <div class="review-box-title-container">
             <h2 class="review-box-title">
-              <span class="box-title-basket">Basket</span>
-              <span class="box-title-items">x items</span>
+              <span class="box-title-basket"></span>
+              <span class="box-title-items"></span>
             </h2>
           </div>
           <div class="checkout-items-container">
