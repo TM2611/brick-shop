@@ -86,19 +86,6 @@ label {
 
 /* --------------- Navbar ---------------- */
 
-/* .navbar {
-  position: r;
-  top: 0;
-  height: 70px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  background: rgb(156, 156, 155);
-  z-index: 1;
-  transition: top 0.3s;
-} */
-
-
 .navbar {
   position: relative;
   width: 100%;
@@ -147,6 +134,13 @@ label {
   align-items: center;
   list-style-type: none;
   font-size: 1.8rem;
+}
+
+.menu-icons-container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .menu-item {
