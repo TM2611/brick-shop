@@ -436,6 +436,10 @@ label {
   display: none !important;
 }
 
+.hide {
+  visibility: hidden !important;
+}
+
 .checkout-sections-container {
   display: grid;
   grid-template-columns: 1.5fr 1fr;

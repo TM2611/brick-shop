@@ -7,14 +7,15 @@ import * as fjs from './fetch.js';
 async function renderCheckoutPage(){
   const isBasketEmpty = localStorage.getItem('basket') === null;
   if (isBasketEmpty) {
+    debugger
     document.querySelector('.empty-continue-btn').addEventListener("click", 
     ba.homePage);    
     return;
   }
-  const emptyCheckout = document.querySelector('#empty-checkout');
+  const emptyCheckout = document.querySelector('.empty-checkout');
   const checkoutSections = document.querySelector('.checkout-sections-container');
   emptyCheckout.classList.add('no-display')
-  checkoutSections.classlist.remove('hide')
+  checkoutSections.classList.remove('hide')
   await renderReviewSection()
   // TODO: renderAddressSection()
   // TODO: renderPaymentMethodSection() ?
