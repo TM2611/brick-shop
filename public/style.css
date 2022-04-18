@@ -502,6 +502,10 @@ label {
   grid-area: payment-info-container;
 }
 
+.payment-input-fields {
+  margin-top: 2.5rem;
+}
+
 .payment-input-fields>* {
   margin-bottom: 1rem;
 }
@@ -512,6 +516,7 @@ label {
 
 .promo-code {
   grid-area: promo-code;
+  margin-bottom: 2rem;
 }
 
 .payment-method-header {
@@ -589,8 +594,10 @@ label {
   align-items: center;
   justify-content: space-between;
   height: 5vh;
+  min-width: 136.195px;
   max-width: 20%;
   margin: 0 auto;
+
 }
 
 .box-title-items {

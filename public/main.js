@@ -50,4 +50,10 @@ export async function viewProfile() {
   console.log(await response.text());
 }
 
+export function checkoutPage() {
+  window.location.pathname = 'checkout.html';
+}
 
+export function homePage() {
+  window.location.pathname = 'index.html';
+}

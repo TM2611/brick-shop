@@ -9,7 +9,7 @@ async function renderCheckoutPage(){
   if (isBasketEmpty) {
     debugger
     document.querySelector('.empty-continue-btn').addEventListener("click", 
-    ba.homePage);    
+    main.homePage);    
     return;
   }
   const emptyCheckout = document.querySelector('.empty-checkout');

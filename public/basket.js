@@ -206,10 +206,4 @@ export function clearBasket() {
   resetAddToBasketBtn();
 }
 
-export function checkoutPage() {
-  window.location.pathname = 'checkout.html';
-}
 
-export function homePage() {
-  window.location.pathname = 'index.html';
-}

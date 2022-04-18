@@ -47,7 +47,7 @@ function setupListeners() {
   document.querySelector('#btn-login').addEventListener('click', auth.login);
   document.querySelector('#btn-logout').addEventListener('click', auth.logout);
   document.querySelector('.profile').addEventListener('click', main.viewProfile);
-  document.querySelector('.btn-checkout').addEventListener('click', ba.checkoutPage);
+  document.querySelector('.btn-checkout').addEventListener('click', main.checkoutPage);
   document.querySelector('.basket-btn').addEventListener('click', ba.viewBasket);
   document.querySelector('.close-basket').addEventListener('click', ba.closeBasket);
   document.querySelector('.clear-basket').addEventListener('click', ba.clearBasket);
