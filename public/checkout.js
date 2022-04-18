@@ -4,17 +4,17 @@ import * as ba from './basket.js';
 import * as fjs from './fetch.js';
 
 
-
-
 async function renderCheckoutPage(){
   const isBasketEmpty = localStorage.getItem('basket') === null;
   if (isBasketEmpty) {
-    const emptyBasketMsg = document.querySelector('#empty-checkout-msg');
-    // const continueShopping = document.querySelector('#continue-shopping');
-    emptyBasketMsg.textContent = 'Your basket is Empty'
-    // continueShopping.innerHTML = '<a href="./index.html">Continue shopping</a>'
+    document.querySelector('.empty-continue-btn').addEventListener("click", 
+    ba.homePage);    
     return;
   }
+  const emptyCheckout = document.querySelector('#empty-checkout');
+  const checkoutSections = document.querySelector('.checkout-sections-container');
+  emptyCheckout.classList.add('no-display')
+  checkoutSections.classlist.remove('hide')
   await renderReviewSection()
   // TODO: renderAddressSection()
   // TODO: renderPaymentMethodSection() ?
@@ -37,7 +37,7 @@ function calculateItemNumber(){
 }
 
 async function renderReviewItems(){
-  const container = document.querySelector('.checkout-items-container');
+  const itemsContainer = document.querySelector('.checkout-items-container');
   let total = 0;
   const products = await fjs.fetchAllSingles();
   for (const [itemID, quantity] of ba.basket.entries()) {
@@ -58,7 +58,7 @@ async function renderReviewItems(){
     itemPriceDOM.textContent = `£${(price).toFixed(2)}`;
     itemQuantityDOM.textContent = `${quantity} x`
     total += price * quantity
-    container.append(itemTemplate);
+    itemsContainer.append(itemTemplate);
   }
   renderOrderTotal(total)
 }

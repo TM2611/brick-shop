@@ -10,8 +10,7 @@
   </head>
   <body>
 
-
-    <div class="container">
+    <div class="checkout-sections-container no-display">
       <div class="checkout-page-header"></div>
       <div class="address-section">
         <div class="address-header section-header">
@@ -105,18 +104,20 @@
           </div>
         </div>
         <div class="review-section-footer">
-          <h3 id="checkout-total">
-          <div id="empty-checkout-msg"></div>
-          <div id="continue-shopping"><a href="./index.html">Continue shopping</a></div>
+          <div class="continue-shopping"><a href="./index.html">Continue shopping</a></div>
           <input type="submit" class="buy-btn" value="Buy Now">
         </div>
       </div>
       <div class="summary-section"></div>
     </div>
+    <div class="empty-checkout">
+      <div id="empty-checkout-msg">Your basket is Empty</div>
+      <input type="submit" class="empty-continue-btn" value="Continue Shopping">
+    </div>
 
 
 
-    <script type="module" src="checkout2.js" async defer></script>
+    <script type="module" src="checkout.js" async defer></script>
     <script src="https://cdn.auth0.com/js/auth0-spa-js/1.13/auth0-spa-js.production.js"></script>
   </body>
 </html>

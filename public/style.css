@@ -438,7 +438,11 @@ label {
 
 /* --------------- CHECKOUT PAGE -------------- */
 
-.container {
+.no-display {
+  display: none !important;
+}
+
+.checkout-sections-container {
   display: grid;
   grid-template-columns: 1.5fr 1fr;
   grid-template-rows: 0.3fr .9fr 0.9fr 2.2fr;
@@ -600,10 +604,48 @@ label {
   align-items: center;
   justify-content: center;
   font-size: 2rem;
+  margin: 1.5rem 0;
 }
 
 .review-section-footer {
   grid-area: review-section-footer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.continue-shopping {
+  position: absolute;
+  left: 2rem;
+  font-size: 1.3rem;
+}
+
+.empty-continue-btn,
+.buy-btn {
+  height: 4vh;
+  width: 10vw;
+  border-radius: 10%;
+  font-size: 2rem;
+}
+
+.empty-checkout {
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+#empty-checkout-msg {
+  font-size: 2rem;
+}
+
+.empty-continue-btn {
+  width: initial;
+  padding: 1rem;
+  margin-top: 1rem;
 }
 
 /* Summary Section Styles */
@@ -646,6 +688,10 @@ label {
 .promo-prompt {
   font-size: 1.2rem;
   margin-bottom: 0.65rem;
+}
+
+#empty-checkout {
+  position: absolute;
 }
 
 

@@ -207,7 +207,9 @@ export function clearBasket() {
 }
 
 export function checkoutPage() {
-  // window.location.pathname = 'checkout.html';
-  window.location.pathname = 'checkout2.html';
+  window.location.pathname = 'checkout.html';
+}
 
+export function homePage() {
+  window.location.pathname = 'index.html';
 }
