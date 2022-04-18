@@ -17,7 +17,7 @@ export async function renderCheckout(){
   const container = document.querySelector('.checkout-items-container');
   // const buyNowBtn = document.querySelector('#buy-btn')
   let preTotalDOM =  document.querySelector('#review-box-pre-total')
-  let totalDOM = document.querySelector('#review-box-total-value')
+  let totalDOM = document.querySelector('.review-box-total-value')
   let total = 0;
   const products = await fjs.fetchAllSingles();
   for (const [itemID, quantity] of ba.basket.entries()) {
@@ -28,18 +28,21 @@ export async function renderCheckout(){
     const itemName = itemTemplate.querySelector('#checkout-item-name');
     const itemPrice = itemTemplate.querySelector('#checkout-item-value');
     const checkoutItemDom = itemTemplate.querySelector('.checkout-item');
+    const price = product.Price / 100;
     let itemQuantityDOM = itemTemplate.querySelector('.checkout-item-quantity-value');
     checkoutItemDom.dataset.id = product.ProductID;
     itemName.textContent = product.ProductName;
     img.src = product.ProductImage;
     img.alt = product.ProductImage;
     itemName.textContent = product.ProductName;
-    itemPrice.textContent = (product.Price / 100).toFixed(2);
+    itemPrice.textContent = (price).toFixed(2);
     itemQuantityDOM.textContent = quantity
+    total += price * quantity
     container.append(itemTemplate);
   }
   preTotalDOM.textContent = 'Order Total : £'
-  //totalDOM.textContent
+  totalDOM.textContent = total.toFixed(2);
+}
 
 function setupListeners() {
 }
