@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Admin</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/76f1f6b390.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <nav class="admin-nav">
+      <div class="logo">
+        <!-- TODO: href to admin profile? -->
+        <a href="#" class="active nav-item">
+          <img src="./images/assets/admin.png" alt="Admin logo" />
+        </a>
+      </div>
+      <div class="icons right">
+        <a href="#" class="nav-item">
+          <div class="badge"><span>5</span></div>
+          <i class="far fa-bell"></i>
+        </a>
+        <a href="#" class="nav-item"><i class="far fa-envelope"></i></a>
+      </div>
+      <div class="user" id="user">
+        <a href="#" class="user-link">no name</a>
+        <div class="user-img-wrapper">
+          <img src="images/useravatar.png" alt="User 1" />
+        </div>
+      </div>
+    </nav>
+    <main class="main">
+      <section class="sidebar">
+        <h3>LEGO</h3>
+        <ul class="menu">
+          <li>
+            <a href="#" title="Home">
+              <i class="fas fa-home"></i>
+              <span>Home</span>
+            </a>
+          </li>
+          <li class="menu-heading">
+            <h3>Products</h3>
+          </li>
+          <li>
+            <a href="/upload.html" title="Add Products">
+              <i class="fas fa-tachometer-alt"></i>
+              <span>Add Product</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" title="Edit Products">
+              <i class="fas fa-tachometer-alt"></i>
+              <span>Edit Product</span>
+            </a>
+          </li>
+          <li>
+            <a href="/remove.html" title="Remove Products">
+              <i class="fas fa-tachometer-alt"></i>
+              <span>Remove Product</span>
+            </a>
+          </li>
+          <li class="menu-heading">
+            <h3>Other</h3>
+          </li>
+          <li>
+            <a href="#" class="active" title="Orders">
+              <i class="fas fa-sitemap"></i>
+              <span>Orders</span>
+            </a>
+          </li>
+          <li>
+            <a href="/" title="Homepage">
+              <i class="fas fa-home"></i>
+              <span>Return to Homepage</span>
+            </a>
+          </li>
+        </ul>
+      </section>
+      <section class="page-content">
+      </section>
+    </main>
+    <script src="admin.js" async defer></script>
+  </body>
+</html>

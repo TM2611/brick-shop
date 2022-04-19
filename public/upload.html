@@ -1,0 +1,41 @@
+<!doctype html>
+<title>Upload Product – Lego</title>
+
+<h1><a href="/admin.html">Admin Dashboard</a></h1>
+
+<h2>Upload a Product</h2>
+
+<!-- TODO: change all instances of /test/* to /admin/* once auth fixed-->
+<form action="/test/upload" method="post" enctype="multipart/form-data">
+  <p><input name="name" type="text" autofocus size="40" placeholder="product name" minlength="4" maxlength="100" required></p>
+  <p><input name="desc" type="text" autofocus size="40" placeholder="product description" minlength="4" maxlength="100" required></p>
+  <p><input name="price" type="number" autofocus size="40" placeholder="product price (pence)" minlength="1" maxlength="100" required></p>
+  <!-- TODO: force enter colour from one of the presets in colour filters-->
+  <p>
+    <!-- TODO: validate -->
+    <input list="product-colour" name="colour" placeholder="product colour" required>
+    <datalist id="product-colour">
+      <option value="black">
+      <option value="blue">
+      <option value="brown">
+      <option value="green">
+      <option value="grey">
+      <option value="orange">
+      <option value="purple">
+      <option value="red">
+      <option value="white">
+      <option value="yellow">        
+    </datalist>
+  </p>
+  <p>
+    <!-- TODO: validate -->
+    <input list="product-category" name="category" placeholder="product-category" required>
+    <datalist id="product-category">
+      <option value="brick">
+      <option value="plate">      
+    </datalist>
+  </p>
+  <p><input name="stock" type="number" autofocus size="40" placeholder="units in stock" minlength="1" maxlength="6" required></p>
+  <p><input name="picfile" type="file" accept="image/*"></p>
+  <p><input name="submit" type="submit" value="Upload"></p>
+</form>

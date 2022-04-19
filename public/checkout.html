@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang = "en">
+  <head>
+    <title>Lego Store</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <link rel="icon" href="data:,"><!-- prevent favicon requests -->
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/76f1f6b390.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+
+    <div class="checkout-sections-container hide">
+      <div class="checkout-page-header"></div>
+      <div class="address-section">
+        <div class="address-header section-header">
+          <h3 class="checkout-step">1</h3>
+          <h3 class="header-title">Delivery Address</h3>
+        </div>
+        <!-- Address section -->
+        <div class="display-address">
+          <ul class="display-address-ul">
+            <li class="display-address-name">Mr Taylor McFarlane</li>
+            <li class="display-address-line1">123 Malibu Road</li>
+            <li class="display-address-line2">Southsea</li>
+            <li class="display-address-region">Portsmouth</li>
+            <li class="display-address-post-code">PO24H6</li>            
+          </ul>
+        </div>
+        <div class="change-address">Change</div>
+      </div>
+      <!-- Payemnt section -->
+      <div class="payment-method-section">
+        <div class="payment-method-header section-header">
+          <h3 class="checkout-step">2</h3>
+          <h3 class="header-title">Payment Method</h3>
+        </div>
+        <div class="payment-info-container">
+          <!-- hide on submit -->
+          <div class="payment-input-fields">
+            <div class="payment-card-input-container">
+              <label for="cn-field">Card Number:</label>
+              <input id="cn-field" type="tel" inputmode="numeric" pattern="[0-9\s]{13,19}" autocomplete="cc-number" maxlength="19" placeholder="xxxx xxxx xxxx xxxx">
+            </div>
+            <div class="payment-name-input-container">
+              <label for="payment-name-field">Name on card:</label>
+              <input id="payment-name-field" type="text" maxlength="50">
+            </div>
+            <!-- TODO: implement user friendly dropdown for expiry-->
+            <div class="expiry-input-container">
+              <label for="exipry-field">Expiration date:</label>
+              <input id="expiry-field" type="text" maxlength="50">
+            </div>
+          </div>
+          
+          <div class="payment-info-display">
+            <!-- Display info submmited in forms -->
+          </div>
+
+        </div>
+        <div class="promo-code">
+          <p class="promo-prompt">Add a promo code</p>
+          <input type="text" class="promo-field">
+          <input type="submit" class="promo-submit">
+        </div>
+        <div class="change-payment">Change</div>
+      </div>
+      <!-- Review section -->
+      <div class="review-section">
+        <div class="review-header section-header">
+          <h3 class="checkout-step">3</h3>
+          <h3 class="header-title">Review</h3>
+        </div>
+        <template id ="checkout-item-template">
+          <div class="checkout-item"> 
+            <img id = "checkout-item-img">
+            <div class="checkout-item-info">
+              <p id = "checkout-item-name"></p>
+              <div class="checkout-price-quantity">
+                <p class="checkout-item-quantity"></p> 
+                <p id="checkout-item-price"></p>
+              </div>
+            </div>
+          </div>
+        </template>
+        <div class="review-box">
+          <div class="review-box-title-container">
+            <h2 class="review-box-title">
+              <span class="box-title-basket"></span>
+              <span class="box-title-items"></span>
+            </h2>
+          </div>
+          <div class="checkout-items-container">
+            <!-- Dynamically added with JS -->
+          </div>
+          <div class="review-box-footer">
+            <div class="review-box-order-total">
+              <span id="review-box-pre-total">
+                <!-- Dynamically added with JS incase basket is empty-->
+              </span>
+              <span class="review-box-total-value"></span>
+            </div>
+          </h3>
+          </div>
+        </div>
+        <div class="review-section-footer">
+          <div class="continue-shopping"><a href="./index.html">Continue shopping</a></div>
+          <input type="submit" class="buy-btn" value="Buy Now">
+        </div>
+      </div>
+      <div class="summary-section"></div>
+    </div>
+    <div class="empty-checkout">
+      <div id="empty-checkout-msg">Your basket is Empty</div>
+      <input type="submit" class="empty-continue-btn" value="Continue Shopping">
+    </div>
+
+
+
+    <script type="module" src="checkout.js" async defer></script>
+    <script src="https://cdn.auth0.com/js/auth0-spa-js/1.13/auth0-spa-js.production.js"></script>
+  </body>
+</html>
