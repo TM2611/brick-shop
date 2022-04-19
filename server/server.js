@@ -209,7 +209,7 @@ app.delete('/test/product/name/:name', asyncWrap(deleteAllProductsByName));
 //   res.send(`${product.ProductName} added, ID:${product.ProductID}`)
 // }
 
-async function putStock(req, res){
+async function putProcessOrder(req, res){
   const result = await pjs.processOrder(req)
   if(!result){
     //res.status(404).send('Purchase Failed');
@@ -219,4 +219,38 @@ async function putStock(req, res){
   }
 }
 
-app.put('/checkout/submit/:userID/:basket', asyncWrap(putStock))
+async function putAdminIncreaseStock(req, res){
+  const result = await pjs.adminIncreaseProductStock(req)
+  if(!result){
+    //res.status(404).send('Purchase Failed');
+    console.log('Stock Update Failed');
+  }else{
+    console.log('Stock Update Succesful');
+  }
+}
+
+async function putAdminDecreaseStock(req, res){
+  const result = await pjs.adminDecreaseProductStock(req)
+  if(!result){
+    //res.status(404).send('Purchase Failed');
+    console.log('Stock Update Failed');
+  }else{
+    console.log('Stock Update Succesful');
+  }
+}
+async function putAdminSetProductStock(req, res){
+  const result = await pjs.adminSetProductStock(req)
+  if(!result){
+    //res.status(404).send('Purchase Failed');
+    console.log('Stock Update Failed');
+  }else{
+    console.log('Stock Update Succesful');
+  }
+}
+
+
+
+app.put('/checkout/submit/:userID/:basket', asyncWrap(putProcessOrder))
+app.put('/test/product/increase/productID/quantity', asyncWrap(putAdminIncreaseStock))
+app.put('/test/product/decrease/productID/quantity', asyncWrap(putAdminDecreaseStock))
+app.put('/test/product/set/productID/quantity', asyncWrap(putAdminSetProductStock))
