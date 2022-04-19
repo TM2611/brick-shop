@@ -64,6 +64,36 @@ export async function findProduct(id) {
   return db.get('SELECT * FROM Product WHERE ProductID = ?', id);
 }
 
+
+//TODO: order table
+export async function processOrder(req){
+  const db = await dbConn;
+  const userID = req.params.userID;
+  const basket = new Map (JSON.parse(req.params.basket))
+  for (const [productID, quantityOrdered] of basket.entries()) {
+    const stmnt = await db.get('SELECT UnitsInStock FROM Product WHERE ProductID = ?', productID);
+    const currentStock = stmnt.UnitsInStock;
+    if(quantityOrdered >= currentStock){
+      // TODO: tell customer
+      throw new Error('Quantity ordered exceeds stock level')
+    }
+    const updatedStock = currentStock - quantityOrdered;
+    const updateStatement = await db.run('UPDATE Product SET UnitsInStock = ? WHERE ProductID = ?', [updatedStock, productID]);
+    
+    // if nothing was updated, the productID doesn't exist
+    if (updateStatement.changes === 0) throw new Error('product not found');
+    console.log(productID,"old stock:",currentStock);
+    console.log(productID,"new stock:",updatedStock);
+  }
+  return true //TODO: return true acceptable?
+}
+
+
+
+
+
+// --------------------- ADMIN ----------------------------- //
+
 export async function addProduct(req){
   const db = await dbConn;
   const id = uuid()
@@ -92,6 +122,18 @@ export async function addProduct(req){
   return product
 }
 
+// TODO: Update existing product?
+export async function increaseProductStock(req){
+
+}
+
+export async function decreaseProductStock(req){
+
+}
+
+export async function setProductStock(req){
+
+}
 
 export async function deleteProduct(req){
   const db = await dbConn;
@@ -102,17 +144,6 @@ export async function deleteProduct(req){
   if (statement.changes === 0) throw new Error('Product not found');
   return product
 }
-
-
-// TODO: Update existing product?
-
-export async function processOrder(req){
-  const userID = req.params.userID;
-  const basket = new Map (JSON.parse(req.params.basket))
-  console.log(userID);
-
-}
-
 
 // Test functions - remove EVERYTHING below when done
 

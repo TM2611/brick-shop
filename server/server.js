@@ -119,7 +119,6 @@ async function postProduct(req, res){
 // TODO: return admin back to remove.html + update text content of '#server-response'
 async function deleteProduct(req, res){
   const deletedProduct = await pjs.deleteProduct(req)
-  console.log(res.body);
   res.status(200)
   .send(`Removed product: ${deletedProduct.ProductName} (ID: ${deletedProduct.ProductID})`) //TODO: incorrect response
 }
@@ -211,7 +210,13 @@ app.delete('/test/product/name/:name', asyncWrap(deleteAllProductsByName));
 // }
 
 async function putStock(req, res){
-  const resp = await pjs.processOrder(req)
+  const result = await pjs.processOrder(req)
+  if(!result){
+    //res.status(404).send('Purchase Failed');
+    console.log('Purchase Failed');
+  }else{
+    console.log('Purchase Succesful');
+  }
 }
 
 app.put('/checkout/submit/:userID/:basket', asyncWrap(putStock))
