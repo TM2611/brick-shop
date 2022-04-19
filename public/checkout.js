@@ -72,7 +72,22 @@ function renderOrderTotal(total){
   totalDOM.textContent = total.toFixed(2);
 }
 
+
+async function submitOrder(){
+  const basket = JSON.stringify(Array.from(ba.basket));
+  const userID = 'placeholderID'
+
+  const orderFetchOptions = {
+    credentials: 'same-origin',
+    method: 'PUT',
+    headers: { 'content-type': 'application/json' },
+  };
+  const response = await fetch(`/checkout/submit/${userID}/${basket}`, orderFetchOptions)
+}
+
+
 function setupListeners() {
+  document.querySelector('.buy-btn').addEventListener('click', submitOrder)
 }
 
 

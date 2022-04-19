@@ -106,7 +106,12 @@ export async function deleteProduct(req){
 
 // TODO: Update existing product?
 
+export async function processOrder(req){
+  const userID = req.params.userID;
+  const basket = new Map (JSON.parse(req.params.basket))
+  console.log(userID);
 
+}
 
 
 // Test functions - remove EVERYTHING below when done

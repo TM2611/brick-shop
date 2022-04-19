@@ -133,13 +133,6 @@ async function getProduct(req, res){
   res.json(product)
 }
 
-// wrap async function for express.js error handling
-function asyncWrap(f) {
-  return (req, res, next) => {
-    Promise.resolve(f(req, res, next))
-      .catch((e) => next(e || new Error()));
-  };
-}
 
 async function getSingleSorted(req, res) {
   const result = await pjs.sortAllSingles(req.params.sort)
@@ -149,6 +142,17 @@ async function getSingleSorted(req, res) {
   }
   res.json(result);
 }
+
+// wrap async function for express.js error handling
+function asyncWrap(f) {
+  return (req, res, next) => {
+    Promise.resolve(f(req, res, next))
+      .catch((e) => next(e || new Error()));
+  };
+}
+
+
+
 
 //Routes
 app.get('/single', asyncWrap(getAllSingles));
@@ -161,6 +165,7 @@ app.post('/test/upload', upload.single('picfile'), asyncWrap(postProduct));
 app.post('/test/product/id', asyncWrap(deleteProduct)); 
 app.get('/test/product/:id', asyncWrap(getProduct));
 app.delete('/test/product/name/:name', asyncWrap(deleteAllProductsByName));
+
 
 app.get('/profile', async (req, res) => {
   const userId = auth0.getUserID(req); //TODO: UserID returning null
@@ -193,3 +198,20 @@ async function addAProduct(req, res){
 }
 
 app.delete('/test/product/name/:name', asyncWrap(deleteAllProductsByName));
+
+
+
+// async function postProduct(req, res){
+//   const product = await pjs.addProduct(req)
+//   if (!product) {
+//     res.status(404).send('Failed to add product');
+//     return;
+//   }
+//   res.send(`${product.ProductName} added, ID:${product.ProductID}`)
+// }
+
+async function putStock(req, res){
+  const resp = await pjs.processOrder(req)
+}
+
+app.put('/checkout/submit/:userID/:basket', asyncWrap(putStock))
