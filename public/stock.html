@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Remove Product</title>
+    <title>Admin</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="style.css">
@@ -89,17 +89,9 @@
 
 
       <section class="page-content">
-        <h2 class="remove-heading">Remove a Product</h2>
-        <!-- TODO: change /test/upload to /admin/upload once auth fixed-->
-          <p class ="remove-prompt">Enter the ID of the product you wish to remove</p>
-          <form id ="removeProduct" action="/test/product/id" method="post" enctype="application/x-www-form-urlencoded">
-            <p><input id ="id-input" name="id" type="text" autofocus size="40" placeholder="product ID" minlength="4" maxlength="100" required></p>
-            <p><input name="submit" type="submit" value="Submit"></p>
-          </form>
-        </section>
-        <pre id="server-response"></pre>
+        
       </section>
     </main>
-    <script src="remove.js" async defer></script>
+    <script src="stock.js" async defer></script>
   </body>
 </html>

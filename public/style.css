@@ -68,11 +68,11 @@ label {
   text-decoration: none;
 }
 
-.filters ul li.active {
+.filters ul li.admin-active {
   background: var(--gra);
 }
 
-.filters ul li.active a {
+.filters ul li.admin-active a {
   color: white;
   font-weight: bold;
 }
@@ -822,7 +822,7 @@ button:not(:disabled),
   color: #97989a;
 }
 
-.admin-nav .icons .active {
+.admin-nav .icons .admin-active {
   color: #1aa1f5;
 }
 
@@ -872,7 +872,7 @@ button:not(:disabled),
 }
 
 /* main */
-.main {
+.admin-main-container {
   display: grid;
   grid-template-columns: 28rem 2fr;
   overflow: hidden;
@@ -947,7 +947,7 @@ button:not(:disabled),
   outline: none;
 }
 
-.sidebar .menu a.active {
+.sidebar .menu a.admin-active {
   background: var(--sidebar-bgColor-hover);
   color: var(--white);
   outline: none;
