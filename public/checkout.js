@@ -83,6 +83,11 @@ async function submitOrder(){
     headers: { 'content-type': 'application/json' },
   };
   const response = await fetch(`/checkout/submit/${userID}/${basket}`, orderFetchOptions)
+  let orderStatus;
+  if (response.ok){
+     orderStatus = await response.json();
+     console.log(orderStatus);
+  }
 }
 
 

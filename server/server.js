@@ -212,40 +212,45 @@ app.delete('/test/product/name/:name', asyncWrap(deleteAllProductsByName));
 async function putProcessOrder(req, res){
   const result = await pjs.processOrder(req)
   if(!result){
-    //res.status(404).send('Purchase Failed');
     console.log('Purchase Failed');
-  }else{
-    console.log('Purchase Succesful');
+    res.status(404).send('Purchase Failed');
+    return
   }
+  console.log('Purchase Succesful');
+  res.json(result);
 }
 
 async function putAdminIncreaseStock(req, res){
   const result = await pjs.adminIncreaseProductStock(req)
   if(!result){
-    //res.status(404).send('Purchase Failed');
-    console.log('Stock Update Failed');
-  }else{
-    console.log('Stock Update Succesful');
+    console.log('Stock Increase Failed');
+    res.status(404).send('Stock Increase Failed');
+    return
   }
+  console.log('Stock Increase Succesful');
+  res.json(result);
 }
 
 async function putAdminDecreaseStock(req, res){
   const result = await pjs.adminDecreaseProductStock(req)
   if(!result){
-    //res.status(404).send('Purchase Failed');
-    console.log('Stock Update Failed');
-  }else{
-    console.log('Stock Update Succesful');
+    res.status(404).send('Stock Removal Failed');
+    console.log('Stock Removal Failed');
+    return
   }
+  console.log('Stock Removal Succesful');
+  res.json(result)
 }
+
 async function putAdminSetProductStock(req, res){
   const result = await pjs.adminSetProductStock(req)
   if(!result){
-    //res.status(404).send('Purchase Failed');
+    res.status(404).send('Stock Update Failed');
     console.log('Stock Update Failed');
-  }else{
-    console.log('Stock Update Succesful');
+    return
   }
+  console.log('Stock Update Succesful');
+  res.json(result)
 }
 
 
