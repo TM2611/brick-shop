@@ -238,8 +238,17 @@ label {
   width: fit-content;
 }
 
+.products-container {
+  display: flex;
+  align-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  padding: 4vw;
+}
+
 .item {
-  margin: 2px;
+  margin: 25px;
   border: 1px solid grey;
   height: auto;
   width: auto;

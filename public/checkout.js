@@ -7,7 +7,6 @@ import * as fjs from './fetch.js';
 async function renderCheckoutPage(){
   const isBasketEmpty = localStorage.getItem('basket') === null;
   if (isBasketEmpty) {
-    debugger
     document.querySelector('.empty-continue-btn').addEventListener("click", 
     main.homePage);    
     return;
