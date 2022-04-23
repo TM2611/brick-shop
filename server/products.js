@@ -134,7 +134,11 @@ export async function addProduct(req){
   return product
 }
 
-// TODO: More ways to update existing product?
+export async function listAllProducts(req){
+  const db = await dbConn;
+  return db.all('SELECT * FROM Product ORDER BY UnitsInStock '); 
+}
+
 
 export async function adminIncreaseProductStock(req){
   const productID = req.body.productID;
