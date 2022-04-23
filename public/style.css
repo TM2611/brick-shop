@@ -249,12 +249,35 @@ label {
 
 .item .item-container {
   display: grid;
+  /* height: 30vh; */
+  max-height: 15rem;
+  /* width: 30vw; */
+  max-width: 20rem;
+  margin: 0 auto;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  position: relative;
+}
+
+/* .item .item-container {
+  display: grid;
   height: 30vh;
   width: 30vw;
   margin: 0 auto;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   position: relative;
-}
+} */
+
+/* .item .item-container {
+  display: grid;
+  height: 30vh;
+  max-height: 15rem;
+  width: 30vw;
+  max-width: 20rem;
+  margin: 0 auto;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  position: relative;
+} */
+
 
 #product-img {
   /* position: relative; */
