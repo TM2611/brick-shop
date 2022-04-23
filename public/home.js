@@ -14,6 +14,7 @@ async function renderProducts() {
     }
   }
   const products = await fjs.fetchSingles();
+  const container = document.querySelector('.products-container'); 
   products.forEach(product => {
     const t1 = document.querySelector('#product-template');
     const productTemplate = t1.content.cloneNode(true);
@@ -35,7 +36,7 @@ async function renderProducts() {
     productName.textContent = `${product.ProductName}`;
     productPrice.textContent = `£${(product.Price / 100).toFixed(2)}`;
     // productDesc.textContent = `${product.description}`;
-    document.body.append(productTemplate);
+    container.append(productTemplate);
   });
 }
 

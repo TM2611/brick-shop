@@ -1,7 +1,6 @@
 import * as auth from './auth.js';
 
 async function checkAdmin() {
-  debugger
   const token = await auth.auth0.getTokenSilently();
 
   const fetchOptions = {
