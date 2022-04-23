@@ -31,8 +31,6 @@ const storage = multer.diskStorage({
 });
 const upload = multer({storage: storage})
 
- // protect /admin from unauthenticated users
-app.use('/admin', auth0.checkJwt);
 
 
 //Middleware to allow us to handle URL encoded data
@@ -42,7 +40,10 @@ app.use(express.urlencoded({extended: false}));
 // Middleware to configure individual routes to look for 'read:admin' scope
 const checkScopes = requiredScopes('read:admin');
 
-app.get('/admin', auth0.checkJwt, checkScopes, function(req, res) {
+// protect /admin from unauthenticated users
+app.use('/admin', auth0.checkJwt);
+
+app.get('/admin/check', auth0.checkJwt, checkScopes, function(req, res) {
   console.log(checkScopes);
   res.json({
     message: 'Hello from a private endpoint! You need to be authenticated and have a scope of read:admin to see this.'
@@ -58,11 +59,11 @@ app.get('/auth_config', (req, res) => {
   res.json(authConfig);
 });
 
-app.get('/admin', (req, res) => {
-  res.send({
-    msg: 'Accessed admin page',
-  });
-});
+// app.get('/admin', (req, res) => {
+//   res.send({
+//     msg: 'Accessed admin page',
+//   });
+// });
 
 async function getAllSingles(req, res) {
   res.json(await pjs.findAllSingles());

@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */ // not recgonising fetch?
 export async function fetchAuthConfig() {
   // eslint-disable-next-line no-undef
-  const response = await fetch('./auth_config');
+  const response = await fetch('/auth_config');
   if (response.ok) {
     return response.json();
   } else {
@@ -14,6 +14,7 @@ export let auth0 = null;
 
 // Uses fetchAuthConfig to obtain the configuration file and initialize the auth0 variable
 export async function initializeAuth0Client() {
+  debugger
   const config = await fetchAuthConfig();
   auth0 = await createAuth0Client({
     domain: config.domain,
