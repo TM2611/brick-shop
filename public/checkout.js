@@ -1,4 +1,3 @@
-import * as main from './main.js';
 // import * as auth from './auth.js';
 import * as ba from './basket.js';
 import * as fjs from './fetch.js';
@@ -8,7 +7,7 @@ async function renderCheckoutPage(){
   const isBasketEmpty = localStorage.getItem('basket') === null;
   if (isBasketEmpty) {
     document.querySelector('.empty-continue-btn').addEventListener("click", 
-    main.homePage);    
+    homePage);    
     return;
   }
   const emptyCheckout = document.querySelector('.empty-checkout');
@@ -93,6 +92,11 @@ async function submitOrder(){
 function setupListeners() {
   document.querySelector('.buy-btn').addEventListener('click', submitOrder)
 }
+
+function homePage() {
+  window.location.pathname = 'index.html';
+}
+
 
 
 async function init() {

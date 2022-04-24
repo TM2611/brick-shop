@@ -1,6 +1,5 @@
 import * as fjs from './fetch.js';
 import * as auth from './auth.js';
-import * as main from './main.js';
 
 // TODO: have to clear localstorage after changing code? normal?
 export let basket; // IDs and quantities of items in basket

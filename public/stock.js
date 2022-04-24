@@ -1,5 +1,5 @@
 import * as fjs from './fetch.js';
-import * as main from './main.js';
+
 
 async function listProducts(){
   const t1 = document.querySelector('.stock-server-response-template');
