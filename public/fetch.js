@@ -48,3 +48,36 @@ async function fetchSingleSorted(sortType){
   }
   return response.json();
 }
+
+export async function fetchAllProducts(sortType){
+  const response = await fetch('/test/product/stock/list');
+  if (!response.ok) {
+    throw response;
+  }
+  return response.json();
+}
+
+export async function fetchStockIncrease(id,quantity){
+  const response = await fetch('/test/product/increase/productID/quantity');
+  if (!response.ok) {
+    throw response;
+  }
+  return response.json();
+}
+
+export async function fetchStockDecrease(){
+  const response = await fetch('/test/product/decrease/productID/quantity');
+  if (!response.ok) {
+    throw response;
+  }
+  return response.json();
+}
+
+export async function fetchSetStock(){
+  const response = await fetch('/test/product/set/productID/quantity');
+  if (!response.ok) {
+    throw response;
+  }
+  return response.json();
+}
+

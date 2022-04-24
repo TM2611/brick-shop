@@ -90,37 +90,31 @@
 
       <section class="page-content">
           <div class="stock-options">
-            <!-- Add to product stock-->
-            <div class="add-stock-container">
-              <div class="stock-img-container">
-                <img src="https://via.placeholder.com/85x85.png" alt="">
+            <button class="add-stock-btn">Add Stock</button>
+            <button class="remove-stock-btn">Remove Stock</button>
+            <button class="set-stock-btn">Set Stock</button>
+          </div>
+          <template class ="stock-server-response-template">
+            <div class="stock-product-container">
+              <!-- <img class="stock-product-img"></img> -->
+              <div class="stock-product-id-container">
+                <div class="stock-product-id"></div>
               </div>
-              <div class="stock-text-container">
-                <p class="add-stock-text">Add Product Stock</h>
+              <div class="stock-product-name-container">
+                <div class="stock-product-name"></div>
               </div>
-            </div>
-            <!-- Remove from product stock -->
-            <div class="remove-stock-container">
-              <div class="stock-img-container">
-                <img src="https://via.placeholder.com/85x85.png" alt="">
-              </div>
-              <div class="stock-text-container">
-                <p class="add-stock-text">Remove Product Stock</p>
-              </div>
-            </div>
-            <!-- Set product stock level -->
-            <div class="set-stock-container">
-              <div class="stock-img-container">
-                <img src="https://via.placeholder.com/85x85.png" alt="">
-              </div>
-              <div class="stock-text-container">
-                <p class="add-stock-text">Set Product Stock</p>
+              <div class="stock-product-qty-container">
+                <div class="stock-product-qty"></div>
               </div>
             </div>
+          </template>
+          <div class="stock-server-response-container">
+
+
           </div>
     
       </section>
     </main>
-    <script src="stock.js" async defer></script>
+    <script type= "module" src="stock.js" async defer></script>
   </body>
 </html>

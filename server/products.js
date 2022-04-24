@@ -136,7 +136,7 @@ export async function addProduct(req){
 
 export async function listAllProducts(req){
   const db = await dbConn;
-  return db.all('SELECT * FROM Product ORDER BY UnitsInStock '); 
+  return db.all('SELECT * FROM Product'); 
 }
 
 

@@ -69,6 +69,10 @@ async function getAllSingles(req, res) {
   res.json(await pjs.findAllSingles());
 }
 
+async function getAllProducts(req, res) {
+  res.json(await pjs.listAllProducts());
+}
+
 
 async function getSingleColour(req, res) {
   const result = await pjs.filterColour(req.params.colour)
@@ -164,7 +168,19 @@ app.get('/single/colour/:colour/MostPopular', asyncWrap(getMostPopular));
 app.post('/test/upload', upload.single('picfile'), asyncWrap(postProduct));
 app.post('/test/product/id', asyncWrap(deleteProduct)); 
 app.get('/test/product/:id', asyncWrap(getProduct));
+app.put('/checkout/submit/:userID/:basket', asyncWrap(putProcessOrder))
 app.delete('/test/product/name/:name', asyncWrap(deleteAllProductsByName));
+//ADMIN
+
+
+
+app.get('/test/product/stock/list', asyncWrap(getAllProducts));
+
+
+
+app.put('/test/product/increase/productID/quantity', asyncWrap(putAdminIncreaseStock))
+app.put('/test/product/decrease/productID/quantity', asyncWrap(putAdminDecreaseStock))
+app.put('/test/product/set/productID/quantity', asyncWrap(putAdminSetProductStock))
 
 
 app.get('/profile', async (req, res) => {
@@ -256,7 +272,3 @@ async function putAdminSetProductStock(req, res){
 
 
 
-app.put('/checkout/submit/:userID/:basket', asyncWrap(putProcessOrder))
-app.put('/test/product/increase/productID/quantity', asyncWrap(putAdminIncreaseStock))
-app.put('/test/product/decrease/productID/quantity', asyncWrap(putAdminDecreaseStock))
-app.put('/test/product/set/productID/quantity', asyncWrap(putAdminSetProductStock))
