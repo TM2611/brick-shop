@@ -141,8 +141,8 @@ export async function listAllProducts(req){
 
 
 export async function adminIncreaseProductStock(req){
-  const productID = req.body.productID;
-  const quantity = parseInt(req.body.quantity);
+  const productID = req.params.id;
+  const quantity = parseInt(req.params.quantity);
   const result = await increaseProductStock(productID, quantity);
   if (!result){
     throw new Error('Stock update Failed')
@@ -151,8 +151,8 @@ export async function adminIncreaseProductStock(req){
 }
 
 export async function adminDecreaseProductStock(req){
-  const productID = req.body.productID;
-  const quantity = parseInt(req.body.quantity);
+  const productID = req.params.id;
+  const quantity = parseInt(req.params.quantity);
   const result = await decreaseProductStock(productID, quantity);
   if (!result){
     throw new Error('Stock update Failed');
@@ -161,8 +161,8 @@ export async function adminDecreaseProductStock(req){
 }
 
 export async function adminSetProductStock(req){
-  const productID = req.body.productID;
-  const quantity = parseInt(req.body.quantity);
+  const productID = req.params.id;
+  const quantity = parseInt(req.params.quantity);
   const result = await setProductStock(productID, quantity);
   if (!result){
     throw new Error('Stock update Failed');

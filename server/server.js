@@ -147,6 +147,52 @@ async function getSingleSorted(req, res) {
   res.json(result);
 }
 
+async function putProcessOrder(req, res){
+  const result = await pjs.processOrder(req)
+  if(!result){
+    console.log('Purchase Failed');
+    res.status(404).send('Purchase Failed');
+    return
+  }
+  console.log('Purchase Succesful');
+  res.json(result);
+}
+
+// ADMIN
+async function putAdminIncreaseStock(req, res){
+  const result = await pjs.adminIncreaseProductStock(req)
+  if(!result){
+    console.log('Stock Increase Failed');
+    res.status(404).send('Stock Increase Failed');
+    return
+  }
+  console.log('Stock Increase Succesful');
+  res.json(result);
+}
+
+async function putAdminDecreaseStock(req, res){
+  const result = await pjs.adminDecreaseProductStock(req)
+  if(!result){
+    res.status(404).send('Stock Removal Failed');
+    console.log('Stock Removal Failed');
+    return
+  }
+  console.log('Stock Removal Succesful');
+  res.json(result)
+}
+
+async function putAdminSetProductStock(req, res){
+  const result = await pjs.adminSetProductStock(req)
+  if(!result){
+    res.status(404).send('Stock Update Failed');
+    console.log('Stock Update Failed');
+    return
+  }
+  console.log('Stock Update Succesful');
+  res.json(result)
+}
+
+
 // wrap async function for express.js error handling
 function asyncWrap(f) {
   return (req, res, next) => {
@@ -155,10 +201,7 @@ function asyncWrap(f) {
   };
 }
 
-
-
-
-//Routes
+//ROUTES
 app.get('/single', asyncWrap(getAllSingles));
 app.get('/single/sort/:sort', asyncWrap(getSingleSorted));
 app.get('/single/colour/:colour', asyncWrap(getSingleColour));
@@ -169,18 +212,13 @@ app.post('/test/upload', upload.single('picfile'), asyncWrap(postProduct));
 app.post('/test/product/id', asyncWrap(deleteProduct)); 
 app.get('/test/product/:id', asyncWrap(getProduct));
 app.put('/checkout/submit/:userID/:basket', asyncWrap(putProcessOrder))
-app.delete('/test/product/name/:name', asyncWrap(deleteAllProductsByName));
+
 //ADMIN
-
-
-
 app.get('/test/product/stock/list', asyncWrap(getAllProducts));
+app.put('/test/product/increase/:id/:quantity', asyncWrap(putAdminIncreaseStock))
+app.put('/test/product/decrease/:id/:quantity', asyncWrap(putAdminDecreaseStock))
+app.put('/test/product/set/:id/:quantity', asyncWrap(putAdminSetProductStock))
 
-
-
-app.put('/test/product/increase/productID/quantity', asyncWrap(putAdminIncreaseStock))
-app.put('/test/product/decrease/productID/quantity', asyncWrap(putAdminDecreaseStock))
-app.put('/test/product/set/productID/quantity', asyncWrap(putAdminSetProductStock))
 
 
 app.get('/profile', async (req, res) => {
@@ -226,49 +264,7 @@ app.delete('/test/product/name/:name', asyncWrap(deleteAllProductsByName));
 //   res.send(`${product.ProductName} added, ID:${product.ProductID}`)
 // }
 
-async function putProcessOrder(req, res){
-  const result = await pjs.processOrder(req)
-  if(!result){
-    console.log('Purchase Failed');
-    res.status(404).send('Purchase Failed');
-    return
-  }
-  console.log('Purchase Succesful');
-  res.json(result);
-}
 
-async function putAdminIncreaseStock(req, res){
-  const result = await pjs.adminIncreaseProductStock(req)
-  if(!result){
-    console.log('Stock Increase Failed');
-    res.status(404).send('Stock Increase Failed');
-    return
-  }
-  console.log('Stock Increase Succesful');
-  res.json(result);
-}
-
-async function putAdminDecreaseStock(req, res){
-  const result = await pjs.adminDecreaseProductStock(req)
-  if(!result){
-    res.status(404).send('Stock Removal Failed');
-    console.log('Stock Removal Failed');
-    return
-  }
-  console.log('Stock Removal Succesful');
-  res.json(result)
-}
-
-async function putAdminSetProductStock(req, res){
-  const result = await pjs.adminSetProductStock(req)
-  if(!result){
-    res.status(404).send('Stock Update Failed');
-    console.log('Stock Update Failed');
-    return
-  }
-  console.log('Stock Update Succesful');
-  res.json(result)
-}
 
 
 
