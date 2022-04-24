@@ -1,7 +1,3 @@
-import * as auth from './auth.js';
-
-
-
 function setupListeners() {
   // Setup future listeners;
   // formFetchListener()

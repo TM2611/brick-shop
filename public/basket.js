@@ -1,6 +1,5 @@
 import * as fjs from './fetch.js';
 import * as auth from './auth.js';
-import * as main from './main.js';
 
 // TODO: have to clear localstorage after changing code? normal?
 export let basket; // IDs and quantities of items in basket
@@ -20,7 +19,7 @@ export async function initBasket() {
   if(window.location.href.indexOf("checkout") != -1){ //if on checkout page
     return;
   }
-  const products = await fjs.fetchAllSingles(); // retrieve from storage / DB ?
+  const products = await fjs.fetchAllSingles();
   const basketDOM = document.querySelector('.basket');
   const basketQuantityDOM = document.querySelector('.basket-quantity');
   const t2 = document.querySelector('#basket-item-template');
@@ -43,8 +42,8 @@ export async function initBasket() {
     basketItemDOM.dataset.id = product.ProductID; // Set ID in DOM
     basketQuantityDOM.textContent = basketQuantity + 1;
     removeItemBtn.textContent = 'Remove';
-    img.src = `${product.ProductImage}`;
-    img.alt = `${product.ProductImage}`;
+    img.src = product.ProductImage;
+    img.alt = `${product.ProductName} Image`;
     productName.textContent = product.ProductName;
     productPriceDOM.textContent = price.toFixed(2);
     increaseBtn.addEventListener('click', increaseItemQuantity);
@@ -154,7 +153,7 @@ export async function AddToBasket(e) {
   basketItemDOM.dataset.id = itemID; // Set ID in DOM
   removeItemBtn.textContent = 'Remove';
   img.src = `${product.ProductImage}`;
-  img.alt = `${product.ProductImage}`;
+  img.alt = `${product.ProductName} Image`;
   productName.textContent = product.ProductName;
   productPriceDOM.textContent = price.toFixed(2);
   increaseBtn.addEventListener('click', increaseItemQuantity);

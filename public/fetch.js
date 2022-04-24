@@ -48,3 +48,49 @@ async function fetchSingleSorted(sortType){
   }
   return response.json();
 }
+
+export async function fetchAllProducts(sortType){
+  const response = await fetch('/test/product/stock/list');
+  if (!response.ok) {
+    throw response;
+  }
+  return response.json();
+}
+
+export async function fetchStockIncrease(id,quantity){
+  const fetchOptions = {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' }
+  }
+  const response = await fetch(`/test/product/increase/${id}/${quantity}`, fetchOptions);
+  if (!response.ok) {
+    throw response;
+  }
+  return response.json();
+}
+
+export async function fetchStockDecrease(id,quantity){
+  const fetchOptions = {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' }
+  }
+  const response = await fetch(`/test/product/decrease/${id}/${quantity}`, fetchOptions);
+  if (!response.ok) {
+    throw response;
+  }
+  return response.json();
+}
+
+export async function fetchSetStock(id,quantity){
+  const fetchOptions = {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' }
+  }
+  const response = await fetch(`/test/product/set/${id}/${quantity}`, fetchOptions);
+  console.log('fetchSetStock');
+  if (!response.ok) {
+    throw response;
+  }
+  return response.json();
+}
+

@@ -68,11 +68,11 @@ label {
   text-decoration: none;
 }
 
-.filters ul li.active {
+.filters ul li.admin-active {
   background: var(--gra);
 }
 
-.filters ul li.active a {
+.filters ul li.admin-active a {
   color: white;
   font-weight: bold;
 }
@@ -238,8 +238,17 @@ label {
   width: fit-content;
 }
 
+.products-container {
+  display: flex;
+  align-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  padding: 4vw;
+}
+
 .item {
-  margin: 2px;
+  margin: 25px;
   border: 1px solid grey;
   height: auto;
   width: auto;
@@ -249,21 +258,44 @@ label {
 
 .item .item-container {
   display: grid;
-  height: 22vh;
+  /* height: 30vh; */
+  max-height: 20rem;
+  /* width: 30vw; */
+  max-width: 20rem;
   margin: 0 auto;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   position: relative;
 }
 
-.item img {
-  width: 250px;
-  height: 250px;
-  display: inline;
-  margin: 3px;
+/* .item .item-container {
+  display: grid;
+  height: 30vh;
+  width: 30vw;
+  margin: 0 auto;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  position: relative;
+} */
+
+/* .item .item-container {
+  display: grid;
+  height: 30vh;
+  max-height: 15rem;
+  width: 30vw;
+  max-width: 20rem;
+  margin: 0 auto;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  position: relative;
+} */
+
+
+#product-img {
+  width: 14rem;
+  height: 14rem;
+  margin: 0 auto;
 }
 
-.item img:hover {
-  border: 1px solid yellow;
+.item-container:hover {
+  border: 2px solid yellow;
 }
 
 .product-img {
@@ -280,14 +312,16 @@ label {
 }
 
 .item .item-container .product-info {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 15% .75rem .75rem .75rem;
+  /* position: absolute; */
+  /* bottom: 0; */
+  /* left: 0; */
+  /* right: 0; */
+  padding: 0 2rem 2rem 1.2rem;
+  /* padding-top: 20rem; */
   background-color: transparent;
   background-position-y: -1px;
   text-align: left;
+  /* height: 2rem; */
 }
 
 
@@ -295,9 +329,8 @@ label {
   display: flex;
   justify-content: center;
   align-items: center;
-  bottom: 30px;
+  bottom: 10px;
   right: 10px;
-
   position: absolute;
 }
 
@@ -822,7 +855,7 @@ button:not(:disabled),
   color: #97989a;
 }
 
-.admin-nav .icons .active {
+.admin-nav .icons .admin-active {
   color: #1aa1f5;
 }
 
@@ -872,7 +905,7 @@ button:not(:disabled),
 }
 
 /* main */
-.main {
+.admin-main-container {
   display: grid;
   grid-template-columns: 28rem 2fr;
   overflow: hidden;
@@ -883,6 +916,7 @@ button:not(:disabled),
 .sidebar {
   grid-column: 1 / 2;
   height: 100vh;
+  max-width: 28vw;
   overflow: auto;
   color: var(--sidebar-txtColor);
   background: var(--sidebar-bgColor);
@@ -947,7 +981,7 @@ button:not(:disabled),
   outline: none;
 }
 
-.sidebar .menu a.active {
+.sidebar .menu a.admin-active {
   background: var(--sidebar-bgColor-hover);
   color: var(--white);
   outline: none;
@@ -1075,4 +1109,86 @@ button:not(:disabled),
 .remove-prompt {
   font-size: 1.8rem;
   margin: 0.1rem 0;
+}
+
+/* Stock Page */
+
+.stock-options {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.stock-options>* {
+  border: solid 3px grey;
+  margin: 2rem;
+  width: 13vw;
+  height: 4vw;
+  border-radius: 20%;
+  font-size: 1.8rem;
+  pointer-events: auto;
+}
+
+.stock-option-selected {
+  border: solid 3px yellow;
+}
+
+.stock-list-container {
+  max-height: 60vh;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  border: solid 1px grey;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stock-product-container {
+  display: flex;
+  font-size: 1.8rem;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 5rem;
+  position: relative;
+}
+
+.stock-product-container:hover {
+  background: rgb(218, 214, 214);
+  cursor: pointer;
+}
+
+/* prevent events triggering on children */
+.stock-product-container * {
+  pointer-events: none;
+}
+
+.stock-product-id-container {
+  position: absolute;
+  left: 10px;
+}
+
+.stock-product-name-container {
+  position: absolute;
+  left: 50%;
+}
+
+.stock-product-qty-container {
+  position: absolute;
+  left: 75%;
+}
+
+/* .stock-product-img {
+  width: 100px;
+  height: 100px;
+  align-items: center;
+} */
+
+.stock-product-id {
+  font-size: 2rem;
+}
+
+.quantity-input-form {
+  font-size: 2rem;
+  margin: 2rem;
 }

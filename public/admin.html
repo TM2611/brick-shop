@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang = "en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -27,61 +27,68 @@
       <div class="user" id="user">
         <a href="#" class="user-link">no name</a>
         <div class="user-img-wrapper">
-          <img src="images/useravatar.png" alt="User 1" />
+          <!-- <img src="images/useravatar.png" alt="User 1" /> -->
         </div>
       </div>
     </nav>
-    <main class="main">
-      <section class="sidebar">
+    <main class="admin-main-container">
+      <nav class="sidebar">
         <h3>LEGO</h3>
         <ul class="menu">
           <li>
-            <a href="#" title="Home">
+            <a href="#" title="Home" class="admin-active">
               <i class="fas fa-home"></i>
-              <span>Home</span>
+              <span>Admin Dashboard</span>
             </a>
           </li>
           <li class="menu-heading">
             <h3>Products</h3>
           </li>
           <li>
-            <a href="/upload.html" title="Add Products">
+            <a href="/upload.html" title="Add New Product">
               <i class="fas fa-tachometer-alt"></i>
-              <span>Add Product</span>
+              <span>Add New Product</span>
             </a>
           </li>
           <li>
-            <a href="#" title="Edit Products">
+            <a href="/edit.html" title="Edit Product">
               <i class="fas fa-tachometer-alt"></i>
               <span>Edit Product</span>
             </a>
           </li>
           <li>
-            <a href="/remove.html" title="Remove Products">
+            <a href="/remove.html" title="Remove Product">
               <i class="fas fa-tachometer-alt"></i>
               <span>Remove Product</span>
+            </a>
+          </li>
+          <li>
+            <a href="/stock.html" title="Stock Management">
+              <i class="fas fa-tachometer-alt"></i>
+              <span>Stock Management</span>
             </a>
           </li>
           <li class="menu-heading">
             <h3>Other</h3>
           </li>
           <li>
-            <a href="#" class="active" title="Orders">
+            <a href="#" title="Orders">
               <i class="fas fa-sitemap"></i>
               <span>Orders</span>
             </a>
           </li>
           <li>
-            <a href="/" title="Homepage">
+            <a href="/" title="Return to Website">
+              <!-- TODO: Exit symbol -->
               <i class="fas fa-home"></i>
-              <span>Return to Homepage</span>
+              <span>Return to Website</span>
             </a>
           </li>
         </ul>
-      </section>
+      </nav>
       <section class="page-content">
       </section>
     </main>
-    <script src="admin.js" async defer></script>
+    <script type="module" src="admin.js" async defer></script>
   </body>
 </html>

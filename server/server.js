@@ -31,8 +31,6 @@ const storage = multer.diskStorage({
 });
 const upload = multer({storage: storage})
 
- // protect /admin from unauthenticated users
-app.use('/admin', auth0.checkJwt);
 
 
 //Middleware to allow us to handle URL encoded data
@@ -42,7 +40,10 @@ app.use(express.urlencoded({extended: false}));
 // Middleware to configure individual routes to look for 'read:admin' scope
 const checkScopes = requiredScopes('read:admin');
 
-app.get('/admin', auth0.checkJwt, checkScopes, function(req, res) {
+// protect /admin from unauthenticated users
+app.use('/admin', auth0.checkJwt);
+
+app.get('/admin/check', auth0.checkJwt, checkScopes, function(req, res) {
   console.log(checkScopes);
   res.json({
     message: 'Hello from a private endpoint! You need to be authenticated and have a scope of read:admin to see this.'
@@ -58,14 +59,18 @@ app.get('/auth_config', (req, res) => {
   res.json(authConfig);
 });
 
-app.get('/admin', (req, res) => {
-  res.send({
-    msg: 'Accessed admin page',
-  });
-});
+// app.get('/admin', (req, res) => {
+//   res.send({
+//     msg: 'Accessed admin page',
+//   });
+// });
 
 async function getAllSingles(req, res) {
   res.json(await pjs.findAllSingles());
+}
+
+async function getAllProducts(req, res) {
+  res.json(await pjs.listAllProducts());
 }
 
 
@@ -119,7 +124,6 @@ async function postProduct(req, res){
 // TODO: return admin back to remove.html + update text content of '#server-response'
 async function deleteProduct(req, res){
   const deletedProduct = await pjs.deleteProduct(req)
-  console.log(res.body);
   res.status(200)
   .send(`Removed product: ${deletedProduct.ProductName} (ID: ${deletedProduct.ProductID})`) //TODO: incorrect response
 }
@@ -133,13 +137,6 @@ async function getProduct(req, res){
   res.json(product)
 }
 
-// wrap async function for express.js error handling
-function asyncWrap(f) {
-  return (req, res, next) => {
-    Promise.resolve(f(req, res, next))
-      .catch((e) => next(e || new Error()));
-  };
-}
 
 async function getSingleSorted(req, res) {
   const result = await pjs.sortAllSingles(req.params.sort)
@@ -150,7 +147,59 @@ async function getSingleSorted(req, res) {
   res.json(result);
 }
 
-//Routes
+async function putProcessOrder(req, res){
+  const result = await pjs.processOrder(req)
+  if(!result){
+    console.log('Purchase Failed');
+    res.status(404).send('Purchase Failed');
+    return
+  }
+  console.log('Purchase Succesful');
+  res.json(result);
+}
+
+// ADMIN
+async function putAdminIncreaseStock(req, res){
+  const result = await pjs.adminIncreaseProductStock(req)
+  if(!result){
+    console.log('Stock Increase Failed');
+    res.status(404).send('Stock Increase Failed');
+    return
+  }
+  console.log('Stock Increase Succesful');
+  res.json(result);
+}
+
+async function putAdminDecreaseStock(req, res){
+  const result = await pjs.adminDecreaseProductStock(req)
+  if(!result){
+    res.status(404).send('Stock Removal Failed');
+    console.log('Stock Removal Failed');
+    return
+  }
+  console.log('Stock Removal Succesful');
+  res.json(result)
+}
+
+async function putAdminSetProductStock(req, res){
+  const result = await pjs.adminSetProductStock(req)
+  if(!result){
+    res.status(404).send('Stock Update Failed');
+    console.log('Stock Update Failed');
+    return
+  }
+  console.log('Stock Update Succesful');
+  res.json(result) //TODO: fix return to client
+}
+// wrap async function for express.js error handling
+function asyncWrap(f) {
+  return (req, res, next) => {
+    Promise.resolve(f(req, res, next))
+      .catch((e) => next(e || new Error()));
+  };
+}
+
+//ROUTES
 app.get('/single', asyncWrap(getAllSingles));
 app.get('/single/sort/:sort', asyncWrap(getSingleSorted));
 app.get('/single/colour/:colour', asyncWrap(getSingleColour));
@@ -160,7 +209,15 @@ app.get('/single/colour/:colour/MostPopular', asyncWrap(getMostPopular));
 app.post('/test/upload', upload.single('picfile'), asyncWrap(postProduct));
 app.post('/test/product/id', asyncWrap(deleteProduct)); 
 app.get('/test/product/:id', asyncWrap(getProduct));
-app.delete('/test/product/name/:name', asyncWrap(deleteAllProductsByName));
+app.put('/checkout/submit/:userID/:basket', asyncWrap(putProcessOrder))
+
+//ADMIN
+app.get('/test/product/stock/list', asyncWrap(getAllProducts));
+app.put('/test/product/increase/:id/:quantity', asyncWrap(putAdminIncreaseStock))
+app.put('/test/product/decrease/:id/:quantity', asyncWrap(putAdminDecreaseStock))
+app.put('/test/product/set/:id/:quantity', asyncWrap(putAdminSetProductStock))
+
+
 
 app.get('/profile', async (req, res) => {
   const userId = auth0.getUserID(req); //TODO: UserID returning null
@@ -193,3 +250,19 @@ async function addAProduct(req, res){
 }
 
 app.delete('/test/product/name/:name', asyncWrap(deleteAllProductsByName));
+
+
+
+// async function postProduct(req, res){
+//   const product = await pjs.addProduct(req)
+//   if (!product) {
+//     res.status(404).send('Failed to add product');
+//     return;
+//   }
+//   res.send(`${product.ProductName} added, ID:${product.ProductID}`)
+// }
+
+
+
+
+

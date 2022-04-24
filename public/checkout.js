@@ -1,4 +1,3 @@
-import * as main from './main.js';
 // import * as auth from './auth.js';
 import * as ba from './basket.js';
 import * as fjs from './fetch.js';
@@ -7,9 +6,8 @@ import * as fjs from './fetch.js';
 async function renderCheckoutPage(){
   const isBasketEmpty = localStorage.getItem('basket') === null;
   if (isBasketEmpty) {
-    debugger
     document.querySelector('.empty-continue-btn').addEventListener("click", 
-    main.homePage);    
+    homePage);    
     return;
   }
   const emptyCheckout = document.querySelector('.empty-checkout');
@@ -72,8 +70,33 @@ function renderOrderTotal(total){
   totalDOM.textContent = total.toFixed(2);
 }
 
-function setupListeners() {
+
+async function submitOrder(){
+  const basket = JSON.stringify(Array.from(ba.basket));
+  const userID = 'placeholderID'
+
+  const orderFetchOptions = {
+    credentials: 'same-origin',
+    method: 'PUT',
+    headers: { 'content-type': 'application/json' },
+  };
+  const response = await fetch(`/checkout/submit/${userID}/${basket}`, orderFetchOptions)
+  let orderStatus;
+  if (response.ok){
+     orderStatus = await response.json();
+     console.log(orderStatus);
+  }
 }
+
+
+function setupListeners() {
+  document.querySelector('.buy-btn').addEventListener('click', submitOrder)
+}
+
+function homePage() {
+  window.location.pathname = 'index.html';
+}
+
 
 
 async function init() {

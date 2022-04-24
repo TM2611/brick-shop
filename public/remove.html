@@ -1,27 +1,105 @@
 <!DOCTYPE html>
 <html lang = "en">
-<head>
-  <title>Upload Product – Lego</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta charset="utf-8">
-  <link rel="icon" href="data:,"><!-- prevent favicon requests -->
-  <link rel="stylesheet" href="style.css">
-  <script src="https://kit.fontawesome.com/76f1f6b390.js" crossorigin="anonymous"></script>
-</head>
-<body>
-  <h1><a href="/admin.html">Return to Admin Dashboard</a></h1>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Remove Product</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/76f1f6b390.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <nav class="admin-nav">
+      <div class="logo">
+        <!-- TODO: href to admin profile? -->
+        <a href="#" class="active nav-item">
+          <img src="./images/assets/admin.png" alt="Admin logo" />
+        </a>
+      </div>
+      <div class="icons right">
+        <a href="#" class="nav-item">
+          <div class="badge"><span>5</span></div>
+          <i class="far fa-bell"></i>
+        </a>
+        <a href="#" class="nav-item"><i class="far fa-envelope"></i></a>
+      </div>
+      <div class="user" id="user">
+        <a href="#" class="user-link">no name</a>
+        <div class="user-img-wrapper">
+          <img src="images/useravatar.png" alt="User 1" />
+        </div>
+      </div>
+    </nav>
+    <main class="admin-main-container">
+      <nav class="sidebar">
+        <h3>LEGO</h3>
+        <ul class="menu">
+          <li>
+            <a href="/admin.html" title="Admin Dashboard">
+              <i class="fas fa-home"></i>
+              <span>Admin Dashboard</span>
+            </a>
+          </li>
+          <li class="menu-heading">
+            <h3>Products</h3>
+          </li>
+          <li>
+            <a href="/upload.html" title="Add New Product">
+              <i class="fas fa-tachometer-alt"></i>
+              <span>Add New Product</span>
+            </a>
+          </li>
+          <li>
+            <a href="/edit.html" title="Edit Product">
+              <i class="fas fa-tachometer-alt"></i>
+              <span>Edit Product</span>
+            </a>
+          </li>
+          <li>
+            <a href="/remove.html" title="Remove Product">
+              <i class="fas fa-tachometer-alt"></i>
+              <span>Remove Product</span>
+            </a>
+          </li>
+          <li>
+            <a href="/stock.html" title="Stock Management" class="admin-active">
+              <i class="fas fa-tachometer-alt"></i>
+              <span>Stock Management</span>
+            </a>
+          </li>
+          <li class="menu-heading">
+            <h3>Other</h3>
+          </li>
+          <li>
+            <a href="#" title="Orders">
+              <i class="fas fa-sitemap"></i>
+              <span>Orders</span>
+            </a>
+          </li>
+          <li>
+            <a href="/" title="Return to Website">
+              <!-- TODO: Exit symbol -->
+              <i class="fas fa-home"></i>
+              <span>Return to Website</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
 
-  <section class="remove-body">
-  <h2 class="remove-heading">Remove a Product</h2>
-  <!-- TODO: change /test/upload to /admin/upload once auth fixed-->
-    <p class ="remove-prompt">Enter the ID of the product you wish to remove</p>
-    <form id ="removeProduct" action="/test/product/id" method="post" enctype="application/x-www-form-urlencoded">
-      <p><input id ="id-input" name="id" type="text" autofocus size="40" placeholder="product ID" minlength="4" maxlength="100" required></p>
-      <p><input name="submit" type="submit" value="Submit"></p>
-    </form>
-  </section>
-  <pre id="server-response"></pre>
-  <script type="module" src="remove.js" async defer></script>
-  <!-- <script src="https://cdn.auth0.com/js/auth0-spa-js/1.13/auth0-spa-js.production.js"></script> -->
-</body>
 
+      <section class="page-content">
+        <h2 class="remove-heading">Remove a Product</h2>
+        <!-- TODO: change /test/upload to /admin/upload once auth fixed-->
+          <p class ="remove-prompt">Enter the ID of the product you wish to remove</p>
+          <form id ="removeProduct" action="/test/product/id" method="post" enctype="application/x-www-form-urlencoded">
+            <p><input id ="id-input" name="id" type="text" autofocus size="40" placeholder="product ID" minlength="4" maxlength="100" required></p>
+            <p><input name="submit" type="submit" value="Submit"></p>
+          </form>
+        </section>
+        <pre id="server-response"></pre>
+      </section>
+    </main>
+    <script src="remove.js" async defer></script>
+  </body>
+</html>
