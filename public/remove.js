@@ -1,3 +1,24 @@
+import * as admin from './admin.js'
+
+
+
+
+
+// async function callServer() {
+  //   const el = document.getElementById('server-response');
+//   el.textContent = 'Checking Product…';
+//   const response = await fetch('/test/product/id', fetchOptions);
+//   if (!response.ok) {
+//     // handle the error
+//     el.textContent = 'Server error:\n' + response.status;
+//     return;
+//   }
+
+//   // handle the response
+//   const data = await response.text();
+//   el.textContent = data;
+// }
+
 function setupListeners() {
   // Setup future listeners;
   // formFetchListener()
@@ -5,48 +26,11 @@ function setupListeners() {
 
 }
 
-
-
-// async function formFetchListener(){
-//   document.forms['removeProduct'].addEventListener('submit', (event) => {
-//     event.preventDefault();
-//     // Show user that form is being submitted
-//     const el = document.getElementById('server-response');
-//     el.textContent = 'Checking Product…';
-//     fetch(event.target.action, {
-//         method: 'POST',
-//         body: new URLSearchParams(new FormData(event.target)) // event.target is the form
-//     }).then((response) => {
-//       el.textContent = await response.text();
-//     }).then((body) => {
-//         // TODO handle body
-//         console.log("body:",body);
-//     }).catch((error) => {
-//       el.textContent = 'Product does not exist';
-//       console.log(error);
-//     });
-// });
-// }
-
-async function callServer() {
-  const el = document.getElementById('server-response');
-  el.textContent = 'Checking Product…';
-  const response = await fetch('/test/product/id', fetchOptions);
-  if (!response.ok) {
-    // handle the error
-    el.textContent = 'Server error:\n' + response.status;
-    return;
-  }
-
-  // handle the response
-  const data = await response.text();
-  el.textContent = data;
-}
-
 async function init() {
   // await auth.initializeAuth0Client();
   // await auth.updateAuthUI();
   // await auth.handleAuth0Redirect();
+  await admin.listProducts()
   setupListeners();
 }
 
