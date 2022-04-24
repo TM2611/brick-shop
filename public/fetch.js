@@ -58,23 +58,36 @@ export async function fetchAllProducts(sortType){
 }
 
 export async function fetchStockIncrease(id,quantity){
-  const response = await fetch('/test/product/increase/productID/quantity');
+  const fetchOptions = {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' }
+  }
+  const response = await fetch(`/test/product/increase/${id}/${quantity}`, fetchOptions);
   if (!response.ok) {
     throw response;
   }
   return response.json();
 }
 
-export async function fetchStockDecrease(){
-  const response = await fetch('/test/product/decrease/productID/quantity');
+export async function fetchStockDecrease(id,quantity){
+  const fetchOptions = {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' }
+  }
+  const response = await fetch(`/test/product/decrease/${id}/${quantity}`, fetchOptions);
   if (!response.ok) {
     throw response;
   }
   return response.json();
 }
 
-export async function fetchSetStock(){
-  const response = await fetch('/test/product/set/productID/quantity');
+export async function fetchSetStock(id,quantity){
+  const fetchOptions = {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' }
+  }
+  const response = await fetch(`/test/product/set/${id}/${quantity}`, fetchOptions);
+  console.log('fetchSetStock');
   if (!response.ok) {
     throw response;
   }

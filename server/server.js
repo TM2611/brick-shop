@@ -189,10 +189,8 @@ async function putAdminSetProductStock(req, res){
     return
   }
   console.log('Stock Update Succesful');
-  res.json(result)
+  res.json(result) //TODO: fix return to client
 }
-
-
 // wrap async function for express.js error handling
 function asyncWrap(f) {
   return (req, res, next) => {

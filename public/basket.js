@@ -154,7 +154,7 @@ export async function AddToBasket(e) {
   basketItemDOM.dataset.id = itemID; // Set ID in DOM
   removeItemBtn.textContent = 'Remove';
   img.src = `${product.ProductImage}`;
-  img.alt = `${product.ProductImage}`;
+  img.alt = `${product.ProductName} Image`;
   productName.textContent = product.ProductName;
   productPriceDOM.textContent = price.toFixed(2);
   increaseBtn.addEventListener('click', increaseItemQuantity);

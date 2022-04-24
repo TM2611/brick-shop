@@ -1,8 +1,9 @@
 import * as fjs from './fetch.js';
+import * as main from './main.js';
 
 async function listProducts(){
   const t1 = document.querySelector('.stock-server-response-template');
-  const responseContainer = document.querySelector('.stock-server-response-container');
+  const responseContainer = document.querySelector('.stock-list-container');
   const products = await fjs.fetchAllProducts();
   for (const product of products) {
     const stockListTemplate = t1.content.cloneNode(true);
@@ -51,38 +52,91 @@ async function manageStock(e){
   }
   const id = e.target.querySelector('.stock-product-id').dataset.id
   const option = document.querySelector('.stock-option-selected').classList[0];
-  debugger
-  await updateStock(id,option)
+  const input = document.querySelector('#quantity-input')
+  setupQuantityField(option, id)
+  // const updatedStock = await updateStock(id,option)
+  // if(updatedStock){
+  //   const quantity = e.target.querySelector('.stock-product-qty')
+  //   quantity.textContent = updatedStock;
+  // }
 }
 
-async function updateStock(id, option){
-  const fetchOptions = {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' }
-  }
+function setupQuantityField(option, id){
+  const form = document.querySelector('.quantity-input-form');
+  const input = document.querySelector('#quantity-input');
+  form.classList.remove('hide');
+  form.dataset.id = id;
+  let label = input.labels[0]
   if(option === 'add-stock-btn'){
-    let quantity = prompt("Please enter the number of units to add:");
-    if (quantity != null) {
-      const result = await fjs.fetchStockIncrease(id,quantity);
+    label.textContent = "Please enter the number of units to add";
+    form.dataset.option = 'add'
     }
-  }
   else if(option === 'remove-stock-btn'){
-    let quantity = prompt("Please enter the number of units to remove:");
-    if (quantity != null) {
-      const result = await fjs.fetchStockDecrease(id,quantity);
-    }
+    label.textContent = "Please enter the number of units to remove:"
+    form.dataset.option = 'remove'
   }
-  else if(option === 'set-stock-btn'){
-    let quantity = prompt("Please enter the number of units:");
-    if (quantity != null) {
-      const result = await fjs.fetchSetStock(id,quantity)
-    }
+  else if (option === 'set-stock-btn'){
+    label.textContent = "Please enter the number of units to set to:"
+    form.dataset.option = 'set'
   }
+}
 
+
+async function updateStock(){
+  const form = document.querySelector('.quantity-input-form');
+  const input = document.querySelector('#quantity-input');
+  const id = form.dataset.id
+  const quantity = input.value;
+  const resElement = document.querySelector('.stock-update-response');
+  if(form.dataset.option === 'add'){
+    debugger
+    const result = await fjs.fetchStockIncrease(id,quantity);
+    resElement.textContent = `Update Succesful, new quantity: ${result.newStock}` //TODO: why not work at end
+  }
+  else if(form.dataset.option === 'remove'){
+    const result = await fjs.fetchStockDecrease(id,quantity);
+    resElement.textContent = `Update Succesful, new quantity: ${result.newStock}`
+  }
+  else if(form.dataset.option === 'set'){
+    const result = await fjs.fetchSetStock(id,quantity);
+    console.log(result.newStock);
+    resElement.textContent = `Update Succesful, new quantity: ${result.newStock}`
+  }
+  else{
+    throw new Error('Stock Update Failed')
+  }
+  form.classList.add('hide')
+}
+
+
+
+
+
+
+function onlynum() {
+  var fm = document.getElementById("form2");
+  var ip = document.getElementById("num");
+  var tag = document.getElementById("value");
+  var res = ip.value;
+
+  if (res != '') {
+      if (isNaN(res)) {
+            
+          // Set input value empty
+          ip.value = "";
+            
+          // Reset the form
+          fm.reset();
+          return false;
+      } else {
+          return true
+      }
+  }
 }
 
 function setupListeners() {
   document.querySelector('.stock-product-container');
+  document.querySelector('#quantity-input-submit').onclick= async () => {await updateStock()}
   const so = document.querySelectorAll('.stock-options');
   for (const option of so) {
     option.addEventListener('click',selectOption)

@@ -88,10 +88,11 @@ async function decreaseProductStock(productID, quantity){
   const db = await dbConn;
   const stmnt = await db.get('SELECT UnitsInStock FROM Product WHERE ProductID = ?', productID);
   const oldStock = stmnt.UnitsInStock;
-  if(quantity >= oldStock){
+  if(quantity > oldStock){
     // TODO: tell customer
     // TODO: order more stock?
     throw new Error('Quantity exceeds stock level')
+    
   }
   const newStock = oldStock - quantity;
   const updateStatement = await db.run('UPDATE Product SET UnitsInStock = ? WHERE ProductID = ?', [newStock, productID]);
@@ -136,7 +137,7 @@ export async function addProduct(req){
 
 export async function listAllProducts(req){
   const db = await dbConn;
-  return db.all('SELECT * FROM Product'); 
+  return db.all('SELECT * FROM Product ORDER BY ProductName'); 
 }
 
 
@@ -167,6 +168,8 @@ export async function adminSetProductStock(req){
   if (!result){
     throw new Error('Stock update Failed');
   }
+    // console.log(productID,"old stock:",oldStock);
+  // console.log(productID,"new stock:",newStock);
   return result;
 
 }
@@ -180,8 +183,8 @@ async function setProductStock(productID, quantity){
   const updateStatement = await db.run('UPDATE Product SET UnitsInStock = ? WHERE ProductID = ?', [newStock, productID]);
   // if nothing was updated, the productID doesn't exist
   if (updateStatement.changes === 0) throw new Error('product not found');
-  console.log(productID,"old stock:",oldStock);
-  console.log(productID,"new stock:",newStock);
+    // console.log(productID,"old stock:",oldStock);
+  // console.log(productID,"new stock:",newStock);
   return {oldStock: oldStock, newStock:newStock};
 }
 
@@ -193,8 +196,8 @@ async function increaseProductStock(productID, quantity){
   const updateStatement = await db.run('UPDATE Product SET UnitsInStock = ? WHERE ProductID = ?', [newStock, productID]);
   // if nothing was updated, the productID doesn't exist
   if (updateStatement.changes === 0) throw new Error('product not found');
-  console.log(productID,"old stock:",oldStock);
-  console.log(productID,"new stock:",newStock);
+  // console.log(productID,"old stock:",oldStock);
+  // console.log(productID,"new stock:",newStock);
   return {oldStock: oldStock, newStock:newStock};
 }
 
