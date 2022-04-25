@@ -1,45 +1,56 @@
 -- Up
-
 CREATE TABLE Product
 (
-  ProductID CHAR(36) PRIMARY KEY,
+  ProductID varchar(36) PRIMARY KEY,
   ProductName varchar(20) not null,
   Colour varchar (20) not null,
   CategoryName varchar(30) not null,
   Price int not null,
   UnitsInStock int not null,
   ProductDesc text not null,
-  ProductImage varchar(40) not null,
+  ProductImageSrc varchar(80) not null,
   FOREIGN KEY (CategoryName) REFERENCES Category(CategoryName)
 );
 
 CREATE TABLE Orders
 (
-  OrderID CHAR(36) not null,
+  OrderID varchar(36) not null,
   CustomerID varchar (30) not null,
-  OrderNumber varchar(16) not null,
   OrderDate datetime not null,
   FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID)
 );
 
-CREATE TABLE OrderProduct
+CREATE TABLE OrderItem
 (
-  ProductID CHAR(36) PRIMARY KEY,
-  OrderID CHAR(36) not null,
+  OrderItemID varchar(36) PRIMARY KEY,
+  OrderID varchar(36) not null,
+  ProductID varchar(36) not null,
   Quantity int not null,
   FOREIGN KEY (ProductID) REFERENCES Product(ProductID),
   FOREIGN KEY (OrderID) REFERENCES Orders(OrderID)
 );
 
+
 CREATE TABLE Customer
 (
-  CustomerID varchar(30) PRIMARY KEY,
+  CustomerID varchar(36) PRIMARY KEY,
+  RegisteredUserID varchar(36),
   Email varchar(100),
-  FirstName varchar(40),
+  Firstname varchar(40),
   -- TODO: Auth0 doesn't require names? Not null?
-  SecondName varchar(40),
-  CustomerPassword nvarchar(50),
+  Surname varchar(40),
+  -- CustomerPassword nvarchar(50),
   Phone varchar(15)
+);
+
+CREATE TABLE CustomerAddress
+(
+  CustomerAddressID varchar(36) PRIMARY KEY,
+  CustomerID varchar(36),
+  addressln1 varchar(256),
+  addressln2 varchar(256),
+  region varchar(256),
+  postcode varchar(32)
 );
 
 CREATE TABLE Category
@@ -51,7 +62,7 @@ CREATE TABLE Category
 -- TODO: Stock ordered by popularity (more popular, less stock)
 
 INSERT INTO Product
-  (ProductID, ProductName, Colour, CategoryName, Price, UnitsInStock , ProductDesc, ProductImage)
+  (ProductID, ProductName, Colour, CategoryName, Price, UnitsInStock , ProductDesc, ProductImageSrc)
 VALUES
   ('as5fgd', 'Brick 1x1', 'purple', 'brick', 6, 9100, 'description', './images/single/purple/brick1x1.png'),
   ('ha76sd8', 'Brick 1x2', 'purple', 'brick', 10, 9100, 'description', './images/single/purple/brick1x2.png'),

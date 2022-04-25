@@ -80,7 +80,17 @@ export async function processOrder(req){
     itemStockChange.newStock = stockChange.newStock;
     orderItemStocks.push(itemStockChange)
   }
+  //await createOrder()
   return orderItemStocks
+}
+
+
+//TODO: Order
+async function createOrder(){
+  const db = await dbConn;
+  const orderID = uuid()
+  // const statement = await db.run('INSERT INTO Order VALUES(?,)')
+  if (statement.changes === 0) throw new Error('Failed to Process Order');
 }
 
 
@@ -119,7 +129,7 @@ export async function addProduct(req){
     Price : req.body.price,
     UnitsInStock : req.body.stock,
     ProductDesc : req.body.desc,
-    ProductImage: req.file.path
+    ProductImageSrc: req.file.path
    }
   await db.run('INSERT INTO Product VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
   [product.ProductID, 
@@ -129,7 +139,7 @@ export async function addProduct(req){
     product.Price, 
     product.UnitsInStock, 
     product.ProductDesc, 
-    product.ProductImage
+    product.ProductImageSrc
   ]);
   console.log(product);
   return product
@@ -177,7 +187,6 @@ export async function adminSetProductStock(req){
   // console.log(productID,"old stock:",oldStock);
   // console.log(productID,"new stock:",newStock);
   return {oldStock: oldStock, newStock:newStock};
-
 }
 
 // async function setProductStock(productID, quantity){

@@ -51,8 +51,8 @@ async function renderReviewItems(){
     let itemQuantityDOM = itemTemplate.querySelector('.checkout-item-quantity');
     checkoutItemDom.dataset.id = product.ProductID;
     itemName.textContent = product.ProductName;
-    img.src = product.ProductImage;
-    img.alt = product.ProductImage;
+    img.src = product.ProductImageSrc;
+    img.alt = product.ProductImageSrc;
     itemName.textContent = product.ProductName;
     itemPriceDOM.textContent = `£${(price).toFixed(2)}`;
     itemQuantityDOM.textContent = `${quantity} x`
