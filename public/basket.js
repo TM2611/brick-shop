@@ -41,7 +41,7 @@ export async function initBasket() {
     basketItemDOM.dataset.id = product.ProductID; // Set ID in DOM
     basketQuantityDOM.textContent = basketQuantity + 1;
     removeItemBtn.textContent = 'Remove';
-    img.src = product.ProductImage;
+    img.src = product.ProductImageSrc;
     img.alt = `${product.ProductName} Image`;
     productName.textContent = product.ProductName;
     productPriceDOM.textContent = price.toFixed(2);
@@ -151,7 +151,7 @@ export async function addToBasket(e) {
   basketQuantityDOM.textContent = parseInt(basketQuantityDOM.textContent) + 1;
   basketItemDOM.dataset.id = itemID; // Set ID in DOM
   removeItemBtn.textContent = 'Remove';
-  img.src = `${product.ProductImage}`;
+  img.src = `${product.ProductImageSrc}`;
   img.alt = `${product.ProductName} Image`;
   productName.textContent = product.ProductName;
   productPriceDOM.textContent = price.toFixed(2);

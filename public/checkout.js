@@ -2,6 +2,7 @@
 import * as ba from './basket.js';
 import * as fjs from './fetch.js';
 import * as main from './main.js';
+import * as auth from './auth.js';
 
 async function renderCheckoutPage(){
   const isBasketEmpty = localStorage.getItem('basket') === null;
@@ -103,12 +104,11 @@ function homePage() {
 
 
 async function init() {
-  // await auth.initializeAuth0Client();
-  // await auth.updateAuthUI();
-  // await auth.handleAuth0Redirect();
+  await auth.initializeAuth0Client();
   await ba.initBasket();
   await renderCheckoutPage();
   setupListeners();
+  main.viewProfile()
 }
 
 window.addEventListener('load', init);

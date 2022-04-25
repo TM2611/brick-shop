@@ -41,31 +41,14 @@ export function navbarDisplay() {
   prevScrollpos = currentScrollPos;
 }
 
-export async function viewProfile() {
-  // Get the access token from the Auth0 client
-  const token = await auth.auth0.getTokenSilently();
-  const fetchOptions = {
-    credentials: 'same-origin',
-    method: 'GET',
-    // Give access to the bearer of the token.
-    headers: { Authorization: 'Bearer ' + token },
-  };
-  const response = await fetch('/profile', fetchOptions);
-  if (!response.ok) {
-    // handle the error
-    el.textContent = 'Server error:\n' + response.status;
-    return;
-  }
-  // handle the response
-  console.log(await response.text());
-}
+
 
 function setupListeners() {
   document.querySelector('.home-nav').addEventListener('click', main.homePage);
   document.querySelector('.singles-nav').addEventListener('click', main.singlesPage);
   document.querySelector('.kits-nav').addEventListener('click', main.kitsPage);
   document.querySelector('#login-icon').addEventListener('click', showDropdown);
-  document.querySelector('.profile').addEventListener('click', viewProfile);
+  document.querySelector('.profile').addEventListener('click', main.viewProfile);
   document.querySelector('.btn-checkout').addEventListener('click', main.checkoutPage);
   document.querySelector('#btn-login').addEventListener('click', auth.login);
   document.querySelector('#btn-logout').addEventListener('click', auth.logout);

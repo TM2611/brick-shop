@@ -30,7 +30,6 @@ export async function updateAuthUI() {
   // document.querySelector('.btn-checkout').disabled = !isAuthenticated;
 
   if (isAuthenticated) {
-    // Content no longer gated
     const user = await auth0.getUser();
     const loginBtn = document.querySelector('#btn-login');
     const loginIcon = document.querySelector('#login-icon');
@@ -39,6 +38,7 @@ export async function updateAuthUI() {
     initialDOM.textContent = initial;
     loginIcon.classList.add('display');
     loginBtn.classList.add('non-visible');
+
   }
 }
 
