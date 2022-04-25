@@ -2,7 +2,7 @@
   --primaryColor: #f09d51;
   --mainWhite: #fff;
   --mainBlack: #222;
-  --mainGrey: #ececec;
+  --mainGrey: #c9c7c7;
   --mainSpacing: 0.1rem;
   --mainTransition: all 0.2s linear;
   --basketBtn: #f09d51;
@@ -265,6 +265,7 @@ label {
   margin: 0 auto;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   position: relative;
+  background: var(--mainGrey)
 }
 
 /* .item .item-container {
@@ -419,6 +420,7 @@ label {
 .basket-item img {
   width: 75px;
   height: 75px;
+  background: var(--mainGrey)
 }
 
 .basket-item h4 {
@@ -580,16 +582,17 @@ label {
   overflow-x: hidden;
   overflow-y: scroll;
   border: solid 1px grey;
+  background: var(--mainGrey)
 }
 
 .checkout-item {
   display: flex;
   align-items: center;
-  border-bottom: 1px solid #ccc;
 }
 
 #checkout-item-img {
   height: 10vw;
+
 }
 
 #checkout-total {

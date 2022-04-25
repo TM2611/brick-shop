@@ -1,7 +1,6 @@
 import * as fjs from './fetch.js';
 import * as auth from './auth.js';
 
-// TODO: have to clear localstorage after changing code? normal?
 export let basket; // IDs and quantities of items in basket
 
 export async function initBasket() {
@@ -130,7 +129,7 @@ function decreaseItemQuantity(e) {
 }
 
 
-export async function AddToBasket(e) {
+export async function addToBasket(e) {
   const itemID = e.target.parentNode.dataset.id;
   const products = await fjs.fetchAllSingles(); // TODO: fetch single product? (or retrieve from storage / DB ?)
   const basketDOM = document.querySelector('.basket');
@@ -176,16 +175,7 @@ export function viewBasket() {
   basketOverlay.classList.add('transparentBcg');
 }
 // TODO: Close basket when click outside of overlay
-// TODO: closeBasket on checkoutpage resets basket total
 export async function closeBasket() {
-  if(window.location.href.indexOf("checkout") != -1){ //if on checkout page
-    for (const item of document.querySelectorAll('.checkout-item')) {
-      item.remove();
-    }
-    window.location.reload() //Reload checkout page to re-render items 
-    // TODO: find alternative to reloading page?
-  } 
-
   const basketDOM = document.querySelector('.basket');
   const basketOverlay = document.querySelector('.basket-overlay');
   basketDOM.classList.remove('showBasket');
@@ -193,15 +183,17 @@ export async function closeBasket() {
 }
 
 export function clearBasket() {
-  const basketTotalDOM = document.querySelector('.basket-total');
-  const basketItems = document.querySelectorAll('.basket-item');
-  for (const elem of basketItems) {
-    elem.remove();
-  }
+  if(window.location.href.indexOf("checkout.html") === -1){ //if not on checkout page
+    const basketTotalDOM = document.querySelector('.basket-total');
+    const basketItems = document.querySelectorAll('.basket-item');
+    for (const elem of basketItems) {
+      elem.remove();
+    }
+    document.querySelector('.basket-quantity').textContent = 0;
+    basketTotalDOM.textContent = (0).toFixed(2);
+    }
   basket = new Map();
   localStorage.removeItem('basket');
-  document.querySelector('.basket-quantity').textContent = 0;
-  basketTotalDOM.textContent = (0).toFixed(2);
   resetAddToBasketBtn();
 }
 

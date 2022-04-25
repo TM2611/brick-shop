@@ -39,41 +39,41 @@
             </div>
         </div>
       </div>
-    </nav>>
-    <!-- basket -->
-    <div class="basket-overlay">
-      <div class="basket">
-        <span class="close-basket">
-          <i class = "fas fa-window-close"></i>
-        </span>
-        <h2>Your basket</h2>
-        <!-- basket item -->
-        <template id ="basket-item-template">
-          <!-- data-id allows remove-item to know id of product to be removed -->
-          <div class="basket-item" data-id> 
-            <img id = "basket-product-img">
-            <div>
-              <h4 id = "basket-product-name"></h4>
-              <h5>£<span id="basket-product-price">0</span></h5>
-              <span class="remove-item"></span>
+      <!-- basket -->
+      <div class="basket-overlay">
+        <div class="basket">
+          <span class="close-basket">
+            <i class = "fas fa-window-close"></i>
+          </span>
+          <h2>Your basket</h2>
+          <!-- basket item -->
+          <template id ="basket-item-template">
+            <!-- data-id allows remove-item to know id of product to be removed -->
+            <div class="basket-item" data-id> 
+              <img id = "basket-product-img">
+              <div>
+                <h4 id = "basket-product-name"></h4>
+                <h5>£<span id="basket-product-price">0</span></h5>
+                <span class="remove-item"></span>
+              </div>
+              <div>
+                <i class="fas fa-chevron-up"></i>
+                <p class="item-amount"></p>
+                <i class="fas fa-chevron-down"></i>
+              </div>
             </div>
-            <div>
-              <i class="fas fa-chevron-up"></i>
-              <p class="item-amount"></p>
-              <i class="fas fa-chevron-down"></i>
-            </div>
+          </template>
+          <div class="basket-content">
+            <!-- Dynamically added with JS -->
           </div>
-        </template>
-        <div class="basket-content">
-          <!-- Dynamically added with JS -->
-        </div>
-        <div class="basket-footer">
-          <h3>Total : £<span class="basket-total">0.00</span></h3>
-          <button class="clear-basket banner-btn">Clear basket</button>
-          <button class="btn-checkout banner-btn">Checkout</button>
+          <div class="basket-footer">
+            <h3>Total : £<span class="basket-total">0.00</span></h3>
+            <button class="clear-basket banner-btn">Clear basket</button>
+            <button class="btn-checkout banner-btn">Checkout</button>
+          </div>
         </div>
       </div>
-    </div>
+    </nav>
     <script type="module" src="kits.js" async defer></script>
     <script src="https://cdn.auth0.com/js/auth0-spa-js/1.13/auth0-spa-js.production.js"></script>
   </body>

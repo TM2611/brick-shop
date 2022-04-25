@@ -40,14 +40,13 @@ async function renderAllSingles() {
 
 
 function setupListeners() {
-  document.querySelector('.single-bricks').addEventListener('click', renderAllSingles);
   document.querySelector('#colour-filter').addEventListener('change', renderAllSingles);
   document.querySelector('#sort').addEventListener('change', renderAllSingles);
 }
 
-function init(){
-  ba.initBasket()
-  renderAllSingles()
+async function init(){
+  await ba.initBasket()
+  await renderAllSingles()
   setupListeners()
 }
 

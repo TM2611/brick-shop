@@ -1,7 +1,7 @@
 // import * as auth from './auth.js';
 import * as ba from './basket.js';
 import * as fjs from './fetch.js';
-
+import * as main from './main.js';
 
 async function renderCheckoutPage(){
   const isBasketEmpty = localStorage.getItem('basket') === null;
@@ -86,6 +86,9 @@ async function submitOrder(){
      orderStatus = await response.json();
      console.log(orderStatus);
   }
+  //clear basket
+  ba.clearBasket()
+  main.confirmPage()
 }
 
 
