@@ -2,7 +2,7 @@ import * as _ from './nav.js';
 import * as fjs from './fetch.js';
 import * as ba from './basket.js';
 
-async function renderProducts() {
+async function renderAllSingles() {
   const item = document.querySelector('.item');
   if (document.body.contains(item)) {
     // Products already displayed
@@ -40,10 +40,17 @@ async function renderProducts() {
 
 
 function setupListeners() {
-  document.querySelector('.single-bricks').addEventListener('click', renderProducts);
-  document.querySelector('#colour-filter').addEventListener('change', renderProducts);
-  document.querySelector('#sort').addEventListener('change', renderProducts);
+  document.querySelector('.single-bricks').addEventListener('click', renderAllSingles);
+  document.querySelector('#colour-filter').addEventListener('change', renderAllSingles);
+  document.querySelector('#sort').addEventListener('change', renderAllSingles);
+}
+
+function init(){
+  ba.initBasket()
+  renderAllSingles()
+  setupListeners()
 }
 
 
-window.addEventListener('load', setupListeners);
+
+window.addEventListener('load', init);

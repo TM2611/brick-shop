@@ -98,8 +98,10 @@ export async function fetchSetStock(id,quantity){
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' }
   }
+  console.log("pre-response")
   const response = await fetch(`/test/product/set/${id}/${quantity}`, fetchOptions);
-  console.log('fetchSetStock');
+  // TODO: not logging
+  console.log("post-response")
   if (!response.ok) {
     throw response;
   }

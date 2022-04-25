@@ -164,17 +164,8 @@ export async function adminDecreaseProductStock(req){
 export async function adminSetProductStock(req){
   const productID = req.params.id;
   const quantity = parseInt(req.params.quantity);
-  const result = await setProductStock(productID, quantity);
-  if (!result){
-    throw new Error('Stock update Failed');
-  }
-    // console.log(productID,"old stock:",oldStock);
-  // console.log(productID,"new stock:",newStock);
-  return result;
-
-}
-
-async function setProductStock(productID, quantity){
+  // const result = await setProductStock(productID, quantity);
+  
   const db = await dbConn;
   const newStock = quantity;
   //TODO: display current stock to user or remove stmt + oldStock
@@ -182,11 +173,24 @@ async function setProductStock(productID, quantity){
   const oldStock = stmnt.UnitsInStock;
   const updateStatement = await db.run('UPDATE Product SET UnitsInStock = ? WHERE ProductID = ?', [newStock, productID]);
   // if nothing was updated, the productID doesn't exist
-  if (updateStatement.changes === 0) throw new Error('product not found');
-    // console.log(productID,"old stock:",oldStock);
+  if (updateStatement.changes === 0) throw new Error('Stock update failed');
+  // console.log(productID,"old stock:",oldStock);
   // console.log(productID,"new stock:",newStock);
   return {oldStock: oldStock, newStock:newStock};
+
 }
+
+// async function setProductStock(productID, quantity){
+//   const db = await dbConn;
+//   const newStock = quantity;
+//   //TODO: display current stock to user or remove stmt + oldStock
+//   const stmnt = await db.get('SELECT UnitsInStock FROM Product WHERE ProductID = ?', productID);
+//   const oldStock = stmnt.UnitsInStock;
+//   const updateStatement = await db.run('UPDATE Product SET UnitsInStock = ? WHERE ProductID = ?', [newStock, productID]);
+//   // if nothing was updated, the productID doesn't exist
+//   if (updateStatement.changes === 0) throw new Error('product not found');
+//   return {oldStock: oldStock, newStock:newStock};
+// }
 
 async function increaseProductStock(productID, quantity){
   const db = await dbConn;
@@ -196,8 +200,6 @@ async function increaseProductStock(productID, quantity){
   const updateStatement = await db.run('UPDATE Product SET UnitsInStock = ? WHERE ProductID = ?', [newStock, productID]);
   // if nothing was updated, the productID doesn't exist
   if (updateStatement.changes === 0) throw new Error('product not found');
-  // console.log(productID,"old stock:",oldStock);
-  // console.log(productID,"new stock:",newStock);
   return {oldStock: oldStock, newStock:newStock};
 }
 
