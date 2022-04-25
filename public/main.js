@@ -1,4 +1,13 @@
-export function checkoutPage() {
+import * as auth from './auth.js';
+
+export async function checkoutPage() {
+  const isAuthenticated = await auth.auth0.isAuthenticated();
+  if (isAuthenticated){
+    window.location.pathname = 'checkout.html';
+    return
+  }
+  await auth.login()
+  debugger
   window.location.pathname = 'checkout.html';
 }
 
