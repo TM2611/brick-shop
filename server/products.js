@@ -120,7 +120,8 @@ async function decreaseProductStock(productID, quantity){
 export async function addProduct(req){
   const db = await dbConn;
   const id = uuid()
-  req.file.path = req.file.path.replace(/\\/g, "/")
+  req.file.path = req.file.path.replace(/\\/g, "/") //if windows
+  req.file.path = req.file.path.replace('public/','') //remove 'public' so path is relative to client
   const product = {
     ProductID: id,
     ProductName : req.body.name,
@@ -131,6 +132,7 @@ export async function addProduct(req){
     ProductDesc : req.body.desc,
     ProductImageSrc: req.file.path
    }
+   //TODO: usee add a product function
   await db.run('INSERT INTO Product VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
   [product.ProductID, 
     product.ProductName, 
