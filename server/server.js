@@ -42,9 +42,8 @@ const checkScopes = requiredScopes('read:admin');
 
 // protect /admin from unauthenticated users
 app.use('/admin', auth0.checkJwt);
-
-
 app.use('/profile', auth0.checkJwt);
+app.use('/userID', auth0.checkJwt);
 
 //TODO: need checkjwt?
 app.get('/admin/check', auth0.checkJwt, checkScopes, function(req, res) {
@@ -235,10 +234,9 @@ app.get('/profile', async (req, res) => {
   res.send(`Hello user ${userId}, here's your profile:\n${JSON.stringify(profile, null, 2)}`);
 });
 
-app.get('/checkout', async (req, res) => {
+app.get('/userID', async (req, res) => {
   const userId = auth0.getUserID(req);
-  const profile = await auth0.getProfile(req);
-  res.send(`Hello user ${userId}, here's your profile:\n${JSON.stringify(profile, null, 2)}`);
+  res.send(userId);
 });
 
 // start the server

@@ -21,12 +21,32 @@ export async function viewProfile() {
   };
   const response = await fetch('/profile', fetchOptions);
   if (!response.ok) {
-    // handle the error
+    // TODO: handle the error
     el.textContent = 'Server error:\n' + response.status;
     return;
   }
   // handle the response
   console.log(await response.text());
+}
+
+export async function getUserID() {
+  // Get the access token from the Auth0 client
+  const token = await auth.auth0.getTokenSilently();
+  const fetchOptions = {
+    credentials: 'same-origin',
+    method: 'GET',
+    // Give access to the bearer of the token.
+    headers: { Authorization: 'Bearer ' + token },
+  };
+  const response = await fetch('/userID', fetchOptions);
+  if (!response.ok) {
+    // TODO: handle the error
+    el.textContent = 'Server error:\n' + response.status;
+    return;
+  }
+  // handle the response
+  console.log(await response.text());
+  return response
 }
 
 export function homePage() {

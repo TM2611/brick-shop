@@ -4,6 +4,8 @@ import * as fjs from './fetch.js';
 import * as main from './main.js';
 import * as auth from './auth.js';
 
+
+
 async function renderCheckoutPage(){
   const isBasketEmpty = localStorage.getItem('basket') === null;
   if (isBasketEmpty) {
@@ -74,7 +76,7 @@ function renderOrderTotal(total){
 
 async function submitOrder(){
   const basket = JSON.stringify(Array.from(ba.basket));
-  const userID = 'placeholderID'
+  const userID = main.getUserID()
 
   const orderFetchOptions = {
     credentials: 'same-origin',
@@ -108,7 +110,6 @@ async function init() {
   await ba.initBasket();
   await renderCheckoutPage();
   setupListeners();
-  main.viewProfile()
 }
 
 window.addEventListener('load', init);
