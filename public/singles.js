@@ -29,7 +29,7 @@ async function renderAllSingles() {
       addToBasketBtn.innerText = 'In Basket';
       addToBasketBtn.disabled = true;
     }
-    img.src = `${product.ProductImage}`;
+    img.src = `${product.ProductImageSrc}`;
     img.alt = `${product.ProductName} Image`;
     productName.textContent = `${product.ProductName}`;
     productPrice.textContent = `£${(product.Price / 100).toFixed(2)}`;
