@@ -1111,6 +1111,11 @@ button:not(:disabled),
   margin: 0.1rem 0;
 }
 
+.stock-update-response {
+  font-size: 1.3rem;
+  margin-top: 4vh;
+}
+
 /* Stock Page */
 
 .stock-options {

@@ -203,7 +203,7 @@ async function increaseProductStock(productID, quantity){
 
 export async function deleteProduct(req){
   const db = await dbConn;
-  const id = req.body.id
+  const id = req.params.id
   const product = await findProduct(id)
   const statement = await db.run('DELETE FROM Product WHERE ProductID = ?', id)
   //ID does not exist if no changes are made

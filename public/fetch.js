@@ -49,8 +49,20 @@ async function fetchSingleSorted(sortType){
   return response.json();
 }
 
-export async function fetchAllProducts(sortType){
+export async function fetchAllProducts(){
   const response = await fetch('/test/product/stock/list');
+  if (!response.ok) {
+    throw response;
+  }
+  return response.json();
+}
+
+export async function fetchRemoveProduct (removeID){
+  const fetchOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' }
+  }
+  const response = await fetch(`/test/product/${removeID}`, fetchOptions)
   if (!response.ok) {
     throw response;
   }

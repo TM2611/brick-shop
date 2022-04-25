@@ -21,7 +21,7 @@ export async function listProducts(){
   const productContainers = document.querySelectorAll('.stock-product-container');
   if(window.location.href.indexOf("stock.html") != -1){
     for (const container of productContainers) {
-      container.addEventListener('click',manageStock) 
+      container.addEventListener('click',validateSelection) 
     }
   }
   else if(window.location.href.indexOf("remove.html") != -1){
@@ -32,9 +32,15 @@ export async function listProducts(){
 }
 
 //Remove product functions
-async function removeProduct(){
-  console.log('remove clicked');
-
+async function removeProduct(e){
+  const removeID = e.target.querySelector('.stock-product-id').dataset.id
+  const prompt = `You are about to delete product:\n${removeID}\nThis action cannot be undone.`
+  if (confirm(prompt) == true) {
+    const result = await fjs.fetchRemoveProduct(removeID)
+    const el = document.querySelector('.stock-update-response')
+    el.textContent = `${result.ProductName} removed from stock (id: ${result.ProductID})`
+    e.target.remove()
+  }
 }
 
 
@@ -51,7 +57,7 @@ export function selectedOption(){
   return false
 }
 
-async function manageStock(e){
+async function validateSelection(e){
   if (!selectedOption()){
     alert('Select stock management option.')
     return

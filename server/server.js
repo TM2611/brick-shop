@@ -124,8 +124,14 @@ async function postProduct(req, res){
 // TODO: return admin back to remove.html + update text content of '#server-response'
 async function deleteProduct(req, res){
   const deletedProduct = await pjs.deleteProduct(req)
-  res.status(200)
-  .send(`Removed product: ${deletedProduct.ProductName} (ID: ${deletedProduct.ProductID})`) //TODO: incorrect response
+  // res.status(200)
+  // .send(`Removed product: ${deletedProduct.ProductName} (ID: ${deletedProduct.ProductID})`) //TODO: incorrect response
+  if (!deletedProduct) {
+    res.status(404).send('Failed to find product');
+    return;
+  }
+  res.json(deletedProduct)
+
 }
 
 async function getProduct(req, res){
@@ -207,12 +213,12 @@ app.get('/single/colour/:colour/PriceHightolow', asyncWrap(getHighToLow));
 app.get('/single/colour/:colour/PriceLowtohigh', asyncWrap(getLowToHigh));
 app.get('/single/colour/:colour/MostPopular', asyncWrap(getMostPopular));
 app.post('/test/upload', upload.single('picfile'), asyncWrap(postProduct));
-app.post('/test/product/id', asyncWrap(deleteProduct)); 
 app.get('/test/product/:id', asyncWrap(getProduct));
 app.put('/checkout/submit/:userID/:basket', asyncWrap(putProcessOrder))
 
-//ADMIN
+//ADMIN ROUTES
 app.get('/test/product/stock/list', asyncWrap(getAllProducts));
+app.post('/test/product/:id', asyncWrap(deleteProduct)); 
 app.put('/test/product/increase/:id/:quantity', asyncWrap(putAdminIncreaseStock))
 app.put('/test/product/decrease/:id/:quantity', asyncWrap(putAdminDecreaseStock))
 app.put('/test/product/set/:id/:quantity', asyncWrap(putAdminSetProductStock))

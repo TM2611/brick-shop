@@ -28,13 +28,6 @@ async function updateStock(){
   form.classList.add('hide')
 }
 
-
-
-
-
-
-
-
 // function onlynum() {
 //   var fm = document.getElementById("form2");
 //   var ip = document.getElementById("num");
