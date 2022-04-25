@@ -23,7 +23,7 @@ import multer from 'multer';
 //TODO: multer not adding to images to folder
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, '../public/images/admin/uploads')
+    cb(null, './public/images/admin/uploads')
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + '-' + file.originalname)
@@ -43,6 +43,10 @@ const checkScopes = requiredScopes('read:admin');
 // protect /admin from unauthenticated users
 app.use('/admin', auth0.checkJwt);
 
+
+app.use('/profile', auth0.checkJwt);
+
+//TODO: need checkjwt?
 app.get('/admin/check', auth0.checkJwt, checkScopes, function(req, res) {
   console.log(checkScopes);
   res.json({
