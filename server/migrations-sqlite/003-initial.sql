@@ -34,7 +34,6 @@ CREATE TABLE OrderItem
 CREATE TABLE Customer
 (
   CustomerID varchar(36) PRIMARY KEY,
-  RegisteredUserID varchar(36),
   Email varchar(100),
   Firstname varchar(40),
   -- TODO: Auth0 doesn't require names? Not null?
@@ -47,8 +46,8 @@ CREATE TABLE CustomerAddress
 (
   CustomerAddressID varchar(36) PRIMARY KEY,
   CustomerID varchar(36),
-  addressln1 varchar(256),
-  addressln2 varchar(256),
+  Addressln1 varchar(256),
+  Addressln2 varchar(256),
   region varchar(256),
   postcode varchar(32)
 );
@@ -165,7 +164,29 @@ VALUES
   ('d3g2jg2', 'Plate 2x2', 'black', 'plate', 10, 11277, 'description', './images/single/black/plate2x2.png'),
   ('a2dfs93h', 'Plate 2x3', 'black', 'plate', 14, 13717, 'description', './images/single/black/plate2x3.png');
 
+
+
+INSERT INTO Customer
+  (CustomerID, Email, Firstname, Surname, Phone)
+VALUES
+  ('auth0|62029e1653be65006bac6480', 'johndoe@gmailcom', 'John', 'Doe', '0757524527856'),
+  ('auth0|93029e16532141006bac6480', 'janedoe@gmailcom', 'Jane', 'Doe', '077557427845');
+
+
+INSERT INTO Orders
+  (OrderID, CustomerID, OrderDate)
+VALUES
+  ('d7567d76-06dd-41de-8707-7b3fd2b903a6', 'auth0|62029e1653be65006bac6480', '25/04/2022 21:30:00');
+
+INSERT INTO OrderItem
+  (OrderItemID, OrderID, ProductID, Quantity)
+VALUES
+  ('OrderItemID', 'd7567d76-06dd-41de-8707-7b3fd2b903a6', 'a2dfs93h', 5);
 -- Down
 
 
 DROP TABLE Product;
+DROP TABLE Orders;
+DROP TABLE Customer;
+DROP TABLE CustomerAddress;
+DROP TABLE Category;
