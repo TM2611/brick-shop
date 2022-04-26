@@ -1,4 +1,5 @@
 -- Up
+
 CREATE TABLE Product
 (
   ProductID varchar(36) PRIMARY KEY,
@@ -36,7 +37,7 @@ CREATE TABLE Customer
   CustomerID varchar(36) PRIMARY KEY,
   Email varchar(100) not null,
   Firstname varchar(40),
-  Surname varchar(40),
+  Surname varchar(40)
 );
 
 
@@ -165,7 +166,7 @@ VALUES
 
 
 INSERT INTO Customer
-  (CustomerID, Email, Firstname, Surname, Phone)
+  (CustomerID, Email, Firstname, Surname)
 VALUES
   ('auth0|62029e1653be65006bac6480', 'johndoe@gmailcom', 'John', 'Doe'),
   ('auth0|93029e16532141006bac6480', 'janedoe@gmailcom', 'Jane', 'Doe');
@@ -180,6 +181,7 @@ INSERT INTO OrderItem
   (OrderItemID, OrderID, ProductID, Quantity)
 VALUES
   ('OrderItemID', 'd7567d76-06dd-41de-8707-7b3fd2b903a6', 'a2dfs93h', 5);
+
 -- Down
 
 
