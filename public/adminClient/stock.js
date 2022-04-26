@@ -1,4 +1,4 @@
-import * as fjs from './fetch.js';
+import * as fjs from '../fetch.js';
 import * as admin from './admin.js'
 
 

@@ -76,8 +76,9 @@ function renderOrderTotal(total){
 
 async function submitOrder(){
   const basket = JSON.stringify(Array.from(ba.basket));
-  const profile = main.getProfile();
+  const profile = await main.getProfile();
   const strProfile = JSON.stringify(profile);
+  const userID = profile.sub
   let orderID;
   const fetchOptions = {
     credentials: 'same-origin',
@@ -86,17 +87,18 @@ async function submitOrder(){
   };
   const accountType = await checkAccountType()
   const customerRes = await fetch(`/create/customer/${accountType}/${strProfile}`, fetchOptions)
-  debugger
   if (customerRes.ok){
-    console.log(await customerRes.text());
+    const orderRes = await fetch(`/checkout/submit/${userID}/${basket}`, fetchOptions)
+    if (orderRes.ok){
+       orderID = await response.json();   
+       console.log("orderID:", orderID);
+    }
+  }
+  else{
+    throw new Error(customerRes)
   }
 
 
-  const orderRes = await fetch(`/checkout/submit/${userID}/${basket}`, fetchOptions)
-  if (orderRes.ok){
-     orderID = await response.json();   
-     console.log("orderID:", orderID);
-  }
   //clear basket
   ba.clearBasket()
   main.confirmPage()

@@ -1,4 +1,4 @@
-import * as fjs from './fetch.js';
+import * as fjs from '../fetch.js';
 
 export async function listProducts(){
   const t1 = document.querySelector('.stock-server-response-template');

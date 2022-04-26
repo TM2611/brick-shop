@@ -251,7 +251,6 @@ app.post('/test/upload', upload.single('picfile'), asyncWrap(postProduct));
 
 app.get('/profile', async (req, res) => {
   const profile = await auth0.getProfile(req);
-  console.log(profile)
   res.send(JSON.stringify(profile, null, 2));
 });
 

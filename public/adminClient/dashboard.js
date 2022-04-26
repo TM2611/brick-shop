@@ -1,4 +1,4 @@
-import * as auth from './auth.js';
+import * as auth from '../auth.js';
 
 async function checkAdmin() {
   const token = await auth.auth0.getTokenSilently();

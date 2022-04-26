@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Admin</title>
+    <title>Edit Product</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
     <script src="https://kit.fontawesome.com/76f1f6b390.js" crossorigin="anonymous"></script>
   </head>
   <body>
@@ -14,7 +14,7 @@
       <div class="logo">
         <!-- TODO: href to admin profile? -->
         <a href="#" class="active nav-item">
-          <img src="./images/assets/admin.png" alt="Admin logo" />
+          <img src="../images/assets/admin.png" alt="Admin logo" />
         </a>
       </div>
       <div class="icons right">
@@ -36,43 +36,37 @@
         <h3>LEGO</h3>
         <ul class="menu">
           <li>
-            <a href="#" title="Home" class="admin-active">
+            <a href="#" title="Home">
               <i class="fas fa-home"></i>
               <span>Admin Dashboard</span>
             </a>
           </li>
-          <li class="menu-heading">
-            <h3>Products</h3>
-          </li>
           <li>
-            <a href="/upload.html" title="Add New Product">
+            <a href="./upload.html" title="Add New Product">
               <i class="fas fa-tachometer-alt"></i>
               <span>Add New Product</span>
             </a>
           </li>
           <li>
-            <a href="/edit.html" title="Edit Product">
+            <a href="./edit.html" title="Edit Product">
               <i class="fas fa-tachometer-alt"></i>
               <span>Edit Product</span>
             </a>
           </li>
           <li>
-            <a href="/remove.html" title="Remove Product">
+            <a href="./remove.html" title="Remove Product">
               <i class="fas fa-tachometer-alt"></i>
               <span>Remove Product</span>
             </a>
           </li>
           <li>
-            <a href="/stock.html" title="Stock Management">
+            <a href="./stock.html" title="Stock Management">
               <i class="fas fa-tachometer-alt"></i>
               <span>Stock Management</span>
             </a>
           </li>
-          <li class="menu-heading">
-            <h3>Other</h3>
-          </li>
           <li>
-            <a href="#" title="Orders">
+            <a href="./adminorders.html" title="Orders" class="admin-active">
               <i class="fas fa-sitemap"></i>
               <span>Orders</span>
             </a>
@@ -89,6 +83,6 @@
       <section class="page-content">
       </section>
     </main>
-    <script type="module" src="dashboard.js" async defer></script>
+    <script type="module" src="adminorders.js" async defer></script>
   </body>
 </html>

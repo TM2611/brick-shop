@@ -1040,8 +1040,7 @@ button:not(:disabled),
   }
 
   .sidebar .menu a span,
-  .sidebar>h3,
-  .sidebar .menu-heading {
+  .sidebar>h3 {
     display: none;
   }
 }

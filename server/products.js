@@ -86,6 +86,7 @@ export async function createCustomer(req){
   const profile = JSON.parse(req.params.strProfile)
   const customerID = profile.sub;
   const email = profile.email
+  console.log(req.params.strProfile);
   if(req.params.accountType === 'named'){
     const firstname = profile.given_name;
     const surname = profile.family_name;
@@ -94,32 +95,11 @@ export async function createCustomer(req){
     const stmnt = await db.run('INSERT INTO Customer VALUES (?, ?, ?, ?)',[customerID, email, firstname, surname])
     if (stmnt.changes === 0) throw new Error('Failed to Register');
   } else{
-    throw new Error('Unnamed')
-    // const firstname = 'testFName';
-    // const surname = 'testSName';
-    // const stmnt = await db.run('INSERT INTO Customer VALUES (?, ?, ?, ?)',[customerID, email, firstname, surname])
-    // if (stmnt.changes === 0) throw new Error('Failed to Register');
+    const stmnt = await db.run('INSERT INTO Customer VALUES (?, ?, ?, ?)',[customerID, email, null, null])
+    if (stmnt.changes === 0) throw new Error('Failed to Register');
   }
   return true
 }
-
-// export async function createCustomer(req){
-//   const db = await dbConn;
-//   const profile = JSON.parse(req.params.strProfile)
-//   const customerID = profile.sub;
-//   const email = profile.email
-//   if(req.params.accountType === 'named'){
-//     const firstname = profile.given_name;
-//     const surname = profile.family_name;
-//     const stmnt = await db.run('INSERT INTO Customer VALUES (?, ?, ?, ?)',[customerID, email, firstname, surname])
-//     if (stmnt.changes === 0) throw new Error('Failed to Register');
-//   } else{
-//     const stmnt = await db.run('INSERT INTO Customer VALUES (?, ?, ?, ?)',[customerID, email, null, null])
-//     if (stmnt.changes === 0) throw new Error('Failed to Register');
-//   }
-//   return true
-// }
-
 
 async function decreaseProductStock(productID, quantity){
   const db = await dbConn;
