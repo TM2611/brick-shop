@@ -1199,30 +1199,12 @@ button:not(:disabled),
   border-spacing: 0;
 }
 
-.admin-order-table td {
-  border-color: black;
-  border-style: solid;
-  border-width: 1px;
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-  overflow: hidden;
-  padding: 10px 5px;
-  word-break: normal;
-}
-
+.admin-order-table td,
 .admin-order-table th {
-  border-color: black;
-  border-style: solid;
-  border-width: 1px;
+  border: 1px solid black;
   font-family: Arial, sans-serif;
-  font-size: 14px;
-  font-weight: normal;
+  font-size: 1.2rem;
   overflow: hidden;
-  padding: 10px 5px;
+  padding: 0.8rem 0.4rem;
   word-break: normal;
-}
-
-.admin-order-table .admin-order-table-0lax {
-  text-align: left;
-  vertical-align: top
 }
