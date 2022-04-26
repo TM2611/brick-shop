@@ -159,6 +159,10 @@ export async function listAllProducts(req){
   return db.all('SELECT * FROM Product ORDER BY ProductName'); 
 }
 
+export async function listAllOrders(req){
+  const db = await dbConn;
+  return db.all('SELECT * FROM Orders ORDER BY OrderDate'); 
+}
 
 export async function adminIncreaseProductStock(req){
   const productID = req.params.id;

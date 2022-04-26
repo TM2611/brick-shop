@@ -31,6 +31,23 @@ export async function listProducts(){
   }
 }
 
+//dynamically create order list table
+export async function listOrders(){
+  const t1 = document.querySelector('.order-row-template');
+  const tableBody = document.querySelector('.admin-order-table-body');
+  const orders = await fjs.fetchOrders();
+  for (const order of orders){
+    const orderRowTemplate = t1.content.cloneNode(true);
+    const orderIDCell = orderRowTemplate.querySelector('.order-id-cell');
+    const custIDCell = orderRowTemplate.querySelector('.customer-id-cell');
+    const dateCell = orderRowTemplate.querySelector('.order-date-cell');
+    orderIDCell.textContent = order.OrderID;
+    custIDCell.textContent = order.CustomerID;
+    dateCell.textContent = order.OrderDate;
+    tableBody.append(orderRowTemplate)
+  }
+}
+
 //Remove product functions
 async function removeProduct(e){
   const removeID = e.target.querySelector('.stock-product-id').dataset.id

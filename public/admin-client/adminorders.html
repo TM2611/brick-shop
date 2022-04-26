@@ -80,8 +80,33 @@
           </li>
         </ul>
       </nav>
+
+
+
       <section class="page-content">
+        <template class ="order-row-template">
+          <tr>
+            <td class="order-id-cell"></td>
+            <td class="customer-id-cell"></td>
+            <td class="order-date-cell"></td>
+          </tr>
+        </template>
+          <table class="admin-order-table">
+          <thead>
+            <tr>
+              <td class="order-table-oid-title">Order ID</td>
+              <td class="order-table-cid-title">Customer ID</td>
+              <td class="order-table-date-title">Order Date</td>
+            </tr>
+          </thead>
+          <tbody class="admin-order-table-body">
+            
+          </tbody>
+          </table>
       </section>
+
+
+
     </main>
     <script type="module" src="adminorders.js" async defer></script>
   </body>

@@ -77,6 +77,11 @@ async function getAllProducts(req, res) {
   res.json(await pjs.listAllProducts());
 }
 
+async function getAllOrders(req, res) {
+  res.json(await pjs.listAllOrders());
+}
+
+
 
 async function getSingleColour(req, res) {
   const result = await pjs.filterColour(req.params.colour)
@@ -241,6 +246,7 @@ app.post('/create/customer/:accountType/:strProfile/', asyncWrap(postCreateCusto
 
 //ADMIN ROUTES
 app.get('/test/product/stock/list', asyncWrap(getAllProducts));
+app.get('/test/orders', asyncWrap(getAllOrders));
 app.post('/test/product/:id', asyncWrap(deleteProduct)); 
 app.put('/test/product/increase/:id/:quantity', asyncWrap(putAdminIncreaseStock))
 app.put('/test/product/decrease/:id/:quantity', asyncWrap(putAdminDecreaseStock))
