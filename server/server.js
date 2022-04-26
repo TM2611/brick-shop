@@ -44,6 +44,7 @@ const checkScopes = requiredScopes('read:admin');
 app.use('/admin', auth0.checkJwt);
 app.use('/profile', auth0.checkJwt);
 app.use('/userID', auth0.checkJwt);
+app.use('/checkout', auth0.checkJwt)
 
 //TODO: need checkjwt?
 app.get('/admin/check', auth0.checkJwt, checkScopes, function(req, res) {
@@ -156,15 +157,26 @@ async function getSingleSorted(req, res) {
   res.json(result);
 }
 
-async function putProcessOrder(req, res){
-  const result = await pjs.processOrder(req)
-  if(!result){
+async function postProcessOrder(req, res){
+  const orderID = await pjs.processOrder(req)
+  if(!orderID){
     console.log('Purchase Failed');
     res.status(404).send('Purchase Failed');
     return
   }
   console.log('Purchase Succesful');
-  res.json(result);
+  res.json(orderID);
+}
+
+async function postCreateCustomer(req, res){
+  const response = await pjs.createCustomer(req)
+  if(!response){
+    console.log('Customer Registration Failed');
+    res.status(404).send('Failed to register');
+    return
+  }
+  console.log('Customer Creation Succesful');
+  res.send('Customer Creation Succesful');
 }
 
 // ADMIN
@@ -200,6 +212,14 @@ async function putAdminSetProductStock(req, res){
   console.log('Stock Update Succesful');
   res.json(result) //TODO: fix return to client
 }
+
+
+function hasGivenName(profile){
+  return profile.given_name !== undefined
+  //google-oauth2 has given_name and family_name
+  //auth0 does
+}
+
 // wrap async function for express.js error handling
 function asyncWrap(f) {
   return (req, res, next) => {
@@ -215,9 +235,9 @@ app.get('/single/colour/:colour', asyncWrap(getSingleColour));
 app.get('/single/colour/:colour/PriceHightolow', asyncWrap(getHighToLow));
 app.get('/single/colour/:colour/PriceLowtohigh', asyncWrap(getLowToHigh));
 app.get('/single/colour/:colour/MostPopular', asyncWrap(getMostPopular));
-app.post('/test/upload', upload.single('picfile'), asyncWrap(postProduct));
 app.get('/test/product/:id', asyncWrap(getProduct));
-app.put('/checkout/submit/:userID/:basket', asyncWrap(putProcessOrder))
+app.post('/checkout/submit/:userID/:basket', asyncWrap(postProcessOrder));
+app.post('/create/customer/:accountType/:strProfile/', asyncWrap(postCreateCustomer));
 
 //ADMIN ROUTES
 app.get('/test/product/stock/list', asyncWrap(getAllProducts));
@@ -225,13 +245,22 @@ app.post('/test/product/:id', asyncWrap(deleteProduct));
 app.put('/test/product/increase/:id/:quantity', asyncWrap(putAdminIncreaseStock))
 app.put('/test/product/decrease/:id/:quantity', asyncWrap(putAdminDecreaseStock))
 app.put('/test/product/set/:id/:quantity', asyncWrap(putAdminSetProductStock))
+app.post('/test/upload', upload.single('picfile'), asyncWrap(postProduct));
 
 
 
 app.get('/profile', async (req, res) => {
-  const userId = auth0.getUserID(req); //TODO: UserID returning null
   const profile = await auth0.getProfile(req);
-  res.send(`Hello user ${userId}, here's your profile:\n${JSON.stringify(profile, null, 2)}`);
+  console.log(profile)
+  res.send(JSON.stringify(profile, null, 2));
+});
+
+app.get('/checkout/name', async (req, res) => {
+  const profile = await auth0.getProfile(req);
+  if(hasGivenName(profile)){
+    res.send('named')
+  }
+  res.send('notNamed')
 });
 
 app.get('/userID', async (req, res) => {

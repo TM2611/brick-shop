@@ -1,3 +1,5 @@
+import * as main from './main.js'
+
 /* eslint-disable no-undef */ // not recgonising fetch?
 export async function fetchAuthConfig() {
   // eslint-disable-next-line no-undef
@@ -44,7 +46,7 @@ export async function updateAuthUI() {
 
 export async function login() {
   await auth0.loginWithRedirect({
-    redirect_uri: window.location.origin, // redirect user back to the same page they are on currently.
+    redirect_uri: window.location.origin // redirect user back to the same page they are on currently.
   });
 }
 

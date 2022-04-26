@@ -64,34 +64,61 @@ export async function findProduct(id) {
   return db.get('SELECT * FROM Product WHERE ProductID = ?', id);
 }
 
-
-//TODO: order table
 export async function processOrder(req){
   const db = await dbConn;
-  const userID = req.params.userID;
+  const customerID = req.params.userID;
+  const orderID = uuid()
+  const orderItemID = uuid()
+  const orderDate = new Date().toISOString().slice(0, 19).replace('T', ' ')
   const basket = new Map (JSON.parse(req.params.basket))
-  const orderItemStocks = [];
-  // TODO: decide if client needs stock change info on product orders
   for (const [productID, quantityOrdered] of basket.entries()) {
     const stockChange = await decreaseProductStock(productID, quantityOrdered)
-    const itemStockChange = {}
-    itemStockChange.productID = productID
-    itemStockChange.oldStock = stockChange.oldStock
-    itemStockChange.newStock = stockChange.newStock;
-    orderItemStocks.push(itemStockChange)
+    console.log(`ProductID\n Old stock:${stockChange.oldStock}, New stock:${stockChange.newStock}`); 
+    const orderStmnt = await db.run('INSERT INTO Order VALUES(?,?,?)', [orderID, customerID, orderDate])
+    const orderItemStmnt = await db.run('INSERT INTO OrderItem VALUES(?,?,?,?)', [orderItemID, orderID, productID, quantityOrdered])
+    if (orderStmnt.changes === 0 || orderItemStmnt.changes === 0) throw new Error('Failed to Process Order');
   }
-  //await createOrder()
-  return orderItemStocks
+  return orderID
 }
 
-
-//TODO: Order
-async function createOrder(){
+export async function createCustomer(req){
   const db = await dbConn;
-  const orderID = uuid()
-  // const statement = await db.run('INSERT INTO Order VALUES(?,)')
-  if (statement.changes === 0) throw new Error('Failed to Process Order');
+  const profile = JSON.parse(req.params.strProfile)
+  const customerID = profile.sub;
+  const email = profile.email
+  if(req.params.accountType === 'named'){
+    const firstname = profile.given_name;
+    const surname = profile.family_name;
+    console.log(firstname);
+    console.log(surname);
+    const stmnt = await db.run('INSERT INTO Customer VALUES (?, ?, ?, ?)',[customerID, email, firstname, surname])
+    if (stmnt.changes === 0) throw new Error('Failed to Register');
+  } else{
+    throw new Error('Unnamed')
+    // const firstname = 'testFName';
+    // const surname = 'testSName';
+    // const stmnt = await db.run('INSERT INTO Customer VALUES (?, ?, ?, ?)',[customerID, email, firstname, surname])
+    // if (stmnt.changes === 0) throw new Error('Failed to Register');
+  }
+  return true
 }
+
+// export async function createCustomer(req){
+//   const db = await dbConn;
+//   const profile = JSON.parse(req.params.strProfile)
+//   const customerID = profile.sub;
+//   const email = profile.email
+//   if(req.params.accountType === 'named'){
+//     const firstname = profile.given_name;
+//     const surname = profile.family_name;
+//     const stmnt = await db.run('INSERT INTO Customer VALUES (?, ?, ?, ?)',[customerID, email, firstname, surname])
+//     if (stmnt.changes === 0) throw new Error('Failed to Register');
+//   } else{
+//     const stmnt = await db.run('INSERT INTO Customer VALUES (?, ?, ?, ?)',[customerID, email, null, null])
+//     if (stmnt.changes === 0) throw new Error('Failed to Register');
+//   }
+//   return true
+// }
 
 
 async function decreaseProductStock(productID, quantity){

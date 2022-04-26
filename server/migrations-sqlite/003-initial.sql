@@ -34,13 +34,11 @@ CREATE TABLE OrderItem
 CREATE TABLE Customer
 (
   CustomerID varchar(36) PRIMARY KEY,
-  Email varchar(100),
+  Email varchar(100) not null,
   Firstname varchar(40),
-  -- TODO: Auth0 doesn't require names? Not null?
   Surname varchar(40),
-  -- CustomerPassword nvarchar(50),
-  Phone varchar(15)
 );
+
 
 CREATE TABLE CustomerAddress
 (
@@ -169,8 +167,8 @@ VALUES
 INSERT INTO Customer
   (CustomerID, Email, Firstname, Surname, Phone)
 VALUES
-  ('auth0|62029e1653be65006bac6480', 'johndoe@gmailcom', 'John', 'Doe', '0757524527856'),
-  ('auth0|93029e16532141006bac6480', 'janedoe@gmailcom', 'Jane', 'Doe', '077557427845');
+  ('auth0|62029e1653be65006bac6480', 'johndoe@gmailcom', 'John', 'Doe'),
+  ('auth0|93029e16532141006bac6480', 'janedoe@gmailcom', 'Jane', 'Doe');
 
 
 INSERT INTO Orders

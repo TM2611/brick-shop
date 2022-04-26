@@ -76,24 +76,50 @@ function renderOrderTotal(total){
 
 async function submitOrder(){
   const basket = JSON.stringify(Array.from(ba.basket));
-  const userID = main.getUserID()
-
-  const orderFetchOptions = {
+  const profile = main.getProfile();
+  const strProfile = JSON.stringify(profile);
+  let orderID;
+  const fetchOptions = {
     credentials: 'same-origin',
-    method: 'PUT',
+    method: 'POST',
     headers: { 'content-type': 'application/json' },
   };
-  const response = await fetch(`/checkout/submit/${userID}/${basket}`, orderFetchOptions)
-  let orderStatus;
-  if (response.ok){
-     orderStatus = await response.json();
-     console.log(orderStatus);
+  const accountType = await checkAccountType()
+  const customerRes = await fetch(`/create/customer/${accountType}/${strProfile}`, fetchOptions)
+  debugger
+  if (customerRes.ok){
+    console.log(await customerRes.text());
+  }
+
+
+  const orderRes = await fetch(`/checkout/submit/${userID}/${basket}`, fetchOptions)
+  if (orderRes.ok){
+     orderID = await response.json();   
+     console.log("orderID:", orderID);
   }
   //clear basket
   ba.clearBasket()
   main.confirmPage()
 }
 
+async function checkAccountType(){
+  const token = await auth.auth0.getTokenSilently();
+
+  const fetchOptions = {
+    credentials: 'same-origin',
+    method: 'GET',
+    // Give access to the bearer of the token.
+    headers: { Authorization: 'Bearer ' + token },
+  };
+  const response = await fetch('/checkout/name/', fetchOptions);
+  if (!response.ok) {
+    // TODO: handle the error
+    el.textContent = 'Server error:\n' + response.status;
+    console.log('checkAccountType Error');
+    return;
+  }
+  return await response.text()
+}
 
 function setupListeners() {
   document.querySelector('.buy-btn').addEventListener('click', submitOrder)
