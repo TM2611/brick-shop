@@ -40,7 +40,7 @@ label {
   display: block;
 }
 
-/* --------------- Filters ---------------- */
+/*Filters*/
 .filters {
   width: 100%;
   height: 100px;
@@ -464,6 +464,71 @@ label {
 
 /* --------------- End of basket ---------------- */
 
+/* --------------- KITS PAGE -------------- */
+
+.kits-page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.kits-page-container>section {
+  margin-bottom: 3rem;
+  width: 80%;
+  max-width: 100rem;
+}
+
+.promo-kit-img {
+  width: 25rem
+}
+
+.kits-title {
+  margin: 2rem;
+  text-align: center;
+  font-size: 3rem;
+}
+
+.new-release-title,
+.coming-soon-title {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.kit-purchase-container {
+  display: flex;
+  align-items: center;
+}
+
+.atb-promo-btn {
+  height: 4rem;
+  width: 10rem;
+}
+
+.promo-kit-img-caption {
+  font-size: 2rem
+}
+
+.part-list-section {}
+
+.part-list-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.part-img {
+  width: 5rem;
+
+}
+
+.coming-soon-kits-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.coming-soon-kits-container img {
+  width: 15rem;
+}
 
 /* --------------- CHECKOUT PAGE -------------- */
 

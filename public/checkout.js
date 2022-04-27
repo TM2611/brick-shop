@@ -43,24 +43,39 @@ async function renderReviewItems(){
   let total = 0;
   const products = await fjs.fetchAllSingles();
   for (const [itemID, quantity] of ba.basket.entries()) {
-    const product = products.find(({ ProductID }) => ProductID === itemID);
     const t1 = document.querySelector('#checkout-item-template');
     const itemTemplate = t1.content.cloneNode(true);
     const img = itemTemplate.querySelector('#checkout-item-img');
     const itemName = itemTemplate.querySelector('#checkout-item-name');
     const itemPriceDOM = itemTemplate.querySelector('#checkout-item-price');
     const checkoutItemDom = itemTemplate.querySelector('.checkout-item');
-    const price = product.Price / 100;
     let itemQuantityDOM = itemTemplate.querySelector('.checkout-item-quantity');
-    checkoutItemDom.dataset.id = product.ProductID;
-    itemName.textContent = product.ProductName;
-    img.src = product.ProductImageSrc;
-    img.alt = product.ProductImageSrc;
-    itemName.textContent = product.ProductName;
-    itemPriceDOM.textContent = `£${(price).toFixed(2)}`;
-    itemQuantityDOM.textContent = `${quantity} x`
-    total += price * quantity
-    itemsContainer.append(itemTemplate);
+    const isItemKit = await main.checkBasketKit(itemID);
+    if(isItemKit){
+      const kit = await fjs.fetchKit(itemID)
+      const kitPrice = await fjs.fetchKitPrice(itemID)
+      const price = kitPrice / 100;
+      checkoutItemDom.dataset.id = itemID // Set ID in DOM
+      img.src = kit.KitImgSrc;
+      img.alt = `${kit.KitName} Image`;
+      itemName.textContent = kit.KitName;
+      itemPriceDOM.textContent = `£${(price).toFixed(2)}`;
+      itemQuantityDOM.textContent = `${quantity} x`
+      total += price * quantity
+      itemsContainer.append(itemTemplate);
+    } else{
+      const product = products.find(({ ProductID }) => ProductID === itemID);
+      const price = product.Price / 100;
+      checkoutItemDom.dataset.id = product.ProductID;
+      itemName.textContent = product.ProductName;
+      img.src = product.ProductImageSrc;
+      img.alt = `${product.ProductName} Image`;
+      itemName.textContent = product.ProductName;
+      itemPriceDOM.textContent = `£${(price).toFixed(2)}`;
+      itemQuantityDOM.textContent = `${quantity} x`
+      total += price * quantity
+      itemsContainer.append(itemTemplate);
+    }
   }
   renderOrderTotal(total)
 }

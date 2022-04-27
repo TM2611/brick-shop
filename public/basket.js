@@ -1,5 +1,6 @@
 import * as fjs from './fetch.js';
 import * as auth from './auth.js';
+import * as main from './main.js';
 
 export let basket; // IDs and quantities of items in basket
 
@@ -19,13 +20,15 @@ export async function initBasket() {
     return;
   }
   const products = await fjs.fetchAllSingles();
+
   const basketDOM = document.querySelector('.basket');
   const basketQuantityDOM = document.querySelector('.basket-quantity');
   const t2 = document.querySelector('#basket-item-template');
   const basketTotalDOM = document.querySelector('.basket-total');
   let total = 0;
   basketQuantityDOM.textContent = 0;
-  for (const [item, quantity] of basket.entries()) {
+  for (const [itemID, quantity] of basket.entries()) {
+    const isItemKit = await main.checkBasketKit(itemID); //Check if current item is a kit
     const basketQuantity = parseInt(basketQuantityDOM.textContent);
     const itemTemplate = t2.content.cloneNode(true);
     const basketItemDOM = itemTemplate.querySelector('.basket-item');
@@ -36,24 +39,40 @@ export async function initBasket() {
     const increaseBtn = itemTemplate.querySelector('.fa-chevron-up');
     const decreaseBtn = itemTemplate.querySelector('.fa-chevron-down');
     const itemAmountDOM = itemTemplate.querySelector('.item-amount');
-    const product = products.find(({ ProductID }) => ProductID === item); // TODO: retrieve single product?
-    const price = product.Price / 100;
-    basketItemDOM.dataset.id = product.ProductID; // Set ID in DOM
     basketQuantityDOM.textContent = basketQuantity + 1;
     removeItemBtn.textContent = 'Remove';
-    img.src = product.ProductImageSrc;
-    img.alt = `${product.ProductName} Image`;
-    productName.textContent = product.ProductName;
-    productPriceDOM.textContent = price.toFixed(2);
     increaseBtn.addEventListener('click', increaseItemQuantity);
     decreaseBtn.addEventListener('click', decreaseItemQuantity);
     removeItemBtn.addEventListener('click', removeBasketItem);
-    itemAmountDOM.textContent = quantity; // = item quantinty from storage
-    basketDOM.append(itemTemplate);
-    total += price * quantity
+    itemAmountDOM.textContent = quantity;
+    if(!isItemKit){
+      const product = products.find(({ ProductID }) => ProductID === itemID); // TODO: URGENT retrieve single product?
+      const price = product.Price / 100;
+      basketItemDOM.dataset.id = product.ProductID; // Set ID in DOM
+      img.src = product.ProductImageSrc;
+      img.alt = `${product.ProductName} Image`;
+      productName.textContent = product.ProductName;
+      productPriceDOM.textContent = price.toFixed(2);
+      basketDOM.append(itemTemplate);
+      total += price * quantity
+    }
+    else{
+      const kit = await fjs.fetchKit(itemID)
+      const kitPrice = await fjs.fetchKitPrice(itemID)
+      const price = kitPrice / 100;
+      basketItemDOM.dataset.id = itemID // Set ID in DOM
+      img.src = kit.KitImgSrc;
+      img.alt = `${kit.KitName} Image`;
+      productName.textContent = kit.KitName;
+      productPriceDOM.textContent = price.toFixed(2);
+      basketDOM.append(itemTemplate);
+      total += price * quantity
+    }
   }
   basketTotalDOM.textContent = total.toFixed(2);
 }
+
+
 
 function removeBasketItem(e) {
   const basketItemDOM = e.target.parentNode.parentNode;
@@ -75,18 +94,50 @@ function removeBasketItem(e) {
   resetAddToBasketBtn(itemID);
 }
 
-function resetAddToBasketBtn(itemID = 'n/a') {
-  const addToBasketList = document.querySelectorAll('.add-to-basket');
-  if (itemID === 'n/a') { // Reset all atb buttons
-    for (const atb of addToBasketList) {
+async function resetAddToBasketBtn(itemID = 'n/a') {
+  const isItemKit = await main.checkBasketKit(itemID);
+  if(!isItemKit){
+    resetBrickBtn(itemID)
+  } else {
+      //item is kit
+      resetKitBtn(itemID)
+    }
+}
+
+function resetBrickBtn(itemID){
+  const brickATBs = document.querySelectorAll('.add-to-basket');
+  if (itemID === 'n/a') { 
+    // Reset all brick atb buttons
+    for (const atb of brickATBs) {
       const atbBtn = atb.querySelector('.btn');
       atbBtn.innerText = 'Add to Basket';
       atbBtn.disabled = false;
     }
-  } else { // Reset button with ID passed as an argument
-    for (const atb of addToBasketList) {
-      if (itemID === atb.dataset.id) {
-        const atbBtn = atb.querySelector('.btn');
+  } else { 
+      // Reset brick atb button with itemID
+      for (const atb of brickATBs) {
+        if (itemID === atb.dataset.id) {
+          const atbBtn = atb.querySelector('.btn');
+          atbBtn.innerText = 'Add to Basket'; // Reset 'Add to Basket' button in DOM
+          atbBtn.disabled = false;
+          break;
+        }
+      }
+    }
+}
+
+function resetKitBtn(itemID){
+  const kitATBs = document.querySelectorAll('.kit-buy');
+  if (itemID === 'n/a') { 
+    // Reset all brick atb buttons
+    for (const atbBtn of kitATBs) {
+      atbBtn.innerText = 'Add to Basket';
+      atbBtn.disabled = false;
+    }
+  } else {
+    // Reset kit atb button with itemID
+    for (const atbBtn of kitATBs) {
+      if (itemID === atbBtn.dataset.id) {
         atbBtn.innerText = 'Add to Basket'; // Reset 'Add to Basket' button in DOM
         atbBtn.disabled = false;
         break;
@@ -95,7 +146,7 @@ function resetAddToBasketBtn(itemID = 'n/a') {
   }
 }
 
-//TODO: If on checkout page, update quantity on the page
+
 function increaseItemQuantity(e) {
   const itemID = e.target.parentElement.parentElement.dataset.id;
   let itemAmount = basket.get(itemID);
@@ -128,12 +179,8 @@ function decreaseItemQuantity(e) {
   }
 }
 
-
-export async function addToBasket(e) {
-  const itemID = e.target.parentNode.dataset.id;
-  const products = await fjs.fetchAllSingles(); // TODO: fetch single product? (or retrieve from storage / DB ?)
+export async function addToBasket(e, kit = false) {
   const basketDOM = document.querySelector('.basket');
-  const product = products.find(({ ProductID }) => ProductID === itemID);
   const t2 = document.querySelector('#basket-item-template');
   const itemTemplate = t2.content.cloneNode(true);
   const basketItemDOM = itemTemplate.querySelector('.basket-item');
@@ -147,24 +194,46 @@ export async function addToBasket(e) {
   const basketQuantityDOM = document.querySelector('.basket-quantity');
   const basketTotalDOM = document.querySelector('.basket-total');
   const basketTotal = parseFloat(basketTotalDOM.textContent);
-  const price = product.Price / 100;
   basketQuantityDOM.textContent = parseInt(basketQuantityDOM.textContent) + 1;
-  basketItemDOM.dataset.id = itemID; // Set ID in DOM
   removeItemBtn.textContent = 'Remove';
-  img.src = `${product.ProductImageSrc}`;
-  img.alt = `${product.ProductName} Image`;
-  productName.textContent = product.ProductName;
-  productPriceDOM.textContent = price.toFixed(2);
   increaseBtn.addEventListener('click', increaseItemQuantity);
   decreaseBtn.addEventListener('click', decreaseItemQuantity);
   removeItemBtn.addEventListener('click', removeBasketItem);
-  basket.set(itemID, 1);
-  localStorage.basket = JSON.stringify(Array.from(basket));
-  itemAmountDOM.textContent = 1;
   e.target.textContent = 'In Basket';
   e.target.disabled = true;
-  basketTotalDOM.textContent = (basketTotal + price).toFixed(2);
-  basketDOM.append(itemTemplate);
+  if(kit === false){
+    //if brick
+    const itemID = e.target.parentNode.dataset.id;
+    const products = await fjs.fetchAllSingles();
+    const product = products.find(({ ProductID }) => ProductID === itemID);
+    basketItemDOM.dataset.id = itemID; // Set ID in DOM
+    const price = product.Price / 100;
+    productPriceDOM.textContent = price.toFixed(2);
+    img.src = `${product.ProductImageSrc}`;
+    img.alt = `${product.ProductName} Image`;
+    productName.textContent = product.ProductName;
+    basket.set(itemID, 1);
+    localStorage.basket = JSON.stringify(Array.from(basket));
+    itemAmountDOM.textContent = 1;
+    basketTotalDOM.textContent = (basketTotal + price).toFixed(2);
+    basketDOM.append(itemTemplate);
+  }
+  else{
+    const kitID = kit.KitID
+    const kitPrice = await fjs.fetchKitPrice(kitID)
+    const price = kitPrice / 100;
+    productPriceDOM.textContent = price.toFixed(2);
+    img.src = `${kit.KitImgSrc}`;
+    img.alt = `${kit.KitName} Image`;
+    productName.textContent = kit.KitName;
+    basketItemDOM.dataset.id = kitID; // Set ID in DOM
+    basket.set(kitID, 1);
+    localStorage.basket = JSON.stringify(Array.from(basket));
+    itemAmountDOM.textContent = 1;
+    basketTotalDOM.textContent = (basketTotal + price).toFixed(2);
+    basketDOM.append(itemTemplate);
+  }
+
 }
 
 

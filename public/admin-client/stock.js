@@ -18,7 +18,6 @@ async function updateStock(){
   }
   else if(form.dataset.option === 'set'){
     const result = await fjs.fetchSetStock(id,quantity);
-    debugger
     console.log(result.newStock);
     resElement.textContent = `Update Succesful, new quantity: ${result.newStock}`
   }

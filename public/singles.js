@@ -11,7 +11,7 @@ async function renderAllSingles() {
       product.remove();
     }
   }
-  const products = await fjs.fetchSingles();
+  const products = await fjs.fetchSortSingles(); //checks filter criteria
   const container = document.querySelector('.products-container'); 
   products.forEach(product => {
     const t1 = document.querySelector('#product-template');

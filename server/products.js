@@ -65,6 +65,39 @@ export async function findProduct(id) {
   return db.get('SELECT * FROM Product WHERE ProductID = ?', id);
 }
 
+
+export async function findBonsaiProducts() {
+  const db = await dbConn;
+  return db.all('SELECT Product.ProductImageSrc, KitProduct.ProductQuantity FROM Product JOIN KitProduct ON Product.ProductID = KitProduct.ProductID WHERE KitProduct.KitID = ?', 'B0NS41');
+}
+
+export async function findKit(req) {
+  const db = await dbConn;
+  const kitID = req.params.kitID
+  return db.get('SELECT * from kit where KitID = ?', kitID)
+}
+
+export async function findAllKitIDs() {
+  const db = await dbConn;
+  return db.all('SELECT Kit.KitID from Kit')
+}
+
+export async function getKitPrice(req) {
+  const qp = await getKitQuantityPrice(req)
+  let total = 0
+  Object.entries(qp).forEach(([_, product]) => 
+  total += product.Price * product.ProductQuantity);
+  return total
+  
+}
+
+async function getKitQuantityPrice(req){
+  const kitID = req.params.kitID
+  const db = await dbConn;
+  return db.all('SELECT Product.Price, KitProduct.ProductQuantity FROM Product JOIN KitProduct ON Product.ProductID = KitProduct.ProductID WHERE KitProduct.KitID = ?', kitID)
+
+}
+
 export async function processOrder(req){
   const db = await dbConn;
   const customerID = req.params.userID;
@@ -110,8 +143,7 @@ async function decreaseProductStock(productID, quantity, orderDate, userID){
     const updateStatement = await db.run('UPDATE Product SET UnitsInStock = 0 WHERE ProductID = ?', productID);
     // TODO: stockRequestMsg = requestStock(productID, quantity, orderDate, userID)
     // Return stockRequestMsg
-    throw new Error('Quantity exceeds stock level')
-    
+    throw new Error('Quantity exceeds stock level')   
   }
   const newStock = oldStock - quantity;
   const updateStatement = await db.run('UPDATE Product SET UnitsInStock = ? WHERE ProductID = ?', [newStock, productID]);
