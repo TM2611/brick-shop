@@ -1,3 +1,4 @@
+// TODO: rename file?
 import sqlite from 'sqlite';
 import uuid from 'uuid-random'
 
@@ -72,7 +73,7 @@ export async function processOrder(req){
   const orderDate = new Date().toISOString().slice(0, 19).replace('T', ' ')
   const basket = new Map (JSON.parse(req.params.basket))
   for (const [productID, quantityOrdered] of basket.entries()) {
-    const stockChange = await decreaseProductStock(productID, quantityOrdered)
+    const stockChange = await decreaseProductStock(productID, quantityOrdered, orderDate, customerID)
     console.log(`ProductID\n Old stock:${stockChange.oldStock}, New stock:${stockChange.newStock}`); 
     const orderStmnt = await db.run('INSERT INTO Order VALUES(?,?,?)', [orderID, customerID, orderDate])
     const orderItemStmnt = await db.run('INSERT INTO OrderItem VALUES(?,?,?,?)', [orderItemID, orderID, productID, quantityOrdered])
@@ -101,13 +102,14 @@ export async function createCustomer(req){
   return true
 }
 
-async function decreaseProductStock(productID, quantity){
+async function decreaseProductStock(productID, quantity, orderDate, userID){
   const db = await dbConn;
   const stmnt = await db.get('SELECT UnitsInStock FROM Product WHERE ProductID = ?', productID);
   const oldStock = stmnt.UnitsInStock;
   if(quantity > oldStock){
-    // TODO: tell customer
-    // TODO: order more stock?
+    const updateStatement = await db.run('UPDATE Product SET UnitsInStock = 0 WHERE ProductID = ?', productID);
+    // TODO: stockRequestMsg = requestStock(productID, quantity, orderDate, userID)
+    // Return stockRequestMsg
     throw new Error('Quantity exceeds stock level')
     
   }
