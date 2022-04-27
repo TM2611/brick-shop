@@ -76,6 +76,11 @@ export async function findKit(req) {
   return db.get('SELECT * from kit where KitID = ?', kitID)
 }
 
+export async function findAllKitIDs() {
+  const db = await dbConn;
+  return db.all('SELECT Kit.KitID from Kit')
+}
+
 export async function getKitPrice(req) {
   const qp = await getKitQuantityPrice(req)
   let total = 0

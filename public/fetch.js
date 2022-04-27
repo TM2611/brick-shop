@@ -64,6 +64,17 @@ export async function fetchAllProducts(){
   return response.json();
 }
 
+
+//-------------KITS----------------//
+
+export async function fetchAllKitIDs() {
+  const response = await fetch(`/kit/all/id`)
+  if (!response.ok) {
+    throw response;
+  }
+  return response.json();
+}
+
 export async function fetchKit(kitID) {
   const response = await fetch(`/kit/${kitID}`)
   if (!response.ok) {
@@ -89,6 +100,7 @@ export async function fetchBonzaiProducts(){
   return response.json();
 }
 
+//-------------Stock----------------//
 export async function fetchRemoveProduct (removeID){
   const fetchOptions = {
     method: 'POST',

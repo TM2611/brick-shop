@@ -1,4 +1,7 @@
 import * as auth from './auth.js';
+import * as fjs from './fetch.js';
+
+//TODO: move fetch to fjs
 
 export async function checkoutPage() {
   const isAuthenticated = await auth.auth0.isAuthenticated();
@@ -67,6 +70,12 @@ export async function getUserID() {
   // handle the response
   console.log(await response.text());
   return response
+}
+
+//Needed in basket and potentially kit page in the future
+export async function getAllKits(){
+  const kitIDs = await fjs.fetchAllKitIDs()
+  return kitIDs
 }
 
 export function homePage() {

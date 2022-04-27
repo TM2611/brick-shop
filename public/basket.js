@@ -1,5 +1,6 @@
 import * as fjs from './fetch.js';
 import * as auth from './auth.js';
+import * as main from './main.js';
 
 export let basket; // IDs and quantities of items in basket
 
@@ -18,6 +19,8 @@ export async function initBasket() {
   if(window.location.href.indexOf("checkout") != -1){ //if on checkout page
     return;
   }
+  const isKitInBasket = checkBasketKit()
+  debugger
   const products = await fjs.fetchAllSingles();
   const basketDOM = document.querySelector('.basket');
   const basketQuantityDOM = document.querySelector('.basket-quantity');
@@ -53,6 +56,15 @@ export async function initBasket() {
     total += price * quantity
   }
   basketTotalDOM.textContent = total.toFixed(2);
+}
+
+async function checkBasketKit(){
+  const kitIDs = await main.getAllKits()
+  for (kit of kitIDs){
+    if(basket.has(kit.KitID)){
+      return true
+    }
+  return false
 }
 
 function removeBasketItem(e) {
