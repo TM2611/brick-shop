@@ -478,7 +478,7 @@ label {
   max-width: 100rem;
 }
 
-.new-release-img {
+.promo-kit-img {
   width: 25rem
 }
 
@@ -499,12 +499,12 @@ label {
   align-items: center;
 }
 
-.atb-bonsai-btn {
+.atb-promo-btn {
   height: 4rem;
   width: 10rem;
 }
 
-.new-release-img-caption {
+.promo-kit-img-caption {
   font-size: 2rem
 }
 

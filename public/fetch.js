@@ -1,4 +1,4 @@
-export async function fetchSingles() {
+export async function fetchSortSingles() {
   const filter = document.querySelector('#colour-filter');
   const colour = filter.options[filter.selectedIndex].text.toLowerCase();
   const sort = document.querySelector('#sort');
