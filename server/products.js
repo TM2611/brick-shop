@@ -98,30 +98,48 @@ async function getKitQuantityPrice(req){
 
 }
 
-export async function processOrder(req){
+
+export async function processOrder(req, profile){
+  const userID = profile.sub;
+  const customerExists = await checkUserID(userID)
+  if(customerExists){
+    console.log("customer exists")
+    const customerID = userID
+    const orderID = await insertOrder(customerID, req)
+    return orderID
+  }
+  console.log("customer does not exist")
+  const customerID = await createCustomer(profile)
+  const orderID = await insertOrder(customerID, req)
+  return orderID
+}
+
+async function checkUserID(userID){
   const db = await dbConn;
-  const customerID = req.params.userID;
+  return db.get('SELECT CustomerID FROM Customer WHERE CustomerID = ?', userID);
+}
+
+async function insertOrder(customerID, req){
+  const db = await dbConn;
   const orderID = uuid()
   const orderItemID = uuid()
   const orderDate = new Date().toISOString().slice(0, 19).replace('T', ' ')
   const basket = new Map (JSON.parse(req.params.basket))
   for (const [productID, quantityOrdered] of basket.entries()) {
-    const stockChange = await decreaseProductStock(productID, quantityOrdered, orderDate, customerID)
-    console.log(`ProductID\n Old stock:${stockChange.oldStock}, New stock:${stockChange.newStock}`); 
-    const orderStmnt = await db.run('INSERT INTO Order VALUES(?,?,?)', [orderID, customerID, orderDate])
+    console.log("Pre")
+    const orderStmnt = await db.run('INSERT INTO Orders VALUES(?,?,?)', [orderID, customerID, orderDate])
     const orderItemStmnt = await db.run('INSERT INTO OrderItem VALUES(?,?,?,?)', [orderItemID, orderID, productID, quantityOrdered])
     if (orderStmnt.changes === 0 || orderItemStmnt.changes === 0) throw new Error('Failed to Process Order');
   }
   return orderID
 }
 
-export async function createCustomer(req){
+async function createCustomer(profile){
   const db = await dbConn;
-  const profile = JSON.parse(req.params.strProfile)
   const customerID = profile.sub;
   const email = profile.email
-  console.log(req.params.strProfile);
-  if(req.params.accountType === 'named'){
+  const isNamedAccount = hasGivenName(profile)
+  if(isNamedAccount){
     const firstname = profile.given_name;
     const surname = profile.family_name;
     console.log(firstname);
@@ -132,8 +150,18 @@ export async function createCustomer(req){
     const stmnt = await db.run('INSERT INTO Customer VALUES (?, ?, ?, ?)',[customerID, email, null, null])
     if (stmnt.changes === 0) throw new Error('Failed to Register');
   }
-  return true
+  console.log("Customer Created")
+  return customerID
 }
+
+function hasGivenName(profile){
+  return profile.given_name !== undefined
+  //google-oauth2 has given_name and family_name
+  //auth0 does not
+}
+
+
+
 
 async function decreaseProductStock(productID, quantity, orderDate, userID){
   const db = await dbConn;
@@ -195,7 +223,7 @@ export async function listAllProducts(req){
 
 export async function listAllOrders(req){
   const db = await dbConn;
-  return db.all('SELECT * FROM Orders ORDER BY OrderDate'); 
+  return db.all('SELECT * FROM Orders ORDER BY OrderDate DESC'); 
 }
 
 export async function adminIncreaseProductStock(req){

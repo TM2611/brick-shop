@@ -202,7 +202,8 @@ async function getKitPrice(req, res){
 
 
 async function postProcessOrder(req, res){
-  const orderID = await pjs.processOrder(req)
+  const profile = await auth0.getProfile(req);
+  const orderID = await pjs.processOrder(req, profile)
   if(!orderID){
     console.log('Purchase Failed');
     res.status(404).send('Purchase Failed');
@@ -280,7 +281,7 @@ app.get('/kit/bonsai/parts', asyncWrap(getBonsaiProducts));
 app.get('/kit/:kitID', asyncWrap(getKit));
 app.get('/kit/all/id', asyncWrap(getAllKitIDs));
 app.get('/kit/:kitID/price', asyncWrap(getKitPrice));
-app.post('/checkout/submit/:userID/:basket', asyncWrap(postProcessOrder));
+app.post('/checkout/submit/:basket', asyncWrap(postProcessOrder));
 app.post('/create/customer/:accountType/:strProfile/', asyncWrap(postCreateCustomer));
 
 //ADMIN ROUTES

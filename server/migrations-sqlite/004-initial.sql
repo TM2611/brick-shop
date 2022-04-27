@@ -209,7 +209,7 @@ VALUES
 INSERT INTO Orders
   (OrderID, CustomerID, OrderDate)
 VALUES
-  ('d7567d76-06dd-41de-8707-7b3fd2b903a6', 'auth0|62029e1653be65006bac6480', '25/04/2022 21:30:00');
+  ('d7567d76-06dd-41de-8707-7b3fd2b903a6', 'auth0|62029e1653be65006bac6480', '2022-04-20 21:30:00');
 
 INSERT INTO OrderItem
   (OrderItemID, OrderID, ProductID, Quantity)

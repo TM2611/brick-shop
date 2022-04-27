@@ -91,19 +91,31 @@ function renderOrderTotal(total){
 
 async function submitOrder(){
   const basket = JSON.stringify(Array.from(ba.basket));
-  const profile = await main.getProfile();
-  const namedAccount = hasGivenName(profile)
-  debugger
-  const strProfile = JSON.stringify(profile);
-  const userID = profile.sub
-  let orderID;
+  const token = await auth.auth0.getTokenSilently();
   const fetchOptions = {
     credentials: 'same-origin',
     method: 'POST',
-    headers: { 'content-type': 'application/json' },
+    // Give access to the bearer of the token.
+    headers: { 
+      Authorization: 'Bearer ' + token ,
+      'content-type': 'application/json'
+    },
   };
-  const accountType = await checkAccountType()
-  const customerRes = await fetch(`/create/customer/${accountType}/${strProfile}`, fetchOptions)
+  // const profile = await main.getProfile();
+  // const namedAccount = hasGivenName(profile)
+  const res = await fetch(`/checkout/submit/${basket}`, fetchOptions)
+  if(!res.ok){
+    throw res
+  }
+  console.log("returned")
+  const orderID = await res.json(); 
+  console.log(orderID)
+  debugger
+  const strProfile = JSON.stringify(profile);
+  const userID = profile.sub
+  if(namedAccount){
+    const res = await fetch(`/checkout/submit/${accountType}/${strProfile}`, fetchOptions)
+  }
   if (customerRes.ok){
     const orderRes = await fetch(`/checkout/submit/${userID}/${basket}`, fetchOptions)
     if (orderRes.ok){
@@ -119,12 +131,6 @@ async function submitOrder(){
   //clear basket
   ba.clearBasket()
   main.confirmPage()
-}
-
-function hasGivenName(profile){
-  return profile.given_name !== undefined
-  //google-oauth2 has given_name and family_name
-  //auth0 does not
 }
 
 function setupListeners() {
