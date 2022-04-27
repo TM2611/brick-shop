@@ -91,17 +91,31 @@ function renderOrderTotal(total){
 
 async function submitOrder(){
   const basket = JSON.stringify(Array.from(ba.basket));
-  const profile = await main.getProfile();
-  const strProfile = JSON.stringify(profile);
-  const userID = profile.sub
-  let orderID;
+  const token = await auth.auth0.getTokenSilently();
   const fetchOptions = {
     credentials: 'same-origin',
     method: 'POST',
-    headers: { 'content-type': 'application/json' },
+    // Give access to the bearer of the token.
+    headers: { 
+      Authorization: 'Bearer ' + token ,
+      'content-type': 'application/json'
+    },
   };
-  const accountType = await checkAccountType()
-  const customerRes = await fetch(`/create/customer/${accountType}/${strProfile}`, fetchOptions)
+  // const profile = await main.getProfile();
+  // const namedAccount = hasGivenName(profile)
+  const res = await fetch(`/checkout/submit/${basket}`, fetchOptions)
+  if(!res.ok){
+    throw res
+  }
+  console.log("returned")
+  const orderID = await res.json(); 
+  console.log(orderID)
+  debugger
+  const strProfile = JSON.stringify(profile);
+  const userID = profile.sub
+  if(namedAccount){
+    const res = await fetch(`/checkout/submit/${accountType}/${strProfile}`, fetchOptions)
+  }
   if (customerRes.ok){
     const orderRes = await fetch(`/checkout/submit/${userID}/${basket}`, fetchOptions)
     if (orderRes.ok){
@@ -117,25 +131,6 @@ async function submitOrder(){
   //clear basket
   ba.clearBasket()
   main.confirmPage()
-}
-
-async function checkAccountType(){
-  const token = await auth.auth0.getTokenSilently();
-
-  const fetchOptions = {
-    credentials: 'same-origin',
-    method: 'GET',
-    // Give access to the bearer of the token.
-    headers: { Authorization: 'Bearer ' + token },
-  };
-  const response = await fetch('/checkout/name/', fetchOptions);
-  if (!response.ok) {
-    // TODO: handle the error
-    el.textContent = 'Server error:\n' + response.status;
-    console.log('checkAccountType Error');
-    return;
-  }
-  return await response.text()
 }
 
 function setupListeners() {

@@ -68,7 +68,7 @@ export async function getUserID() {
     return;
   }
   // handle the response
-  console.log(await response.text());
+  console.log(await response.json());
   return response
 }
 

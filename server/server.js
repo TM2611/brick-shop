@@ -202,7 +202,8 @@ async function getKitPrice(req, res){
 
 
 async function postProcessOrder(req, res){
-  const orderID = await pjs.processOrder(req)
+  const profile = await auth0.getProfile(req);
+  const orderID = await pjs.processOrder(req, profile)
   if(!orderID){
     console.log('Purchase Failed');
     res.status(404).send('Purchase Failed');
@@ -258,11 +259,7 @@ async function putAdminSetProductStock(req, res){
 }
 
 
-function hasGivenName(profile){
-  return profile.given_name !== undefined
-  //google-oauth2 has given_name and family_name
-  //auth0 does
-}
+
 
 // wrap async function for express.js error handling
 function asyncWrap(f) {
@@ -284,7 +281,7 @@ app.get('/kit/bonsai/parts', asyncWrap(getBonsaiProducts));
 app.get('/kit/:kitID', asyncWrap(getKit));
 app.get('/kit/all/id', asyncWrap(getAllKitIDs));
 app.get('/kit/:kitID/price', asyncWrap(getKitPrice));
-app.post('/checkout/submit/:userID/:basket', asyncWrap(postProcessOrder));
+app.post('/checkout/submit/:basket', asyncWrap(postProcessOrder));
 app.post('/create/customer/:accountType/:strProfile/', asyncWrap(postCreateCustomer));
 
 //ADMIN ROUTES
@@ -303,13 +300,6 @@ app.get('/profile', async (req, res) => {
   res.send(JSON.stringify(profile, null, 2));
 });
 
-app.get('/checkout/name', async (req, res) => {
-  const profile = await auth0.getProfile(req);
-  if(hasGivenName(profile)){
-    res.send('named')
-  }
-  res.send('notNamed')
-});
 
 app.get('/userID', async (req, res) => {
   const userId = auth0.getUserID(req);
