@@ -64,6 +64,14 @@ export async function fetchAllProducts(){
   return response.json();
 }
 
+export async function fetchBonzaiProducts(){
+  const response = await fetch('/kit/bonsai');
+  if (!response.ok) {
+    throw response;
+  }
+  return response.json();
+}
+
 export async function fetchRemoveProduct (removeID){
   const fetchOptions = {
     method: 'POST',

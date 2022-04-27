@@ -161,6 +161,16 @@ async function getSingleSorted(req, res) {
   res.json(result);
 }
 
+async function getBonsaiProducts(req, res){
+  const result = await pjs.findBonsaiProducts()
+  if (!result) {
+    res.status(404).send('Kit parts not found');
+    return;
+  }
+  res.json(result);
+}
+
+
 async function postProcessOrder(req, res){
   const orderID = await pjs.processOrder(req)
   if(!orderID){
@@ -240,6 +250,7 @@ app.get('/single/colour/:colour/PriceHightolow', asyncWrap(getHighToLow));
 app.get('/single/colour/:colour/PriceLowtohigh', asyncWrap(getLowToHigh));
 app.get('/single/colour/:colour/MostPopular', asyncWrap(getMostPopular));
 app.get('/test/product/:id', asyncWrap(getProduct));
+app.get('/kit/bonsai', asyncWrap(getBonsaiProducts));
 app.post('/checkout/submit/:userID/:basket', asyncWrap(postProcessOrder));
 app.post('/create/customer/:accountType/:strProfile/', asyncWrap(postCreateCustomer));
 

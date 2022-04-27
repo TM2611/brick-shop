@@ -64,6 +64,14 @@ export async function findProduct(id) {
   return db.get('SELECT * FROM Product WHERE ProductID = ?', id);
 }
 
+
+export async function findBonsaiProducts() {
+  const db = await dbConn;
+  return db.all('SELECT Product.ProductImageSrc, KitProduct.ProductQuantity FROM Product JOIN KitProduct ON Product.ProductID = KitProduct.ProductID WHERE KitProduct.KitID = ?', 'B0NS41');
+  
+}
+
+
 export async function processOrder(req){
   const db = await dbConn;
   const customerID = req.params.userID;

@@ -26,10 +26,8 @@ async function renderAllSingles() {
     addToBasketBtn.addEventListener('click', ba.addToBasket);
     addToBasketBtn.innerText = 'Add to Basket';
     if (ba.basket.has(product.ProductID)) {
-      if(product.)
       addToBasketBtn.innerText = 'In Basket';
       addToBasketBtn.disabled = true;
-
     }
     img.src = `${product.ProductImageSrc}`;
     img.alt = `${product.ProductName} Image`;

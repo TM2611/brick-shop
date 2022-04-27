@@ -474,7 +474,8 @@ label {
 
 .kits-page-container>section {
   margin-bottom: 3rem;
-  width: 80%
+  width: 80%;
+  max-width: 100rem;
 }
 
 .new-release-img {
@@ -498,7 +499,7 @@ label {
   align-items: center;
 }
 
-.buy-kit-btn {
+.atb-bonsai-btn {
   height: 4rem;
   width: 10rem;
 }
@@ -507,9 +508,16 @@ label {
   font-size: 2rem
 }
 
-.part-list-section {
+.part-list-section {}
+
+.part-list-container {
   display: flex;
   flex-wrap: wrap;
+}
+
+.part-img {
+  width: 5rem;
+
 }
 
 .coming-soon-kits-container {
