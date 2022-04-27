@@ -71,16 +71,6 @@ export async function initBasket() {
   basketTotalDOM.textContent = total.toFixed(2);
 }
 
-// async function checkBasketKit(){
-//   const kitIDs = await main.getAllKits()
-//   for (const kit of kitIDs){
-//     if(basket.has(kit.KitID)){
-//       return true
-//     }
-//   return false
-//   }
-// }
-
 async function checkBasketKit(itemID){
   const kitIDs = await main.getAllKits()
   for (const kit of kitIDs){
@@ -112,23 +102,49 @@ function removeBasketItem(e) {
   resetAddToBasketBtn(itemID);
 }
 
-function resetAddToBasketBtn(itemID = 'n/a') {
-  const addToBasketList = document.querySelectorAll('.add-to-basket');
-  if (itemID === 'n/a') { // Reset all atb buttons
-    for (const atb of addToBasketList) {
-      const atbBtn = atb.querySelector('.btn');
-      atbBtn.innerText = 'Add to Basket';
-      atbBtn.disabled = false;
-    }
-  } else { // Reset button with ID passed as an argument
-    for (const atb of addToBasketList) {
-      if (itemID === atb.dataset.id) {
+async function resetAddToBasketBtn(itemID = 'n/a') {
+  const brickATBs = document.querySelectorAll('.add-to-basket');
+  const kitATBs = document.querySelectorAll('.kit-buy');
+  const isItemKit = await checkBasketKit(itemID);
+
+  if(!isItemKit){
+    if (itemID === 'n/a') { 
+      // Reset all brick atb buttons
+      for (const atb of brickATBs) {
         const atbBtn = atb.querySelector('.btn');
-        atbBtn.innerText = 'Add to Basket'; // Reset 'Add to Basket' button in DOM
+        atbBtn.innerText = 'Add to Basket';
         atbBtn.disabled = false;
-        break;
+      }
+    } else { 
+      // Reset brick atb button with itemID
+      for (const atb of brickATBs) {
+        if (itemID === atb.dataset.id) {
+          const atbBtn = atb.querySelector('.btn');
+          atbBtn.innerText = 'Add to Basket'; // Reset 'Add to Basket' button in DOM
+          atbBtn.disabled = false;
+          break;
+        }
       }
     }
+  } else {
+    //item is kit
+    if (itemID === 'n/a') { 
+      // Reset all brick atb buttons
+      for (const atbBtn of kitATBs) {
+        atbBtn.innerText = 'Add to Basket';
+        atbBtn.disabled = false;
+      }
+    } else {
+      // Reset kit atb button with itemID
+      for (const atbBtn of kitATBs) {
+        if (itemID === atbBtn.dataset.id) {
+          atbBtn.innerText = 'Add to Basket'; // Reset 'Add to Basket' button in DOM
+          atbBtn.disabled = false;
+          break;
+        }
+      }
+    }
+
   }
 }
 
@@ -164,7 +180,7 @@ function decreaseItemQuantity(e) {
   }
 }
 
-export async function addToBasket(e, kitID = null) {
+export async function addToBasket(e, kit = false) {
   const basketDOM = document.querySelector('.basket');
   const t2 = document.querySelector('#basket-item-template');
   const itemTemplate = t2.content.cloneNode(true);
@@ -186,7 +202,7 @@ export async function addToBasket(e, kitID = null) {
   removeItemBtn.addEventListener('click', removeBasketItem);
   e.target.textContent = 'In Basket';
   e.target.disabled = true;
-  if(kitID === null){
+  if(kit === false){
     //if brick
     const itemID = e.target.parentNode.dataset.id;
     const products = await fjs.fetchAllSingles();
@@ -204,7 +220,7 @@ export async function addToBasket(e, kitID = null) {
     basketDOM.append(itemTemplate);
   }
   else{
-    const kit = await fjs.fetchKit(kitID)
+    const kitID = kit.KitID
     const kitPrice = await fjs.fetchKitPrice(kitID)
     const price = kitPrice / 100;
     productPriceDOM.textContent = price.toFixed(2);

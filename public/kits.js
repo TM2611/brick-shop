@@ -16,8 +16,11 @@ async function displayBonsaiParts(){
     container.append(partTemplate);}
 }
 
-function bonsaiAddToBasket(e){
-  ba.addToBasket(e,'B0NS41')
+async function bonsaiAddToBasket(e){
+  const kit = await fjs.fetchKit('B0NS41') //use fetch for future kits
+  const addToBasket = document.querySelector('.atb-bonsai-btn');
+  addToBasket.dataset.id = kit.KitID;
+  ba.addToBasket(e,kit)
 }
 
 
