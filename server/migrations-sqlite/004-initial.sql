@@ -190,14 +190,13 @@ VALUES
   ('r4sdv3xz', 'Frog', 'pink', 'animal', 15, 8146, 'Bright Pink Frog. Part of the Bonsai Kit.', './images/single/pink/frog.png'),
   ('a4vfg5vc', 'Plant Leaves 6x5', 'white', 'plant', 14, 9142, 'White Plant Leaves 6x5 with stud. Part of the Bonsai Kit.', './images/single/pink/plantleaves6x5.png'),
   ('f45gh7ex', 'Plate 2x3', 'black', 'plate', 17, 10132, '2x3 Black Plate. Part of the Bonsai Kit.', './images/single/black/plate2x3.png'),
-  ('jh64da1', 'Modified Plate 2x2', 'black', 'plate', 19, 13112, '2x2 Modified Black Plate. Part of the Bonsai Kit.', './images/single/black/plate-modified2x2.png'),
+  ('kd8aj3j', 'Modified Plate 2x2', 'black', 'plate', 19, 13112, '2x2 Modified Black Plate. Part of the Bonsai Kit.', './images/single/black/plate-modified2x2.png'),
   ('gf3sz3g', 'Plate 2x10', 'brown', 'plate', 14, 14345, '2x10 Brown Plate. Part of the Bonsai Kit.', './images/single/brown/plate2x10.png'),
   ('jh64da1', 'Wedge Plate 4x4', 'brown', 'plate', 16, 12132, '4x4 Wedge Plate. Part of the Bonsai Kit.', './images/single/brown/wedgeplate4x4.png'),
   ('fg5d4fzs', 'Slope Curved 2x2x3', 'black', 'slope', 18, 7425, '2x2x2 Black Slope Curved. Part of the Bonsai Kit.', './images/single/brown/title2x4.png'),
-  ('g6hg3ds2', 'Round Tile', 'pink', 'tile', 16, 7658, '1x1 Stud Pink Round Tile. Part of the Bonsai Kit.', './images/single/pink/roundtile1x1.png')
-,
-
-
+  ('g6hg3ds2', 'Round Tile', 'pink', 'tile', 16, 7658, '1x1 Stud Pink Round Tile. Part of the Bonsai Kit.', './images/single/pink/roundtile1x1.png'),
+  ('g4d7hb8m', 'Tile 2x4', 'black', 'tile', 15, 9324, '2x4 Black Tile. Part of the Bonsai Kit.', './images/single/black/tile2x4.png'),
+  ('k7jg8sha', 'Groove Plate 1x2', 'brown', 'plate', 16, 11132, '1x2 Groove Plate. Part of the Bonsai Kit.', './images/single/brown/grooveplate1x2.png');
 
 
 INSERT INTO Customer
@@ -216,6 +215,35 @@ INSERT INTO OrderItem
   (OrderItemID, OrderID, ProductID, Quantity)
 VALUES
   ('OrderItemID', 'd7567d76-06dd-41de-8707-7b3fd2b903a6', 'a2dfs93h', 5);
+
+
+INSERT INTO Kit
+  (KitID, KitName, KitDocSrc, KitImgSrc)
+VALUES
+  ('B0NS41', 'Bonsai Tree', '/instructions/assets/bonsai/bonsai.pdf', '/images/kits/bonsai/bonsai.png');
+
+INSERT INTO KitProduct
+  (KitID, ProductID, ProductQuantity)
+VALUES
+  ('B0NS41', 'r4sdv3xz', 100),
+  ('B0NS41', 'fr45fnh7', 100),
+  ('B0NS41', 'd43fd3fs', 100),
+  ('B0NS41', 'g6hg3ds2', 100),
+  ('B0NS41', 'jh64da1', 80),
+  ('B0NS41', 'h5dsw21', 50),
+  ('B0NS41', 'a4vfg5vc', 50),
+  ('B0NS41', '2sfc3sdfv', 50),
+  ('B0NS41', 'k7jg8sha', 50),
+  ('B0NS41', 'gf3sz3g', 50),
+  ('B0NS41', 'f45gh7ex', 40),
+  ('B0NS41', 'f234fge5g', 30),
+  ('B0NS41', 'fg5d4fzs', 20),
+  ('B0NS41', 'g4d7hb8m', 20),
+  ('B0NS41', 'kd8aj3j', 6),
+  ('B0NS41', 'dsf43fws2', 4);
+
+
+
 
 -- Down
 
