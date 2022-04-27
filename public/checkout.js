@@ -1,6 +1,9 @@
 // import * as auth from './auth.js';
 import * as ba from './basket.js';
 import * as fjs from './fetch.js';
+import * as main from './main.js';
+import * as auth from './auth.js';
+
 
 
 async function renderCheckoutPage(){
@@ -40,24 +43,39 @@ async function renderReviewItems(){
   let total = 0;
   const products = await fjs.fetchAllSingles();
   for (const [itemID, quantity] of ba.basket.entries()) {
-    const product = products.find(({ ProductID }) => ProductID === itemID);
     const t1 = document.querySelector('#checkout-item-template');
     const itemTemplate = t1.content.cloneNode(true);
     const img = itemTemplate.querySelector('#checkout-item-img');
     const itemName = itemTemplate.querySelector('#checkout-item-name');
     const itemPriceDOM = itemTemplate.querySelector('#checkout-item-price');
     const checkoutItemDom = itemTemplate.querySelector('.checkout-item');
-    const price = product.Price / 100;
     let itemQuantityDOM = itemTemplate.querySelector('.checkout-item-quantity');
-    checkoutItemDom.dataset.id = product.ProductID;
-    itemName.textContent = product.ProductName;
-    img.src = product.ProductImage;
-    img.alt = product.ProductImage;
-    itemName.textContent = product.ProductName;
-    itemPriceDOM.textContent = `£${(price).toFixed(2)}`;
-    itemQuantityDOM.textContent = `${quantity} x`
-    total += price * quantity
-    itemsContainer.append(itemTemplate);
+    const isItemKit = await main.checkBasketKit(itemID);
+    if(isItemKit){
+      const kit = await fjs.fetchKit(itemID)
+      const kitPrice = await fjs.fetchKitPrice(itemID)
+      const price = kitPrice / 100;
+      checkoutItemDom.dataset.id = itemID // Set ID in DOM
+      img.src = kit.KitImgSrc;
+      img.alt = `${kit.KitName} Image`;
+      itemName.textContent = kit.KitName;
+      itemPriceDOM.textContent = `£${(price).toFixed(2)}`;
+      itemQuantityDOM.textContent = `${quantity} x`
+      total += price * quantity
+      itemsContainer.append(itemTemplate);
+    } else{
+      const product = products.find(({ ProductID }) => ProductID === itemID);
+      const price = product.Price / 100;
+      checkoutItemDom.dataset.id = product.ProductID;
+      itemName.textContent = product.ProductName;
+      img.src = product.ProductImageSrc;
+      img.alt = `${product.ProductName} Image`;
+      itemName.textContent = product.ProductName;
+      itemPriceDOM.textContent = `£${(price).toFixed(2)}`;
+      itemQuantityDOM.textContent = `${quantity} x`
+      total += price * quantity
+      itemsContainer.append(itemTemplate);
+    }
   }
   renderOrderTotal(total)
 }
@@ -73,21 +91,52 @@ function renderOrderTotal(total){
 
 async function submitOrder(){
   const basket = JSON.stringify(Array.from(ba.basket));
-  const userID = 'placeholderID'
-
-  const orderFetchOptions = {
+  const profile = await main.getProfile();
+  const strProfile = JSON.stringify(profile);
+  const userID = profile.sub
+  let orderID;
+  const fetchOptions = {
     credentials: 'same-origin',
-    method: 'PUT',
+    method: 'POST',
     headers: { 'content-type': 'application/json' },
   };
-  const response = await fetch(`/checkout/submit/${userID}/${basket}`, orderFetchOptions)
-  let orderStatus;
-  if (response.ok){
-     orderStatus = await response.json();
-     console.log(orderStatus);
+  const accountType = await checkAccountType()
+  const customerRes = await fetch(`/create/customer/${accountType}/${strProfile}`, fetchOptions)
+  if (customerRes.ok){
+    const orderRes = await fetch(`/checkout/submit/${userID}/${basket}`, fetchOptions)
+    if (orderRes.ok){
+       orderID = await response.json();   
+       console.log("orderID:", orderID);
+    }
   }
+  else{
+    throw new Error(customerRes)
+  }
+
+
+  //clear basket
+  ba.clearBasket()
+  main.confirmPage()
 }
 
+async function checkAccountType(){
+  const token = await auth.auth0.getTokenSilently();
+
+  const fetchOptions = {
+    credentials: 'same-origin',
+    method: 'GET',
+    // Give access to the bearer of the token.
+    headers: { Authorization: 'Bearer ' + token },
+  };
+  const response = await fetch('/checkout/name/', fetchOptions);
+  if (!response.ok) {
+    // TODO: handle the error
+    el.textContent = 'Server error:\n' + response.status;
+    console.log('checkAccountType Error');
+    return;
+  }
+  return await response.text()
+}
 
 function setupListeners() {
   document.querySelector('.buy-btn').addEventListener('click', submitOrder)
@@ -100,9 +149,7 @@ function homePage() {
 
 
 async function init() {
-  // await auth.initializeAuth0Client();
-  // await auth.updateAuthUI();
-  // await auth.handleAuth0Redirect();
+  await auth.initializeAuth0Client();
   await ba.initBasket();
   await renderCheckoutPage();
   setupListeners();

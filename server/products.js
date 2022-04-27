@@ -65,24 +65,74 @@ export async function findProduct(id) {
 }
 
 
-//TODO: order table
-export async function processOrder(req){
+export async function findBonsaiProducts() {
   const db = await dbConn;
-  const userID = req.params.userID;
-  const basket = new Map (JSON.parse(req.params.basket))
-  const orderItemStocks = [];
-  // TODO: decide if client needs stock change info on product orders
-  for (const [productID, quantityOrdered] of basket.entries()) {
-    const stockChange = await decreaseProductStock(productID, quantityOrdered)
-    const itemStockChange = {}
-    itemStockChange.productID = productID
-    itemStockChange.oldStock = stockChange.oldStock
-    itemStockChange.newStock = stockChange.newStock;
-    orderItemStocks.push(itemStockChange)
-  }
-  return orderItemStocks
+  return db.all('SELECT Product.ProductImageSrc, KitProduct.ProductQuantity FROM Product JOIN KitProduct ON Product.ProductID = KitProduct.ProductID WHERE KitProduct.KitID = ?', 'B0NS41');
 }
 
+export async function findKit(req) {
+  const db = await dbConn;
+  const kitID = req.params.kitID
+  return db.get('SELECT * from kit where KitID = ?', kitID)
+}
+
+export async function findAllKitIDs() {
+  const db = await dbConn;
+  return db.all('SELECT Kit.KitID from Kit')
+}
+
+export async function getKitPrice(req) {
+  const qp = await getKitQuantityPrice(req)
+  let total = 0
+  Object.entries(qp).forEach(([_, product]) => 
+  total += product.Price * product.ProductQuantity);
+  return total
+  
+}
+
+async function getKitQuantityPrice(req){
+  const kitID = req.params.kitID
+  const db = await dbConn;
+  return db.all('SELECT Product.Price, KitProduct.ProductQuantity FROM Product JOIN KitProduct ON Product.ProductID = KitProduct.ProductID WHERE KitProduct.KitID = ?', kitID)
+
+}
+
+export async function processOrder(req){
+  const db = await dbConn;
+  const customerID = req.params.userID;
+  const orderID = uuid()
+  const orderItemID = uuid()
+  const orderDate = new Date().toISOString().slice(0, 19).replace('T', ' ')
+  const basket = new Map (JSON.parse(req.params.basket))
+  for (const [productID, quantityOrdered] of basket.entries()) {
+    const stockChange = await decreaseProductStock(productID, quantityOrdered)
+    console.log(`ProductID\n Old stock:${stockChange.oldStock}, New stock:${stockChange.newStock}`); 
+    const orderStmnt = await db.run('INSERT INTO Order VALUES(?,?,?)', [orderID, customerID, orderDate])
+    const orderItemStmnt = await db.run('INSERT INTO OrderItem VALUES(?,?,?,?)', [orderItemID, orderID, productID, quantityOrdered])
+    if (orderStmnt.changes === 0 || orderItemStmnt.changes === 0) throw new Error('Failed to Process Order');
+  }
+  return orderID
+}
+
+export async function createCustomer(req){
+  const db = await dbConn;
+  const profile = JSON.parse(req.params.strProfile)
+  const customerID = profile.sub;
+  const email = profile.email
+  console.log(req.params.strProfile);
+  if(req.params.accountType === 'named'){
+    const firstname = profile.given_name;
+    const surname = profile.family_name;
+    console.log(firstname);
+    console.log(surname);
+    const stmnt = await db.run('INSERT INTO Customer VALUES (?, ?, ?, ?)',[customerID, email, firstname, surname])
+    if (stmnt.changes === 0) throw new Error('Failed to Register');
+  } else{
+    const stmnt = await db.run('INSERT INTO Customer VALUES (?, ?, ?, ?)',[customerID, email, null, null])
+    if (stmnt.changes === 0) throw new Error('Failed to Register');
+  }
+  return true
+}
 
 async function decreaseProductStock(productID, quantity){
   const db = await dbConn;
@@ -91,7 +141,7 @@ async function decreaseProductStock(productID, quantity){
   if(quantity > oldStock){
     // TODO: tell customer
     // TODO: order more stock?
-    throw new Error('Quantity exceeds stock level')
+    throw new Error(`Quantity of ${productID} exceeds stock level`)
     
   }
   const newStock = oldStock - quantity;
@@ -110,7 +160,8 @@ async function decreaseProductStock(productID, quantity){
 export async function addProduct(req){
   const db = await dbConn;
   const id = uuid()
-  req.file.path = req.file.path.replace(/\\/g, "/")
+  req.file.path = req.file.path.replace(/\\/g, "/") //if windows
+  req.file.path = req.file.path.replace('public/','') //remove 'public' so path is relative to client
   const product = {
     ProductID: id,
     ProductName : req.body.name,
@@ -119,8 +170,9 @@ export async function addProduct(req){
     Price : req.body.price,
     UnitsInStock : req.body.stock,
     ProductDesc : req.body.desc,
-    ProductImage: req.file.path
+    ProductImageSrc: req.file.path
    }
+   //TODO: usee add a product function
   await db.run('INSERT INTO Product VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
   [product.ProductID, 
     product.ProductName, 
@@ -129,7 +181,7 @@ export async function addProduct(req){
     product.Price, 
     product.UnitsInStock, 
     product.ProductDesc, 
-    product.ProductImage
+    product.ProductImageSrc
   ]);
   console.log(product);
   return product
@@ -140,6 +192,10 @@ export async function listAllProducts(req){
   return db.all('SELECT * FROM Product ORDER BY ProductName'); 
 }
 
+export async function listAllOrders(req){
+  const db = await dbConn;
+  return db.all('SELECT * FROM Orders ORDER BY OrderDate'); 
+}
 
 export async function adminIncreaseProductStock(req){
   const productID = req.params.id;
@@ -164,17 +220,8 @@ export async function adminDecreaseProductStock(req){
 export async function adminSetProductStock(req){
   const productID = req.params.id;
   const quantity = parseInt(req.params.quantity);
-  const result = await setProductStock(productID, quantity);
-  if (!result){
-    throw new Error('Stock update Failed');
-  }
-    // console.log(productID,"old stock:",oldStock);
-  // console.log(productID,"new stock:",newStock);
-  return result;
-
-}
-
-async function setProductStock(productID, quantity){
+  // const result = await setProductStock(productID, quantity);
+  
   const db = await dbConn;
   const newStock = quantity;
   //TODO: display current stock to user or remove stmt + oldStock
@@ -182,11 +229,23 @@ async function setProductStock(productID, quantity){
   const oldStock = stmnt.UnitsInStock;
   const updateStatement = await db.run('UPDATE Product SET UnitsInStock = ? WHERE ProductID = ?', [newStock, productID]);
   // if nothing was updated, the productID doesn't exist
-  if (updateStatement.changes === 0) throw new Error('product not found');
-    // console.log(productID,"old stock:",oldStock);
+  if (updateStatement.changes === 0) throw new Error('Stock update failed');
+  // console.log(productID,"old stock:",oldStock);
   // console.log(productID,"new stock:",newStock);
   return {oldStock: oldStock, newStock:newStock};
 }
+
+// async function setProductStock(productID, quantity){
+//   const db = await dbConn;
+//   const newStock = quantity;
+//   //TODO: display current stock to user or remove stmt + oldStock
+//   const stmnt = await db.get('SELECT UnitsInStock FROM Product WHERE ProductID = ?', productID);
+//   const oldStock = stmnt.UnitsInStock;
+//   const updateStatement = await db.run('UPDATE Product SET UnitsInStock = ? WHERE ProductID = ?', [newStock, productID]);
+//   // if nothing was updated, the productID doesn't exist
+//   if (updateStatement.changes === 0) throw new Error('product not found');
+//   return {oldStock: oldStock, newStock:newStock};
+// }
 
 async function increaseProductStock(productID, quantity){
   const db = await dbConn;
@@ -196,14 +255,12 @@ async function increaseProductStock(productID, quantity){
   const updateStatement = await db.run('UPDATE Product SET UnitsInStock = ? WHERE ProductID = ?', [newStock, productID]);
   // if nothing was updated, the productID doesn't exist
   if (updateStatement.changes === 0) throw new Error('product not found');
-  // console.log(productID,"old stock:",oldStock);
-  // console.log(productID,"new stock:",newStock);
   return {oldStock: oldStock, newStock:newStock};
 }
 
 export async function deleteProduct(req){
   const db = await dbConn;
-  const id = req.body.id
+  const id = req.params.id
   const product = await findProduct(id)
   const statement = await db.run('DELETE FROM Product WHERE ProductID = ?', id)
   //ID does not exist if no changes are made

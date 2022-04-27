@@ -17,13 +17,12 @@ const app = express();
 const auth0 = auth0Helpers(authConfig);
 
 import multer from 'multer';
-//const upload = multer({ dest: '../public/images/admin/uploads' })
 
 
-//TODO: multer not adding to images to folder
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, '../public/images/admin/uploads')
+    cb(null, './public/images/admin/uploads')
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + '-' + file.originalname)
@@ -42,7 +41,11 @@ const checkScopes = requiredScopes('read:admin');
 
 // protect /admin from unauthenticated users
 app.use('/admin', auth0.checkJwt);
+app.use('/profile', auth0.checkJwt);
+app.use('/userID', auth0.checkJwt);
+app.use('/checkout', auth0.checkJwt)
 
+//TODO: need checkjwt?
 app.get('/admin/check', auth0.checkJwt, checkScopes, function(req, res) {
   console.log(checkScopes);
   res.json({
@@ -72,6 +75,11 @@ async function getAllSingles(req, res) {
 async function getAllProducts(req, res) {
   res.json(await pjs.listAllProducts());
 }
+
+async function getAllOrders(req, res) {
+  res.json(await pjs.listAllOrders());
+}
+
 
 
 async function getSingleColour(req, res) {
@@ -124,8 +132,14 @@ async function postProduct(req, res){
 // TODO: return admin back to remove.html + update text content of '#server-response'
 async function deleteProduct(req, res){
   const deletedProduct = await pjs.deleteProduct(req)
-  res.status(200)
-  .send(`Removed product: ${deletedProduct.ProductName} (ID: ${deletedProduct.ProductID})`) //TODO: incorrect response
+  // res.status(200)
+  // .send(`Removed product: ${deletedProduct.ProductName} (ID: ${deletedProduct.ProductID})`) //TODO: incorrect response
+  if (!deletedProduct) {
+    res.status(404).send('Failed to find product');
+    return;
+  }
+  res.json(deletedProduct)
+
 }
 
 async function getProduct(req, res){
@@ -147,15 +161,66 @@ async function getSingleSorted(req, res) {
   res.json(result);
 }
 
-async function putProcessOrder(req, res){
-  const result = await pjs.processOrder(req)
-  if(!result){
+async function getBonsaiProducts(req, res){
+  const result = await pjs.findBonsaiProducts(req)
+  if (!result) {
+    res.status(404).send('Kit parts not found');
+    return;
+  }
+  res.json(result);
+}
+
+async function getKit(req, res){
+  const result = await pjs.findKit(req)
+  if (!result) {
+    res.status(404).send('Kit parts not found');
+    return;
+  }
+  res.json(result);
+}
+
+async function getAllKitIDs(req, res){
+  const result = await pjs.findAllKitIDs(req)
+  if (!result) {
+    res.status(404).send('Kit parts not found');
+    return;
+  }
+  res.json(result);
+}
+
+
+async function getKitPrice(req, res){
+  const result = await pjs.getKitPrice(req)
+  if (!result) {
+    res.status(404).send('Kit parts not found');
+    return;
+  }
+  res.json(result);
+}
+
+
+
+
+async function postProcessOrder(req, res){
+  const orderID = await pjs.processOrder(req)
+  if(!orderID){
     console.log('Purchase Failed');
     res.status(404).send('Purchase Failed');
     return
   }
   console.log('Purchase Succesful');
-  res.json(result);
+  res.json(orderID);
+}
+
+async function postCreateCustomer(req, res){
+  const response = await pjs.createCustomer(req)
+  if(!response){
+    console.log('Customer Registration Failed');
+    res.status(404).send('Failed to register');
+    return
+  }
+  console.log('Customer Creation Succesful');
+  res.send('Customer Creation Succesful');
 }
 
 // ADMIN
@@ -191,6 +256,14 @@ async function putAdminSetProductStock(req, res){
   console.log('Stock Update Succesful');
   res.json(result) //TODO: fix return to client
 }
+
+
+function hasGivenName(profile){
+  return profile.given_name !== undefined
+  //google-oauth2 has given_name and family_name
+  //auth0 does
+}
+
 // wrap async function for express.js error handling
 function asyncWrap(f) {
   return (req, res, next) => {
@@ -206,29 +279,41 @@ app.get('/single/colour/:colour', asyncWrap(getSingleColour));
 app.get('/single/colour/:colour/PriceHightolow', asyncWrap(getHighToLow));
 app.get('/single/colour/:colour/PriceLowtohigh', asyncWrap(getLowToHigh));
 app.get('/single/colour/:colour/MostPopular', asyncWrap(getMostPopular));
-app.post('/test/upload', upload.single('picfile'), asyncWrap(postProduct));
-app.post('/test/product/id', asyncWrap(deleteProduct)); 
 app.get('/test/product/:id', asyncWrap(getProduct));
-app.put('/checkout/submit/:userID/:basket', asyncWrap(putProcessOrder))
+app.get('/kit/bonsai/parts', asyncWrap(getBonsaiProducts));
+app.get('/kit/:kitID', asyncWrap(getKit));
+app.get('/kit/all/id', asyncWrap(getAllKitIDs));
+app.get('/kit/:kitID/price', asyncWrap(getKitPrice));
+app.post('/checkout/submit/:userID/:basket', asyncWrap(postProcessOrder));
+app.post('/create/customer/:accountType/:strProfile/', asyncWrap(postCreateCustomer));
 
-//ADMIN
+//ADMIN ROUTES
 app.get('/test/product/stock/list', asyncWrap(getAllProducts));
+app.get('/test/orders', asyncWrap(getAllOrders));
+app.post('/test/product/:id', asyncWrap(deleteProduct)); 
 app.put('/test/product/increase/:id/:quantity', asyncWrap(putAdminIncreaseStock))
 app.put('/test/product/decrease/:id/:quantity', asyncWrap(putAdminDecreaseStock))
 app.put('/test/product/set/:id/:quantity', asyncWrap(putAdminSetProductStock))
+app.post('/test/upload', upload.single('picfile'), asyncWrap(postProduct));
 
 
 
 app.get('/profile', async (req, res) => {
-  const userId = auth0.getUserID(req); //TODO: UserID returning null
   const profile = await auth0.getProfile(req);
-  res.send(`Hello user ${userId}, here's your profile:\n${JSON.stringify(profile, null, 2)}`);
+  res.send(JSON.stringify(profile, null, 2));
 });
 
-app.get('/checkout', async (req, res) => {
-  const userId = auth0.getUserID(req);
+app.get('/checkout/name', async (req, res) => {
   const profile = await auth0.getProfile(req);
-  res.send(`Hello user ${userId}, here's your profile:\n${JSON.stringify(profile, null, 2)}`);
+  if(hasGivenName(profile)){
+    res.send('named')
+  }
+  res.send('notNamed')
+});
+
+app.get('/userID', async (req, res) => {
+  const userId = auth0.getUserID(req);
+  res.send(userId);
 });
 
 // start the server

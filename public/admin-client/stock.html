@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Edit Product</title>
+    <title>Admin</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
     <script src="https://kit.fontawesome.com/76f1f6b390.js" crossorigin="anonymous"></script>
   </head>
   <body>
@@ -14,7 +14,7 @@
       <div class="logo">
         <!-- TODO: href to admin profile? -->
         <a href="#" class="active nav-item">
-          <img src="./images/assets/admin.png" alt="Admin logo" />
+          <img src="../images/assets/admin.png" alt="Admin logo" />
         </a>
       </div>
       <div class="icons right">
@@ -27,7 +27,7 @@
       <div class="user" id="user">
         <a href="#" class="user-link">no name</a>
         <div class="user-img-wrapper">
-          <img src="images/useravatar.png" alt="User 1" />
+          <!-- <img src="images/useravatar.png" alt="User 1" /> -->
         </div>
       </div>
     </nav>
@@ -36,43 +36,31 @@
         <h3>LEGO</h3>
         <ul class="menu">
           <li>
-            <a href="#" title="Home">
+            <a href="./dashboard.html" title="Admin Dashboard">
               <i class="fas fa-home"></i>
               <span>Admin Dashboard</span>
             </a>
           </li>
-          <li class="menu-heading">
-            <h3>Products</h3>
-          </li>
           <li>
-            <a href="/upload.html" title="Add New Product">
+            <a href="./upload.html" title="Add New Product">
               <i class="fas fa-tachometer-alt"></i>
               <span>Add New Product</span>
             </a>
           </li>
           <li>
-            <a href="/edit.html" title="Edit Product" class="admin-active">
-              <i class="fas fa-tachometer-alt"></i>
-              <span>Edit Product</span>
-            </a>
-          </li>
-          <li>
-            <a href="/remove.html" title="Remove Product">
+            <a href="./remove.html" title="Remove Product">
               <i class="fas fa-tachometer-alt"></i>
               <span>Remove Product</span>
             </a>
           </li>
           <li>
-            <a href="/stock.html" title="Stock Management">
+            <a href="./stock.html" title="Stock Management" class="admin-active">
               <i class="fas fa-tachometer-alt"></i>
               <span>Stock Management</span>
             </a>
           </li>
-          <li class="menu-heading">
-            <h3>Other</h3>
-          </li>
           <li>
-            <a href="#" title="Orders">
+            <a href="./adminorders.html" title="Orders">
               <i class="fas fa-sitemap"></i>
               <span>Orders</span>
             </a>
@@ -86,9 +74,39 @@
           </li>
         </ul>
       </nav>
-      <section class="page-content">
+
+      <div class="page-content">
+          <div class="stock-options">
+            <button class="add-stock-btn">Add Stock</button>
+            <button class="remove-stock-btn">Remove Stock</button>
+            <button class="set-stock-btn">Set Stock</button>
+          </div>
+          <template class ="stock-server-response-template">
+            <div class="stock-product-container">
+              <!-- <img class="stock-product-img"></img> -->
+              <div class="stock-product-id-container">
+                <div class="stock-product-id"></div>
+              </div>
+              <div class="stock-product-name-container">
+                <div class="stock-product-name"></div>
+              </div>
+              <div class="stock-product-qty-container">
+                <div class="stock-product-qty"></div>
+              </div>
+            </div>
+          </template>
+          <div class="stock-list-container">
+          </div>
+          <form class="quantity-input-form hide">
+            <label for="quantity-input"></label>
+            <input id = "quantity-input" type="number" inputmode="numeric" name="quantity-input" required></input>
+            <input id = "quantity-input-submit" type="submit" value="Submit">
+          </form>
+          <div class="stock-update-response"></div>
+        </div>
+    
       </section>
     </main>
-    <script type="module" src="edit.js" async defer></script>
+    <script type= "module" src="stock.js" async defer></script>
   </body>
 </html>

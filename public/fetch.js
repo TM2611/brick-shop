@@ -1,4 +1,4 @@
-export async function fetchSingles() {
+export async function fetchSortSingles() {
   const filter = document.querySelector('#colour-filter');
   const colour = filter.options[filter.selectedIndex].text.toLowerCase();
   const sort = document.querySelector('#sort');
@@ -49,8 +49,64 @@ async function fetchSingleSorted(sortType){
   return response.json();
 }
 
-export async function fetchAllProducts(sortType){
+export async function fetchOrders(){
+  const response = await fetch('/test/orders')
+  if (!response.ok) {
+    throw response;
+  }
+  return response.json();
+}
+export async function fetchAllProducts(){
   const response = await fetch('/test/product/stock/list');
+  if (!response.ok) {
+    throw response;
+  }
+  return response.json();
+}
+
+
+//-------------KITS----------------//
+
+export async function fetchAllKitIDs() {
+  const response = await fetch(`/kit/all/id`)
+  if (!response.ok) {
+    throw response;
+  }
+  return response.json();
+}
+
+export async function fetchKit(kitID) {
+  const response = await fetch(`/kit/${kitID}`)
+  if (!response.ok) {
+    throw response;
+  }
+  return response.json();
+}
+
+export async function fetchKitPrice(kitID) {
+  const response = await fetch(`/kit/${kitID}/price`)
+  if (!response.ok) {
+    throw response;
+  }
+  return response.json();
+}
+
+
+export async function fetchBonzaiProducts(){
+  const response = await fetch('/kit/bonsai/parts');
+  if (!response.ok) {
+    throw response;
+  }
+  return response.json();
+}
+
+//-------------Stock----------------//
+export async function fetchRemoveProduct (removeID){
+  const fetchOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' }
+  }
+  const response = await fetch(`/test/product/${removeID}`, fetchOptions)
   if (!response.ok) {
     throw response;
   }
@@ -86,8 +142,10 @@ export async function fetchSetStock(id,quantity){
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' }
   }
+  console.log("pre-response")
   const response = await fetch(`/test/product/set/${id}/${quantity}`, fetchOptions);
-  console.log('fetchSetStock');
+  // TODO: not logging
+  console.log("post-response")
   if (!response.ok) {
     throw response;
   }

@@ -2,7 +2,7 @@ import * as _ from './nav.js';
 import * as fjs from './fetch.js';
 import * as ba from './basket.js';
 
-async function renderProducts() {
+async function renderAllSingles() {
   const item = document.querySelector('.item');
   if (document.body.contains(item)) {
     // Products already displayed
@@ -11,7 +11,7 @@ async function renderProducts() {
       product.remove();
     }
   }
-  const products = await fjs.fetchSingles();
+  const products = await fjs.fetchSortSingles(); //checks filter criteria
   const container = document.querySelector('.products-container'); 
   products.forEach(product => {
     const t1 = document.querySelector('#product-template');
@@ -29,7 +29,7 @@ async function renderProducts() {
       addToBasketBtn.innerText = 'In Basket';
       addToBasketBtn.disabled = true;
     }
-    img.src = `${product.ProductImage}`;
+    img.src = `${product.ProductImageSrc}`;
     img.alt = `${product.ProductName} Image`;
     productName.textContent = `${product.ProductName}`;
     productPrice.textContent = `£${(product.Price / 100).toFixed(2)}`;
@@ -40,10 +40,16 @@ async function renderProducts() {
 
 
 function setupListeners() {
-  document.querySelector('.single-bricks').addEventListener('click', renderProducts);
-  document.querySelector('#colour-filter').addEventListener('change', renderProducts);
-  document.querySelector('#sort').addEventListener('change', renderProducts);
+  document.querySelector('#colour-filter').addEventListener('change', renderAllSingles);
+  document.querySelector('#sort').addEventListener('change', renderAllSingles);
+}
+
+async function init(){
+  await ba.initBasket()
+  await renderAllSingles()
+  setupListeners()
 }
 
 
-window.addEventListener('load', setupListeners);
+
+window.addEventListener('load', init);

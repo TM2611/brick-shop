@@ -7,6 +7,7 @@ as there does not need to be event listeners writtern in each module.
 */ 
 
 import * as ba from './basket.js';
+import * as main from './main.js'
 import * as auth from './auth.js';
 
 let prevScrollpos;
@@ -40,48 +41,15 @@ export function navbarDisplay() {
   prevScrollpos = currentScrollPos;
 }
 
-export async function viewProfile() {
-  // Get the access token from the Auth0 client
-  const token = await auth.auth0.getTokenSilently();
-  const fetchOptions = {
-    credentials: 'same-origin',
-    method: 'GET',
-    // Give access to the bearer of the token.
-    headers: { Authorization: 'Bearer ' + token },
-  };
-  const response = await fetch('/profile', fetchOptions);
-  if (!response.ok) {
-    // handle the error
-    el.textContent = 'Server error:\n' + response.status;
-    return;
-  }
-  // handle the response
-  console.log(await response.text());
-}
 
-export function checkoutPage() {
-  window.location.pathname = 'checkout.html';
-}
-
-export function homePage() {
-  window.location.pathname = 'index.html';
-}
-
-export function kitsPage() {
-  window.location.pathname = 'kits.html';
-}
-
-export function singlesPage() {
-  window.location.pathname = 'singles.html';
-}
 
 function setupListeners() {
-  document.querySelector('.home-nav').addEventListener('click', homePage);
-  document.querySelector('.singles-nav').addEventListener('click', singlesPage);
-  document.querySelector('.kits-nav').addEventListener('click', kitsPage);
+  document.querySelector('.home-nav').addEventListener('click', main.homePage);
+  document.querySelector('.singles-nav').addEventListener('click', main.singlesPage);
+  document.querySelector('.kits-nav').addEventListener('click', main.kitsPage);
   document.querySelector('#login-icon').addEventListener('click', showDropdown);
-  document.querySelector('.profile').addEventListener('click', viewProfile);
-  document.querySelector('.btn-checkout').addEventListener('click', checkoutPage);
+  document.querySelector('.profile').addEventListener('click', main.viewProfile);
+  document.querySelector('.btn-checkout').addEventListener('click', main.checkoutPage);
   document.querySelector('#btn-login').addEventListener('click', auth.login);
   document.querySelector('#btn-logout').addEventListener('click', auth.logout);
   document.querySelector('.close-basket').addEventListener('click', ba.closeBasket);

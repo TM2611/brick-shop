@@ -2,7 +2,7 @@
   --primaryColor: #f09d51;
   --mainWhite: #fff;
   --mainBlack: #222;
-  --mainGrey: #ececec;
+  --mainGrey: #c9c7c7;
   --mainSpacing: 0.1rem;
   --mainTransition: all 0.2s linear;
   --basketBtn: #f09d51;
@@ -40,7 +40,7 @@ label {
   display: block;
 }
 
-/* --------------- Filters ---------------- */
+/*Filters*/
 .filters {
   width: 100%;
   height: 100px;
@@ -91,7 +91,7 @@ label {
   width: 100%;
   top: 0;
   left: 0;
-  height: 70px;
+  /* height: 70px; */
   border-bottom: 1px solid #f2f2f2;
   background-color: white;
   background: rgb(156, 156, 155);
@@ -265,6 +265,7 @@ label {
   margin: 0 auto;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   position: relative;
+  background: var(--mainGrey)
 }
 
 /* .item .item-container {
@@ -419,6 +420,7 @@ label {
 .basket-item img {
   width: 75px;
   height: 75px;
+  background: var(--mainGrey)
 }
 
 .basket-item h4 {
@@ -462,6 +464,71 @@ label {
 
 /* --------------- End of basket ---------------- */
 
+/* --------------- KITS PAGE -------------- */
+
+.kits-page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.kits-page-container>section {
+  margin-bottom: 3rem;
+  width: 80%;
+  max-width: 100rem;
+}
+
+.promo-kit-img {
+  width: 25rem
+}
+
+.kits-title {
+  margin: 2rem;
+  text-align: center;
+  font-size: 3rem;
+}
+
+.new-release-title,
+.coming-soon-title {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.kit-purchase-container {
+  display: flex;
+  align-items: center;
+}
+
+.atb-promo-btn {
+  height: 4rem;
+  width: 10rem;
+}
+
+.promo-kit-img-caption {
+  font-size: 2rem
+}
+
+.part-list-section {}
+
+.part-list-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.part-img {
+  width: 5rem;
+
+}
+
+.coming-soon-kits-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.coming-soon-kits-container img {
+  width: 15rem;
+}
 
 /* --------------- CHECKOUT PAGE -------------- */
 
@@ -580,16 +647,17 @@ label {
   overflow-x: hidden;
   overflow-y: scroll;
   border: solid 1px grey;
+  background: var(--mainGrey)
 }
 
 .checkout-item {
   display: flex;
   align-items: center;
-  border-bottom: 1px solid #ccc;
 }
 
 #checkout-item-img {
-  height: 10vw;
+  height: 12rem;
+
 }
 
 #checkout-total {
@@ -628,7 +696,7 @@ label {
   justify-content: space-between;
   height: 5vh;
   min-width: 136.195px;
-  max-width: 20%;
+  max-width: 13rem;
   margin: 0 auto;
 
 }
@@ -661,8 +729,8 @@ label {
 
 .empty-continue-btn,
 .buy-btn {
-  height: 4vh;
-  width: 10vw;
+  height: 4.5rem;
+  width: 9rem;
   border-radius: 10%;
   font-size: 2rem;
 }
@@ -917,7 +985,6 @@ button:not(:disabled),
   grid-column: 1 / 2;
   height: 100vh;
   max-width: 28vw;
-  overflow: auto;
   color: var(--sidebar-txtColor);
   background: var(--sidebar-bgColor);
 }
@@ -943,13 +1010,6 @@ button:not(:disabled),
 .sidebar .menu li>* {
   width: 100%;
   padding: 1.5rem 2rem;
-}
-
-.sidebar .menu .menu-heading h3 {
-  letter-spacing: 0.15em;
-  font-size: 1.5rem;
-  margin-left: 2rem;
-  color: var(--white);
 }
 
 .sidebar .menu li:not(:first-child) {
@@ -1045,8 +1105,7 @@ button:not(:disabled),
   }
 
   .sidebar .menu a span,
-  .sidebar>h3,
-  .sidebar .menu-heading {
+  .sidebar>h3 {
     display: none;
   }
 }
@@ -1109,6 +1168,11 @@ button:not(:disabled),
 .remove-prompt {
   font-size: 1.8rem;
   margin: 0.1rem 0;
+}
+
+.stock-update-response {
+  font-size: 1.3rem;
+  margin-top: 4vh;
 }
 
 /* Stock Page */
@@ -1191,4 +1255,21 @@ button:not(:disabled),
 .quantity-input-form {
   font-size: 2rem;
   margin: 2rem;
+}
+
+/* ORDERS PAGE */
+
+.admin-order-table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.admin-order-table td,
+.admin-order-table th {
+  border: 1px solid black;
+  font-family: Arial, sans-serif;
+  font-size: 1.2rem;
+  overflow: hidden;
+  padding: 0.8rem 0.4rem;
+  word-break: normal;
 }

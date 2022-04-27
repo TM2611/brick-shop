@@ -9,7 +9,7 @@ CREATE TABLE Product
   Price int not null,
   UnitsInStock int not null,
   ProductDesc text not null,
-  ProductImage varchar(40) not null,
+  ProductImageSrc varchar(40) not null,
   FOREIGN KEY (CategoryName) REFERENCES Category(CategoryName)
 );
 
@@ -51,7 +51,7 @@ CREATE TABLE Category
 -- TODO: Stock ordered by popularity (more popular, less stock)
 
 INSERT INTO Product
-  (ProductID, ProductName, Colour, CategoryName, Price, UnitsInStock , ProductDesc, ProductImage)
+  (ProductID, ProductName, Colour, CategoryName, Price, UnitsInStock , ProductDesc, ProductImageSrc)
 VALUES
   ('as5fgd', 'Brick 1x1', 'purple', 'brick', 6, 9100, 'description', './images/single/purple/brick1x1.png'),
   ('ha76sd8', 'Brick 1x2', 'purple', 'brick', 10, 9100, 'description', './images/single/purple/brick1x2.png'),
