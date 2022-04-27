@@ -27,7 +27,7 @@ export async function initBasket() {
   let total = 0;
   basketQuantityDOM.textContent = 0;
   for (const [itemID, quantity] of basket.entries()) {
-    const isItemKit = checkBasketKit(itemID); //Check if current item is a kit
+    const isItemKit = await checkBasketKit(itemID); //Check if current item is a kit
     const basketQuantity = parseInt(basketQuantityDOM.textContent);
     const itemTemplate = t2.content.cloneNode(true);
     const basketItemDOM = itemTemplate.querySelector('.basket-item');
@@ -58,8 +58,8 @@ export async function initBasket() {
     else{
       const kit = await fjs.fetchKit(itemID)
       const kitPrice = await fjs.fetchKitPrice(itemID)
-      debugger
       const price = kitPrice / 100;
+      basketItemDOM.dataset.id = itemID // Set ID in DOM
       img.src = `${kit.KitImgSrc}`;
       img.alt = `${kit.KitName} Image`;
       productName.textContent = kit.KitName;
@@ -87,8 +87,8 @@ async function checkBasketKit(itemID){
     if(kit.KitID === itemID){
       return true
     }
-  return false
   }
+  return false
 }
 
 
@@ -132,7 +132,6 @@ function resetAddToBasketBtn(itemID = 'n/a') {
   }
 }
 
-//TODO: If on checkout page, update quantity on the page
 function increaseItemQuantity(e) {
   const itemID = e.target.parentElement.parentElement.dataset.id;
   let itemAmount = basket.get(itemID);
@@ -185,13 +184,13 @@ export async function addToBasket(e, kitID = null) {
   increaseBtn.addEventListener('click', increaseItemQuantity);
   decreaseBtn.addEventListener('click', decreaseItemQuantity);
   removeItemBtn.addEventListener('click', removeBasketItem);
+  e.target.textContent = 'In Basket';
+  e.target.disabled = true;
   if(kitID === null){
     //if brick
     const itemID = e.target.parentNode.dataset.id;
     const products = await fjs.fetchAllSingles();
     const product = products.find(({ ProductID }) => ProductID === itemID);
-    e.target.textContent = 'In Basket';
-    e.target.disabled = true;
     basketItemDOM.dataset.id = itemID; // Set ID in DOM
     const price = product.Price / 100;
     productPriceDOM.textContent = price.toFixed(2);
@@ -209,10 +208,10 @@ export async function addToBasket(e, kitID = null) {
     const kitPrice = await fjs.fetchKitPrice(kitID)
     const price = kitPrice / 100;
     productPriceDOM.textContent = price.toFixed(2);
-    debugger
     img.src = `${kit.KitImgSrc}`;
     img.alt = `${kit.KitName} Image`;
     productName.textContent = kit.KitName;
+    basketItemDOM.dataset.id = kitID; // Set ID in DOM
     basket.set(kitID, 1);
     localStorage.basket = JSON.stringify(Array.from(basket));
     itemAmountDOM.textContent = 1;
