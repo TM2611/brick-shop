@@ -28,7 +28,7 @@ export async function initBasket() {
   let total = 0;
   basketQuantityDOM.textContent = 0;
   for (const [itemID, quantity] of basket.entries()) {
-    const isItemKit = await checkBasketKit(itemID); //Check if current item is a kit
+    const isItemKit = await main.checkBasketKit(itemID); //Check if current item is a kit
     const basketQuantity = parseInt(basketQuantityDOM.textContent);
     const itemTemplate = t2.content.cloneNode(true);
     const basketItemDOM = itemTemplate.querySelector('.basket-item');
@@ -61,7 +61,7 @@ export async function initBasket() {
       const kitPrice = await fjs.fetchKitPrice(itemID)
       const price = kitPrice / 100;
       basketItemDOM.dataset.id = itemID // Set ID in DOM
-      img.src = `${kit.KitImgSrc}`;
+      img.src = kit.KitImgSrc;
       img.alt = `${kit.KitName} Image`;
       productName.textContent = kit.KitName;
       productPriceDOM.textContent = price.toFixed(2);
@@ -72,15 +72,6 @@ export async function initBasket() {
   basketTotalDOM.textContent = total.toFixed(2);
 }
 
-async function checkBasketKit(itemID){
-  const kitIDs = await main.getAllKits()
-  for (const kit of kitIDs){
-    if(kit.KitID === itemID){
-      return true
-    }
-  }
-  return false
-}
 
 
 function removeBasketItem(e) {
@@ -104,7 +95,7 @@ function removeBasketItem(e) {
 }
 
 async function resetAddToBasketBtn(itemID = 'n/a') {
-  const isItemKit = await checkBasketKit(itemID);
+  const isItemKit = await main.checkBasketKit(itemID);
   if(!isItemKit){
     resetBrickBtn(itemID)
   } else {
