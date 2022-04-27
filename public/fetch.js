@@ -64,8 +64,25 @@ export async function fetchAllProducts(){
   return response.json();
 }
 
+export async function fetchKit(kitID) {
+  const response = await fetch(`/kit/${kitID}`)
+  if (!response.ok) {
+    throw response;
+  }
+  return response.json();
+}
+
+export async function fetchKitPrice(kitID) {
+  const response = await fetch(`/kit/${kitID}/price`)
+  if (!response.ok) {
+    throw response;
+  }
+  return response.json();
+}
+
+
 export async function fetchBonzaiProducts(){
-  const response = await fetch('/kit/bonsai');
+  const response = await fetch('/kit/bonsai/parts');
   if (!response.ok) {
     throw response;
   }

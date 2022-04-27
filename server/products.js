@@ -68,9 +68,29 @@ export async function findProduct(id) {
 export async function findBonsaiProducts() {
   const db = await dbConn;
   return db.all('SELECT Product.ProductImageSrc, KitProduct.ProductQuantity FROM Product JOIN KitProduct ON Product.ProductID = KitProduct.ProductID WHERE KitProduct.KitID = ?', 'B0NS41');
+}
+
+export async function findKit(req) {
+  const db = await dbConn;
+  const kitID = req.params.kitID
+  return db.get('SELECT * from kit where KitID = ?', kitID)
+}
+
+export async function getKitPrice(req) {
+  const qp = await getKitQuantityPrice(req)
+  let total = 0
+  Object.entries(qp).forEach(([_, product]) => 
+  total += product.Price * product.ProductQuantity);
+  return total
   
 }
 
+async function getKitQuantityPrice(req){
+  const kitID = req.params.kitID
+  const db = await dbConn;
+  return db.all('SELECT Product.Price, KitProduct.ProductQuantity FROM Product JOIN KitProduct ON Product.ProductID = KitProduct.ProductID WHERE KitProduct.KitID = ?', kitID)
+
+}
 
 export async function processOrder(req){
   const db = await dbConn;

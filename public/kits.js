@@ -16,13 +16,13 @@ async function displayBonsaiParts(){
     container.append(partTemplate);}
 }
 
-function bonsaiAddToBasket(){
-  const kitParts = await fjs.fetchBonzaiProducts()
+function bonsaiAddToBasket(e){
+  ba.addToBasket(e,'B0NS41')
 }
 
 
 function setupListeners() {
-  document.querySelector('.atb-bonsai-btn').addEventListener('click', purchaseBonsai)
+  document.querySelector('.atb-bonsai-btn').addEventListener('click', bonsaiAddToBasket)
 }
 
 async function init(){

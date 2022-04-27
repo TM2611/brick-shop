@@ -128,12 +128,8 @@ function decreaseItemQuantity(e) {
   }
 }
 
-
-export async function addToBasket(e) {
-  const itemID = e.target.parentNode.dataset.id;
-  const products = await fjs.fetchAllSingles(); // TODO: fetch single product? (or retrieve from storage / DB ?)
+export async function addToBasket(e, kitID = null) {
   const basketDOM = document.querySelector('.basket');
-  const product = products.find(({ ProductID }) => ProductID === itemID);
   const t2 = document.querySelector('#basket-item-template');
   const itemTemplate = t2.content.cloneNode(true);
   const basketItemDOM = itemTemplate.querySelector('.basket-item');
@@ -147,24 +143,45 @@ export async function addToBasket(e) {
   const basketQuantityDOM = document.querySelector('.basket-quantity');
   const basketTotalDOM = document.querySelector('.basket-total');
   const basketTotal = parseFloat(basketTotalDOM.textContent);
-  const price = product.Price / 100;
   basketQuantityDOM.textContent = parseInt(basketQuantityDOM.textContent) + 1;
-  basketItemDOM.dataset.id = itemID; // Set ID in DOM
   removeItemBtn.textContent = 'Remove';
-  img.src = `${product.ProductImageSrc}`;
-  img.alt = `${product.ProductName} Image`;
-  productName.textContent = product.ProductName;
-  productPriceDOM.textContent = price.toFixed(2);
   increaseBtn.addEventListener('click', increaseItemQuantity);
   decreaseBtn.addEventListener('click', decreaseItemQuantity);
   removeItemBtn.addEventListener('click', removeBasketItem);
-  basket.set(itemID, 1);
-  localStorage.basket = JSON.stringify(Array.from(basket));
-  itemAmountDOM.textContent = 1;
-  e.target.textContent = 'In Basket';
-  e.target.disabled = true;
-  basketTotalDOM.textContent = (basketTotal + price).toFixed(2);
-  basketDOM.append(itemTemplate);
+  if(kitID === null){
+    //if brick
+    const itemID = e.target.parentNode.dataset.id;
+    const products = await fjs.fetchAllSingles();
+    const product = products.find(({ ProductID }) => ProductID === itemID);
+    e.target.textContent = 'In Basket';
+    e.target.disabled = true;
+    basketItemDOM.dataset.id = itemID; // Set ID in DOM
+    const price = product.Price / 100;
+    productPriceDOM.textContent = price.toFixed(2);
+    img.src = `${product.ProductImageSrc}`;
+    img.alt = `${product.ProductName} Image`;
+    productName.textContent = product.ProductName;
+    basket.set(itemID, 1);
+    localStorage.basket = JSON.stringify(Array.from(basket));
+    itemAmountDOM.textContent = 1;
+    basketTotalDOM.textContent = (basketTotal + price).toFixed(2);
+    basketDOM.append(itemTemplate);
+  }
+  else{
+    const kit = await fjs.fetchKit(kitID)
+    const kitPrice = await fjs.fetchKitPrice(kitID)
+    const price = kitPrice / 100;
+    debugger
+    img.src = `${kit.KitImgSrc}`;
+    img.alt = `${kit.KitName} Image`;
+    productName.textContent = kit.KitName;
+    basket.set(kitID, 1);
+    localStorage.basket = JSON.stringify(Array.from(basket));
+    itemAmountDOM.textContent = 1;
+    basketTotalDOM.textContent = (basketTotal + price).toFixed(2);
+    basketDOM.append(itemTemplate);
+  }
+
 }
 
 
