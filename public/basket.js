@@ -73,7 +73,6 @@ export async function initBasket() {
 }
 
 
-
 function removeBasketItem(e) {
   const basketItemDOM = e.target.parentNode.parentNode;
   const productPriceDOM = e.target.parentNode.querySelector('#basket-product-price');
@@ -94,47 +93,30 @@ function removeBasketItem(e) {
   resetAddToBasketBtn(itemID);
 }
 
-async function resetAddToBasketBtn(itemID = 'n/a') {
+async function resetAddToBasketBtn(itemID) {
   const isItemKit = await main.checkBasketKit(itemID);
-  if(!isItemKit){
-    resetBrickBtn(itemID)
+  if(isItemKit){
+    resetKitBtn(itemID)
   } else {
-      //item is kit
-      resetKitBtn(itemID)
+    resetBrickBtn(itemID)
     }
 }
 
 function resetBrickBtn(itemID){
   const brickATBs = document.querySelectorAll('.add-to-basket');
-  if (itemID === 'n/a') { 
-    // Reset all brick atb buttons
-    for (const atb of brickATBs) {
+  // Reset brick atb button with itemID
+  for (const atb of brickATBs) {
+    if (itemID === atb.dataset.id) {
       const atbBtn = atb.querySelector('.btn');
-      atbBtn.innerText = 'Add to Basket';
+      atbBtn.innerText = 'Add to Basket'; // Reset 'Add to Basket' button in DOM
       atbBtn.disabled = false;
+      break;
     }
-  } else { 
-      // Reset brick atb button with itemID
-      for (const atb of brickATBs) {
-        if (itemID === atb.dataset.id) {
-          const atbBtn = atb.querySelector('.btn');
-          atbBtn.innerText = 'Add to Basket'; // Reset 'Add to Basket' button in DOM
-          atbBtn.disabled = false;
-          break;
-        }
-      }
-    }
+  }
 }
 
 function resetKitBtn(itemID){
-  const kitATBs = document.querySelectorAll('.kit-buy');
-  if (itemID === 'n/a') { 
-    // Reset all brick atb buttons
-    for (const atbBtn of kitATBs) {
-      atbBtn.innerText = 'Add to Basket';
-      atbBtn.disabled = false;
-    }
-  } else {
+  const kitATBs = document.querySelectorAll('.kit-buy');  
     // Reset kit atb button with itemID
     for (const atbBtn of kitATBs) {
       if (itemID === atbBtn.dataset.id) {
@@ -143,9 +125,7 @@ function resetKitBtn(itemID){
         break;
       }
     }
-  }
 }
-
 
 function increaseItemQuantity(e) {
   const itemID = e.target.parentElement.parentElement.dataset.id;
@@ -236,7 +216,6 @@ export async function addToBasket(e, kit = false) {
 
 }
 
-
 export function viewBasket() {
   const basketDOM = document.querySelector('.basket');
   const basketOverlay = document.querySelector('.basket-overlay');
@@ -256,14 +235,15 @@ export function clearBasket() {
     const basketTotalDOM = document.querySelector('.basket-total');
     const basketItems = document.querySelectorAll('.basket-item');
     for (const elem of basketItems) {
+      const itemID = elem.dataset.id
       elem.remove();
+      resetAddToBasketBtn(itemID);
     }
     document.querySelector('.basket-quantity').textContent = 0;
     basketTotalDOM.textContent = (0).toFixed(2);
     }
   basket = new Map();
   localStorage.removeItem('basket');
-  resetAddToBasketBtn();
 }
 
 
