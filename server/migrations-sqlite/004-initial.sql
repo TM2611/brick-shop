@@ -62,8 +62,8 @@ CREATE TABLE Kit
   KitID varchar(36) PRIMARY KEY,
   -- B0NS41
   KitName varchar(50) not null,
-  KitFileSrc varchar(50) not null,
-
+  KitDocSrc varchar(50) not null,
+  KitImgSrc varchar(50) not null
 );
 
 CREATE TABLE KitProduct
@@ -184,7 +184,7 @@ VALUES
   ('dsf43fws2', 'Black Tire 14mm', 'black', 'tire', 18, 4324, '14mm Black Tire. Part of the Bonsai Kit.', './images/single/black/tire.png'),
   ('f234fge5g', 'Brick 1x8', 'brown', 'brick', 14, 9212, '1x8 Brown Brick. Part of the Bonsai Kit.', './images/single/brown/brick1x8.png'),
   ('2sfc3sdfv', 'Brick 2x6', 'brown', 'brick', 15, 12345, '2x6 Brown Brick. Part of the Bonsai Kit.', './images/single/brown/brick2x6.png'),
-  ('fr45fnh7', 'Round Tile', 'brown', 'tile', 17, 11346, '1x1 Stud Brown Round Tile. Part of the Bonsai Kit.', './images/single/brown/brick2x6.png'),
+  ('fr45fnh7', 'Round Tile', 'brown', 'tile', 16, 11346, '1x1 Stud Brown Round Tile. Part of the Bonsai Kit.', './images/single/brown/roundtile1x1.png'),
   ('d43fd3fs', 'Round Tile', 'green', 'tile', 16, 13146, '1x1 Stud Olive Green Round Tile. Part of the Bonsai Kit.', './images/single/green/roundtile1x1.png'),
   ('h5dsw21', '7-Petal Flower', 'pink', 'plant', 19, 12146, 'Dark Pink Flower with 7 Thick Petals. Part of the Bonsai Kit.', './images/single/pink/petal7flower.png'),
   ('r4sdv3xz', 'Frog', 'pink', 'animal', 15, 8146, 'Bright Pink Frog. Part of the Bonsai Kit.', './images/single/pink/frog.png'),
@@ -193,7 +193,9 @@ VALUES
   ('jh64da1', 'Modified Plate 2x2', 'black', 'plate', 19, 13112, '2x2 Modified Black Plate. Part of the Bonsai Kit.', './images/single/black/plate-modified2x2.png'),
   ('gf3sz3g', 'Plate 2x10', 'brown', 'plate', 14, 14345, '2x10 Brown Plate. Part of the Bonsai Kit.', './images/single/brown/plate2x10.png'),
   ('jh64da1', 'Wedge Plate 4x4', 'brown', 'plate', 16, 12132, '4x4 Wedge Plate. Part of the Bonsai Kit.', './images/single/brown/wedgeplate4x4.png'),
-  ('2sfc3fv', 'Tile 2x4', 'black', 'tile', 15, 11425, '2x4 Black Tile. Part of the Bonsai Kit.', './images/single/brown/title2x4.png'),
+  ('fg5d4fzs', 'Slope Curved 2x2x3', 'black', 'slope', 18, 7425, '2x2x2 Black Slope Curved. Part of the Bonsai Kit.', './images/single/brown/title2x4.png'),
+  ('g6hg3ds2', 'Round Tile', 'pink', 'tile', 16, 7658, '1x1 Stud Pink Round Tile. Part of the Bonsai Kit.', './images/single/pink/roundtile1x1.png')
+,
 
 
 
