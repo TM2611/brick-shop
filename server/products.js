@@ -108,7 +108,7 @@ async function decreaseProductStock(productID, quantity){
   if(quantity > oldStock){
     // TODO: tell customer
     // TODO: order more stock?
-    throw new Error('Quantity exceeds stock level')
+    throw new Error(`Quantity of ${productID} exceeds stock level`)
     
   }
   const newStock = oldStock - quantity;

@@ -30,7 +30,7 @@
             <button id="btn-login">LOG IN</button>
             <div id="login-icon"><span id="initial"></span>
               <div class= "icon-options">
-                <a href="/dashboard.html">Admin</a> <!--TODO: only visible to admins-->
+                <a href="./admin-client/dashboard.html">Admin</a> <!--TODO: only visible to admins-->
                 <a href="#" class="profile">Profile</a> <!--TODO: Remove class? -->
                 <a href="#">Orders</a>
                 <a href="#">Settings</a>
@@ -74,6 +74,41 @@
         </div>
       </div>
     </nav>
+    <div class="kits-page-container">
+      <h2 class="kits-title">KITS</h2>
+      <section class="new-release">
+        <h2 class="new-release-title">NEW RELEASE</h2>
+        <div class="kit-purchase-container">
+          <figure>
+            <img class="new-release-img" src="./images/kits/bonsai/bonsai-kit.png" alt="Bonzai Kit">
+            <figcaption class="new-release-img-caption">Bonzai Kit</figcaption>
+          </figure>
+          <button class="buy-kit-btn">Buy Now</button>
+        </div>
+      </section>
+      <section class="part-list-section">
+        <template class="kit-part">
+          <figure>
+            <figcaption class="kit-part-name"></figcaption>
+            <img class="part-img">
+            <p class="part-quantity"></p>
+          
+          </figure>
+
+        </template>
+
+      </section>
+      <section class="upload-kit">
+        <h2 class="upload-header"></h2>
+      </section>
+      <section class="coming-soon">
+        <h2 class="coming-soon-title">COMING SOON</h2>
+        <div class="coming-soon-kits-container">
+          <img src="./images/kits/bonsai/bonsai-kit.png" alt="" class="cs-kit1">
+          <img src="./images/kits/bonsai/bonsai-kit.png" alt="" class="cs-kit2">
+          <img src="./images/kits/bonsai/bonsai-kit.png" alt="" class="cs-kit3">
+        </div>
+      </section>
     <script type="module" src="kits.js" async defer></script>
     <script src="https://cdn.auth0.com/js/auth0-spa-js/1.13/auth0-spa-js.production.js"></script>
   </body>

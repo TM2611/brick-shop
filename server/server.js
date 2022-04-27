@@ -17,10 +17,9 @@ const app = express();
 const auth0 = auth0Helpers(authConfig);
 
 import multer from 'multer';
-//const upload = multer({ dest: '../public/images/admin/uploads' })
 
 
-//TODO: multer not adding to images to folder
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, './public/images/admin/uploads')
