@@ -161,6 +161,46 @@ async function getSingleSorted(req, res) {
   res.json(result);
 }
 
+async function getBonsaiProducts(req, res){
+  const result = await pjs.findBonsaiProducts(req)
+  if (!result) {
+    res.status(404).send('Kit parts not found');
+    return;
+  }
+  res.json(result);
+}
+
+async function getKit(req, res){
+  const result = await pjs.findKit(req)
+  if (!result) {
+    res.status(404).send('Kit parts not found');
+    return;
+  }
+  res.json(result);
+}
+
+async function getAllKitIDs(req, res){
+  const result = await pjs.findAllKitIDs(req)
+  if (!result) {
+    res.status(404).send('Kit parts not found');
+    return;
+  }
+  res.json(result);
+}
+
+
+async function getKitPrice(req, res){
+  const result = await pjs.getKitPrice(req)
+  if (!result) {
+    res.status(404).send('Kit parts not found');
+    return;
+  }
+  res.json(result);
+}
+
+
+
+
 async function postProcessOrder(req, res){
   const orderID = await pjs.processOrder(req)
   if(!orderID){
@@ -240,6 +280,10 @@ app.get('/single/colour/:colour/PriceHightolow', asyncWrap(getHighToLow));
 app.get('/single/colour/:colour/PriceLowtohigh', asyncWrap(getLowToHigh));
 app.get('/single/colour/:colour/MostPopular', asyncWrap(getMostPopular));
 app.get('/test/product/:id', asyncWrap(getProduct));
+app.get('/kit/bonsai/parts', asyncWrap(getBonsaiProducts));
+app.get('/kit/:kitID', asyncWrap(getKit));
+app.get('/kit/all/id', asyncWrap(getAllKitIDs));
+app.get('/kit/:kitID/price', asyncWrap(getKitPrice));
 app.post('/checkout/submit/:userID/:basket', asyncWrap(postProcessOrder));
 app.post('/create/customer/:accountType/:strProfile/', asyncWrap(postCreateCustomer));
 

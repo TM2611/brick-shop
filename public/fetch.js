@@ -1,4 +1,4 @@
-export async function fetchSingles() {
+export async function fetchSortSingles() {
   const filter = document.querySelector('#colour-filter');
   const colour = filter.options[filter.selectedIndex].text.toLowerCase();
   const sort = document.querySelector('#sort');
@@ -64,6 +64,43 @@ export async function fetchAllProducts(){
   return response.json();
 }
 
+
+//-------------KITS----------------//
+
+export async function fetchAllKitIDs() {
+  const response = await fetch(`/kit/all/id`)
+  if (!response.ok) {
+    throw response;
+  }
+  return response.json();
+}
+
+export async function fetchKit(kitID) {
+  const response = await fetch(`/kit/${kitID}`)
+  if (!response.ok) {
+    throw response;
+  }
+  return response.json();
+}
+
+export async function fetchKitPrice(kitID) {
+  const response = await fetch(`/kit/${kitID}/price`)
+  if (!response.ok) {
+    throw response;
+  }
+  return response.json();
+}
+
+
+export async function fetchBonzaiProducts(){
+  const response = await fetch('/kit/bonsai/parts');
+  if (!response.ok) {
+    throw response;
+  }
+  return response.json();
+}
+
+//-------------Stock----------------//
 export async function fetchRemoveProduct (removeID){
   const fetchOptions = {
     method: 'POST',
