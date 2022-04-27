@@ -92,6 +92,8 @@ function renderOrderTotal(total){
 async function submitOrder(){
   const basket = JSON.stringify(Array.from(ba.basket));
   const profile = await main.getProfile();
+  const namedAccount = hasGivenName(profile)
+  debugger
   const strProfile = JSON.stringify(profile);
   const userID = profile.sub
   let orderID;
@@ -119,23 +121,10 @@ async function submitOrder(){
   main.confirmPage()
 }
 
-async function checkAccountType(){
-  const token = await auth.auth0.getTokenSilently();
-
-  const fetchOptions = {
-    credentials: 'same-origin',
-    method: 'GET',
-    // Give access to the bearer of the token.
-    headers: { Authorization: 'Bearer ' + token },
-  };
-  const response = await fetch('/checkout/name/', fetchOptions);
-  if (!response.ok) {
-    // TODO: handle the error
-    el.textContent = 'Server error:\n' + response.status;
-    console.log('checkAccountType Error');
-    return;
-  }
-  return await response.text()
+function hasGivenName(profile){
+  return profile.given_name !== undefined
+  //google-oauth2 has given_name and family_name
+  //auth0 does not
 }
 
 function setupListeners() {

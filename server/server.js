@@ -258,11 +258,7 @@ async function putAdminSetProductStock(req, res){
 }
 
 
-function hasGivenName(profile){
-  return profile.given_name !== undefined
-  //google-oauth2 has given_name and family_name
-  //auth0 does
-}
+
 
 // wrap async function for express.js error handling
 function asyncWrap(f) {
@@ -303,13 +299,6 @@ app.get('/profile', async (req, res) => {
   res.send(JSON.stringify(profile, null, 2));
 });
 
-app.get('/checkout/name', async (req, res) => {
-  const profile = await auth0.getProfile(req);
-  if(hasGivenName(profile)){
-    res.send('named')
-  }
-  res.send('notNamed')
-});
 
 app.get('/userID', async (req, res) => {
   const userId = auth0.getUserID(req);
