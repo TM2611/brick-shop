@@ -19,8 +19,6 @@ export async function initBasket() {
   if(window.location.href.indexOf("checkout") != -1){ //if on checkout page
     return;
   }
-  const isKitInBasket = checkBasketKit()
-  debugger
   const products = await fjs.fetchAllSingles();
   const basketDOM = document.querySelector('.basket');
   const basketQuantityDOM = document.querySelector('.basket-quantity');
@@ -28,7 +26,8 @@ export async function initBasket() {
   const basketTotalDOM = document.querySelector('.basket-total');
   let total = 0;
   basketQuantityDOM.textContent = 0;
-  for (const [item, quantity] of basket.entries()) {
+  for (const [itemID, quantity] of basket.entries()) {
+    const isItemKit = checkBasketKit(itemID); //Check if current item is a kit
     const basketQuantity = parseInt(basketQuantityDOM.textContent);
     const itemTemplate = t2.content.cloneNode(true);
     const basketItemDOM = itemTemplate.querySelector('.basket-item');
@@ -39,33 +38,59 @@ export async function initBasket() {
     const increaseBtn = itemTemplate.querySelector('.fa-chevron-up');
     const decreaseBtn = itemTemplate.querySelector('.fa-chevron-down');
     const itemAmountDOM = itemTemplate.querySelector('.item-amount');
-    const product = products.find(({ ProductID }) => ProductID === item); // TODO: retrieve single product?
-    const price = product.Price / 100;
-    basketItemDOM.dataset.id = product.ProductID; // Set ID in DOM
     basketQuantityDOM.textContent = basketQuantity + 1;
     removeItemBtn.textContent = 'Remove';
-    img.src = product.ProductImageSrc;
-    img.alt = `${product.ProductName} Image`;
-    productName.textContent = product.ProductName;
-    productPriceDOM.textContent = price.toFixed(2);
     increaseBtn.addEventListener('click', increaseItemQuantity);
     decreaseBtn.addEventListener('click', decreaseItemQuantity);
     removeItemBtn.addEventListener('click', removeBasketItem);
-    itemAmountDOM.textContent = quantity; // = item quantinty from storage
-    basketDOM.append(itemTemplate);
-    total += price * quantity
+    itemAmountDOM.textContent = quantity;
+    if(!isItemKit){
+      const product = products.find(({ ProductID }) => ProductID === itemID); // TODO: URGENT retrieve single product?
+      const price = product.Price / 100;
+      basketItemDOM.dataset.id = product.ProductID; // Set ID in DOM
+      img.src = product.ProductImageSrc;
+      img.alt = `${product.ProductName} Image`;
+      productName.textContent = product.ProductName;
+      productPriceDOM.textContent = price.toFixed(2);
+      basketDOM.append(itemTemplate);
+      total += price * quantity
+    }
+    else{
+      const kit = await fjs.fetchKit(itemID)
+      const kitPrice = await fjs.fetchKitPrice(itemID)
+      debugger
+      const price = kitPrice / 100;
+      img.src = `${kit.KitImgSrc}`;
+      img.alt = `${kit.KitName} Image`;
+      productName.textContent = kit.KitName;
+      productPriceDOM.textContent = price.toFixed(2);
+      basketDOM.append(itemTemplate);
+      total += price * quantity
+    }
   }
   basketTotalDOM.textContent = total.toFixed(2);
 }
 
-async function checkBasketKit(){
+// async function checkBasketKit(){
+//   const kitIDs = await main.getAllKits()
+//   for (const kit of kitIDs){
+//     if(basket.has(kit.KitID)){
+//       return true
+//     }
+//   return false
+//   }
+// }
+
+async function checkBasketKit(itemID){
   const kitIDs = await main.getAllKits()
-  for (kit of kitIDs){
-    if(basket.has(kit.KitID)){
+  for (const kit of kitIDs){
+    if(kit.KitID === itemID){
       return true
     }
   return false
+  }
 }
+
 
 function removeBasketItem(e) {
   const basketItemDOM = e.target.parentNode.parentNode;
@@ -183,6 +208,7 @@ export async function addToBasket(e, kitID = null) {
     const kit = await fjs.fetchKit(kitID)
     const kitPrice = await fjs.fetchKitPrice(kitID)
     const price = kitPrice / 100;
+    productPriceDOM.textContent = price.toFixed(2);
     debugger
     img.src = `${kit.KitImgSrc}`;
     img.alt = `${kit.KitName} Image`;
