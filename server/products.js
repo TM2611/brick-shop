@@ -105,12 +105,13 @@ export async function processOrder(req, profile){
   if(customerExists){
     console.log("customer exists")
     const customerID = userID
-    const orderID = await insertOrder(customerID, req)
+    const orderID = await createOrder(customerID, req)
+    console.log("after insert order")
     return orderID
   }
   console.log("customer does not exist")
   const customerID = await createCustomer(profile)
-  const orderID = await insertOrder(customerID, req)
+  const orderID = await createOrder(customerID, req)
   return orderID
 }
 
@@ -119,14 +120,13 @@ async function checkUserID(userID){
   return db.get('SELECT CustomerID FROM Customer WHERE CustomerID = ?', userID);
 }
 
-async function insertOrder(customerID, req){
+async function createOrder(customerID, req){
   const db = await dbConn;
-  const orderID = uuid()
-  const orderItemID = uuid()
+  const orderID = uuid();
   const orderDate = new Date().toISOString().slice(0, 19).replace('T', ' ')
   const basket = new Map (JSON.parse(req.params.basket))
   for (const [productID, quantityOrdered] of basket.entries()) {
-    console.log("Pre")
+    const orderItemID = uuid();
     const orderStmnt = await db.run('INSERT INTO Orders VALUES(?,?,?)', [orderID, customerID, orderDate])
     const orderItemStmnt = await db.run('INSERT INTO OrderItem VALUES(?,?,?,?)', [orderItemID, orderID, productID, quantityOrdered])
     if (orderStmnt.changes === 0 || orderItemStmnt.changes === 0) throw new Error('Failed to Process Order');

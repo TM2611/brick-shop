@@ -48,7 +48,8 @@ CREATE TABLE CustomerAddress
   Addressln1 varchar(256),
   Addressln2 varchar(256),
   region varchar(256),
-  postcode varchar(32)
+  postcode varchar(32),
+  FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID)
 );
 
 CREATE TABLE Category
@@ -197,24 +198,6 @@ VALUES
   ('g6hg3ds2', 'Round Tile', 'pink', 'tile', 16, 7658, '1x1 Stud Pink Round Tile. Part of the Bonsai Kit.', './images/single/pink/roundtile1x1.png'),
   ('g4d7hb8m', 'Tile 2x4', 'black', 'tile', 15, 9324, '2x4 Black Tile. Part of the Bonsai Kit.', './images/single/black/tile2x4.png'),
   ('k7jg8sha', 'Groove Plate 1x2', 'brown', 'plate', 16, 11132, '1x2 Groove Plate. Part of the Bonsai Kit.', './images/single/brown/grooveplate1x2.png');
-
-
-INSERT INTO Customer
-  (CustomerID, Email, Firstname, Surname)
-VALUES
-  ('auth0|62029e1653be65006bac6480', 'johndoe@gmailcom', 'John', 'Doe'),
-  ('auth0|93029e16532141006bac6480', 'janedoe@gmailcom', 'Jane', 'Doe');
-
-
-INSERT INTO Orders
-  (OrderID, CustomerID, OrderDate)
-VALUES
-  ('d7567d76-06dd-41de-8707-7b3fd2b903a6', 'auth0|62029e1653be65006bac6480', '2022-04-20 21:30:00');
-
-INSERT INTO OrderItem
-  (OrderItemID, OrderID, ProductID, Quantity)
-VALUES
-  ('OrderItemID', 'd7567d76-06dd-41de-8707-7b3fd2b903a6', 'a2dfs93h', 5);
 
 
 INSERT INTO Kit
