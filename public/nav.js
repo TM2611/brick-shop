@@ -48,6 +48,7 @@ function setupListeners() {
   document.querySelector('.singles-nav').addEventListener('click', main.singlesPage);
   document.querySelector('.kits-nav').addEventListener('click', main.kitsPage);
   document.querySelector('#login-icon').addEventListener('click', showDropdown);
+  document.querySelector('.orders').addEventListener('click', main.ordersPage);
   document.querySelector('.profile').addEventListener('click', main.viewProfile);
   document.querySelector('.btn-checkout').addEventListener('click', main.checkoutPage);
   document.querySelector('#btn-login').addEventListener('click', auth.login);

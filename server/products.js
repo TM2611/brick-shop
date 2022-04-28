@@ -77,6 +77,15 @@ export async function findKit(req) {
   return db.get('SELECT * from kit where KitID = ?', kitID)
 }
 
+
+async function findKitPartQuantity(kitID) {
+  const db = await dbConn;
+  return db.all('SELECT ProductID, ProductQuantity FROM KitProduct WHERE KitID = ?',kitID)
+}
+
+
+
+
 export async function findAllKitIDs() {
   const db = await dbConn;
   return db.all('SELECT Kit.KitID from Kit')
@@ -99,20 +108,17 @@ async function getKitQuantityPrice(req){
 }
 
 
+// ------------ ORDER FUNCTIONS -------------- //
+
 export async function processOrder(req, profile){
   const userID = profile.sub;
   const customerExists = await checkUserID(userID)
   if(customerExists){
-    console.log("customer exists")
-    const customerID = userID
-    const orderID = await createOrder(customerID, req)
-    console.log("after insert order")
-    return orderID
+    return await createOrder(userID, req)
   }
-  console.log("customer does not exist")
+  // Customer does not exist
   const customerID = await createCustomer(profile)
-  const orderID = await createOrder(customerID, req)
-  return orderID
+  return await createOrder(customerID, req)
 }
 
 async function checkUserID(userID){
@@ -125,14 +131,59 @@ async function createOrder(customerID, req){
   const orderID = uuid();
   const orderDate = new Date().toISOString().slice(0, 19).replace('T', ' ')
   const basket = new Map (JSON.parse(req.params.basket))
-  for (const [productID, quantityOrdered] of basket.entries()) {
-    const orderItemID = uuid();
-    const orderStmnt = await db.run('INSERT INTO Orders VALUES(?,?,?)', [orderID, customerID, orderDate])
-    const orderItemStmnt = await db.run('INSERT INTO OrderItem VALUES(?,?,?,?)', [orderItemID, orderID, productID, quantityOrdered])
-    if (orderStmnt.changes === 0 || orderItemStmnt.changes === 0) throw new Error('Failed to Process Order');
+  const kitIDs = await findAllKitIDs()
+  const kitsInBasket = await checkBasketForKit(kitIDs, basket)
+  if(basket.size !==0){
+    for (const [productID, quantity] of basket.entries()) {
+      await insertSingleProduct(productID, quantity, orderID)
+    }
   }
-  return orderID
+  if(kitsInBasket.size !== 0){
+    await processKitParts(kitsInBasket, orderID, customerID, orderDate)
+  }
+  const stmnt = await db.run('INSERT INTO Orders VALUES(?,?,?)', [orderID, customerID, orderDate]);
+  if (stmnt.changes === 0) throw new Error('Failed to Process Order');
+  return {orderID : orderID, orderDate : orderDate}
 }
+
+
+async function insertSingleProduct(productID, quantity, orderID){
+  const db = await dbConn;
+  const orderItemID = uuid();
+  const stm = await db.run('INSERT INTO OrderItem VALUES(?,?,?,?)', [orderItemID, orderID, productID, quantity])
+  if (stm.changes === 0) throw new Error('Failed to Process Order');
+}
+
+
+async function checkBasketForKit(kitIDs, basket){
+  const kitsInBasket = new Map()
+  for (const [_, id] of Object.entries(kitIDs[0])) {
+    if(basket.has(id)){
+      //seperate individual bricks and kits
+      const quantity = basket.get(id);
+      kitsInBasket.set(id, quantity)
+      basket.delete(id) 
+    }
+  }
+  return kitsInBasket
+}
+
+
+async function processKitParts(kitsInBasket, orderID){
+  const db = await dbConn;
+  for (const [kitID, kitQuantity] of kitsInBasket.entries()) {
+    const partQuantities = await findKitPartQuantity(kitID);
+    for(const partQuantity of partQuantities){
+      let productID = partQuantity.ProductID;
+      let quantity = partQuantity.ProductQuantity * kitQuantity;
+      await insertSingleProduct(productID, quantity, orderID);
+    }
+    const orderItemID = uuid(); //Generate for each kit, not each kit part
+    const stmt = await db.run('INSERT INTO OrderItem VALUES(?,?,?,?)', [orderItemID, orderID, kitID, kitQuantity])
+    if (stmt.changes === 0) throw new Error('Failed to Process Order');
+  }
+}
+
 
 async function createCustomer(profile){
   const db = await dbConn;
@@ -159,7 +210,6 @@ function hasGivenName(profile){
   //google-oauth2 has given_name and family_name
   //auth0 does not
 }
-
 
 
 
@@ -224,6 +274,12 @@ export async function listAllProducts(req){
 export async function listAllOrders(req){
   const db = await dbConn;
   return db.all('SELECT * FROM Orders ORDER BY OrderDate DESC'); 
+}
+
+export async function listCustomerOrders(req){
+  const db = await dbConn;
+  const userID = req.params.userID;
+  return db.all('SELECT Orders.OrderID, Product.ProductName, Product.Colour, OrderItem.Quantity, Orders.OrderDate FROM OrderItem JOIN Orders ON Orders.OrderID = OrderItem.OrderID JOIN Product ON OrderItem.ProductID = Product.ProductID JOIN Customer ON Orders.CustomerID = Customer.CustomerID WHERE Customer.CustomerID = ? GROUP BY OrderItem.OrderItemID ORDER BY OrderDate DESC', userID) 
 }
 
 export async function adminIncreaseProductStock(req){

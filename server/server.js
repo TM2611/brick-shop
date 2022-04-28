@@ -1,22 +1,15 @@
 import express from 'express';
-
 import path from 'path';
-
 import url from 'url';
-
 import authConfig from './auth_config.js';
-
 import auth0Helpers from './auth0_helper.js';
-
 import * as pjs from './products.js';
-
 import {requiredScopes as requiredScopes} from 'express-oauth2-jwt-bearer';
+import multer from 'multer';
 
 const app = express();
 
 const auth0 = auth0Helpers(authConfig);
-
-import multer from 'multer';
 
 
 
@@ -76,8 +69,13 @@ async function getAllProducts(req, res) {
   res.json(await pjs.listAllProducts());
 }
 
-async function getAllOrders(req, res) {
+async function getAdminOrders(req, res) {
   res.json(await pjs.listAllOrders());
+}
+
+
+async function getCustomerOrders(req, res) {
+  res.json(await pjs.listCustomerOrders(req));
 }
 
 
@@ -203,14 +201,14 @@ async function getKitPrice(req, res){
 
 async function postProcessOrder(req, res){
   const profile = await auth0.getProfile(req);
-  const orderID = await pjs.processOrder(req, profile)
-  if(!orderID){
+  const orderDetails = await pjs.processOrder(req, profile)
+  if(!orderDetails){
     console.log('Purchase Failed');
     res.status(404).send('Purchase Failed');
     return
   }
   console.log('Purchase Succesful');
-  res.json(orderID);
+  res.json(orderDetails);
 }
 
 async function postCreateCustomer(req, res){
@@ -281,12 +279,13 @@ app.get('/kit/bonsai/parts', asyncWrap(getBonsaiProducts));
 app.get('/kit/:kitID', asyncWrap(getKit));
 app.get('/kit/all/id', asyncWrap(getAllKitIDs));
 app.get('/kit/:kitID/price', asyncWrap(getKitPrice));
+app.get('/orders/:userID', asyncWrap(getCustomerOrders));
 app.post('/checkout/submit/:basket', asyncWrap(postProcessOrder));
 app.post('/create/customer/:accountType/:strProfile/', asyncWrap(postCreateCustomer));
 
 //ADMIN ROUTES
 app.get('/test/product/stock/list', asyncWrap(getAllProducts));
-app.get('/test/orders', asyncWrap(getAllOrders));
+app.get('/test/orders', asyncWrap(getAdminOrders));
 app.post('/test/product/:id', asyncWrap(deleteProduct)); 
 app.put('/test/product/increase/:id/:quantity', asyncWrap(putAdminIncreaseStock))
 app.put('/test/product/decrease/:id/:quantity', asyncWrap(putAdminDecreaseStock))
@@ -325,19 +324,6 @@ async function addAProduct(req, res){
 }
 
 app.delete('/test/product/name/:name', asyncWrap(deleteAllProductsByName));
-
-
-
-// async function postProduct(req, res){
-//   const product = await pjs.addProduct(req)
-//   if (!product) {
-//     res.status(404).send('Failed to add product');
-//     return;
-//   }
-//   res.send(`${product.ProductName} added, ID:${product.ProductID}`)
-// }
-
-
 
 
 

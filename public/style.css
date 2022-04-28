@@ -15,9 +15,9 @@
   --sidebar-bgColor-hover: #683fbf;
   --sidebar-txtColor: #dde9f8;
   --sidebar-headingColor: #7889a4;
-  --page-content-bgColor: #f0f1f6;
-  --page-content-txtColor: #171616;
-  --page-content-blockColor: #fff;
+  --admin-page-content-bgColor: #f0f1f6;
+  --admin-page-content-txtColor: #171616;
+  --admin-page-content-blockColor: #fff;
   --icon-color: #f29441;
 }
 
@@ -1047,38 +1047,38 @@ button:not(:disabled),
   outline: none;
 }
 
-.page-content {
+.admin-page-content {
   grid-column: 2 / -1;
   margin: 3rem;
   overflow: hidden;
 }
 
-.page-content .header {
+.admin-page-content .header {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.page-content .header .info {
+.admin-page-content .header .info {
   display: flex;
   flex-direction: column;
 }
 
-.page-content .header .info p {
+.admin-page-content .header .info p {
   font-size: 1.5rem;
   padding: 0.6rem;
 }
 
-.page-content .header .info p:first-child {
+.admin-page-content .header .info p:first-child {
   color: #807f84;
 }
 
-.page-content .header .info p span {
+.admin-page-content .header .info p span {
   color: #f279c8;
   font-size: small;
 }
 
-.page-content .header .dropdown {
+.admin-page-content .header .dropdown {
   margin-left: auto;
 }
 
@@ -1258,13 +1258,15 @@ button:not(:disabled),
 }
 
 /* ORDERS PAGE */
-
+.customer-order-table,
 .admin-order-table {
   border-collapse: collapse;
   border-spacing: 0;
 }
 
+.customer-order-table td,
 .admin-order-table td,
+.customer-order-table th,
 .admin-order-table th {
   border: 1px solid black;
   font-family: Arial, sans-serif;
@@ -1272,4 +1274,8 @@ button:not(:disabled),
   overflow: hidden;
   padding: 0.8rem 0.4rem;
   word-break: normal;
+}
+
+.customer-order-table {
+  margin: 10rem auto;
 }

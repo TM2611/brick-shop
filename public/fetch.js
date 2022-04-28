@@ -49,13 +49,22 @@ async function fetchSingleSorted(sortType){
   return response.json();
 }
 
-export async function fetchOrders(){
+export async function fetchAdminOrders(){
   const response = await fetch('/test/orders')
   if (!response.ok) {
     throw response;
   }
   return response.json();
 }
+
+export async function fetchCustomerOrders(userID){
+  const response = await fetch(`/orders/${userID}`)
+  if (!response.ok) {
+    throw response;
+  }
+  return response.json();
+}
+
 export async function fetchAllProducts(){
   const response = await fetch('/test/product/stock/list');
   if (!response.ok) {

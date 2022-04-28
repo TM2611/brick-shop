@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang = "en">
   <head>
-    <title>Lego - Checkout</title>
+    <title>Lego - Confirmation</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
     <link rel="icon" href="data:,"><!-- prevent favicon requests -->
@@ -9,6 +9,20 @@
     <script src="https://kit.fontawesome.com/76f1f6b390.js" crossorigin="anonymous"></script>
   </head>
   <body>
-    <p class="thank">Thank you for shopping with us!</p>
+    <h2 class="comfirm-title">WE'VE RECEIVE YOUR ORDER!</h2>
+    <p class="confirm-msg">
+      Thank you for shopping with us! Your order will be processed
+      and dispatched within 2-3 business days.
+    </p>
+    <div class="order-details">
+      <p class="order-id"></p>
+      <p class="order-date"></p>
+    </div>
+    <a href="./index.html">Home</a>
   </body>
+
+  <script type="module" src="confirmation.js" async defer></script>
+  <script src="https://cdn.auth0.com/js/auth0-spa-js/1.13/auth0-spa-js.production.js"></script>
+</body>
+</html>
   

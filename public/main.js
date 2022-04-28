@@ -1,7 +1,7 @@
 import * as auth from './auth.js';
 import * as fjs from './fetch.js';
 
-//TODO: move fetch to fjs
+//TODO: move fetch functions to fjs
 
 export async function checkoutPage() {
   const isAuthenticated = await auth.auth0.isAuthenticated();
@@ -48,7 +48,7 @@ export async function getProfile() {
     el.textContent = 'Server error:\n' + response.status;
     return;
   }
-  return await response.text();
+  return await response.json();
 }
 
 //TODO: remove (can get userid from getprofile())
@@ -110,4 +110,7 @@ export function confirmPage() {
   window.location.pathname = 'confirmation.html';
 }
 
+export function ordersPage() {
+  window.location.pathname = 'orders.html';
+}
 

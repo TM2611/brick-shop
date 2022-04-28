@@ -32,10 +32,10 @@ export async function listProducts(){
 }
 
 //dynamically create order list table
-export async function listOrders(){
-  const t1 = document.querySelector('.order-row-template');
+export async function adminListOrders(){
+  const t1 = document.querySelector('.admin-order-row-template');
   const tableBody = document.querySelector('.admin-order-table-body');
-  const orders = await fjs.fetchOrders();
+  const orders = await fjs.fetchAdminOrders();
   for (const order of orders){
     const orderRowTemplate = t1.content.cloneNode(true);
     const orderIDCell = orderRowTemplate.querySelector('.order-id-cell');

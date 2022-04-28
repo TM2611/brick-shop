@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang = "en">
   <head>
-    <title>Singles</title>
+    <title>Lego - Home</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
     <link rel="icon" href="data:,"><!-- prevent favicon requests -->
@@ -74,56 +74,32 @@
         </div>
       </div>
     </nav>
-    <!-- Filters -->
-    <div class = "filters">
-      <div class="filter colour-filter">
-        <!-- TODO: use label instead of span -->
-        <span id="filter-label">Colour</span> 
-        <select name="" id="colour-filter">
-          <option value="Default">Any</option>
-          <option value="red-filter">Red</option>
-          <option value="blue-filter">Blue</option>
-          <option value="yellow-filter">Yellow</option>
-          <option value="purple-filter">Purple</option>
-          <option value="white-filter">White</option>
-          <option value="black-filter">Black</option>
-          <option value="grey-filter">Grey</option>
-          <option value="brown-filter">Brown</option>
-          <option value="green-filter">Green</option>
-          <option value="orange-filter">Orange</option>
-          <option value="pink-filter">Pink</option>
-        </select>
-      </div>
-      <div class="filter price-filter">
-        <span id="filter-label">Sort by</span>
-        <select name="" id="sort">
-          <option value="Default">Most Popular</option>
-          <option value="LowToHigh">Price (Low to high)</option>
-          <option value="HighToLow">Price (High to low)</option>
-        </select>
-      </div>
-    </div>
-    <!-- products -->
-    <section class="product-list">         
-      <div class="products-container">
-        <template id="product-template">
-          <div class="item">
-            <div class= "item-container">
-              <img id = "product-img"> <!-- Added with JS -->
-              <div class="product-info">
-                <h1 id="product-name"></h1>
-                <h2 id="product-price"></h2>
-                <p id="product-desc"></p>
-              </div>
-              <div class="add-to-basket" data-id>
-                <button class = "btn btn-atb"></button>
-              </div>
-            </div>
-          </div>        
-        </template>
-      </div>
+    <section class="order-page-content">
+      <template class ="customer-order-row-template">
+        <tr>
+          <td class="order-id-cell"></td>
+          <td class="product-cell"></td>
+          <td class="colour-cell"></td>
+          <td class="quantity-cell"></td>
+          <td class="customer-order-date-cell"></td>
+        </tr>
+      </template>
+        <table class="customer-order-table">
+        <thead>
+          <tr>
+            <td class="order-table-oid-title">Order ID</td>
+            <td class="order-table-product-title">Product</td>
+            <td class="order-table-colour-title">Colour</td>
+            <td class="order-table-qty-title">Quantity</td>
+            <td class="order-table-date-title">Date Ordered</td>
+          </tr>
+        </thead>
+        <tbody class="customer-order-table-body">
+          
+        </tbody>
+        </table>
     </section>
-    <script type="module" src="singles.js" async defer></script>
+    <script type="module" src="orders.js" async defer></script>
     <script src="https://cdn.auth0.com/js/auth0-spa-js/1.13/auth0-spa-js.production.js"></script>
   </body>
 </html>

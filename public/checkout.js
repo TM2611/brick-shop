@@ -101,37 +101,19 @@ async function submitOrder(){
       'content-type': 'application/json'
     },
   };
-  // const profile = await main.getProfile();
-  // const namedAccount = hasGivenName(profile)
   const res = await fetch(`/checkout/submit/${basket}`, fetchOptions)
   if(!res.ok){
     throw res
   }
-  console.log("returned")
-  const orderID = await res.json(); 
-  console.log(orderID)
+  const orderDetails = await res.json();
   debugger
-  const strProfile = JSON.stringify(profile);
-  const userID = profile.sub
-  if(namedAccount){
-    const res = await fetch(`/checkout/submit/${accountType}/${strProfile}`, fetchOptions)
-  }
-  if (customerRes.ok){
-    const orderRes = await fetch(`/checkout/submit/${userID}/${basket}`, fetchOptions)
-    if (orderRes.ok){
-       orderID = await response.json();   
-       console.log("orderID:", orderID);
-    }
-  }
-  else{
-    throw new Error(customerRes)
-  }
-
-
-  //clear basket
+  sessionStorage.orderDetails = JSON.stringify(orderDetails)
+  sessionStorage.basket = JSON.stringify(Array.from(basket));
   ba.clearBasket()
   main.confirmPage()
-}
+  }
+
+
 
 function setupListeners() {
   document.querySelector('.buy-btn').addEventListener('click', submitOrder)
