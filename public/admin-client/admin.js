@@ -14,7 +14,7 @@ export async function listProducts(){
     // img.alt = `${product.ProductName} Image`;
     id.textContent = product.ProductID
     id.dataset.id = product.ProductID;
-    name.textContent = product.ProductName;
+    name.textContent = `${product.Colour} ${product.ProductName}`;
     quantity.textContent = product.UnitsInStock;
     responseContainer.append(stockListTemplate);
   }
@@ -38,9 +38,9 @@ export async function adminListOrders(){
   const orders = await fjs.fetchAdminOrders();
   for (const order of orders){
     const orderRowTemplate = t1.content.cloneNode(true);
-    const orderIDCell = orderRowTemplate.querySelector('.order-id-cell');
+    const orderIDCell = orderRowTemplate.querySelector('.admin-order-id-cell');
     const custIDCell = orderRowTemplate.querySelector('.customer-id-cell');
-    const dateCell = orderRowTemplate.querySelector('.order-date-cell');
+    const dateCell = orderRowTemplate.querySelector('.admin-order-date-cell');
     orderIDCell.textContent = order.OrderID;
     custIDCell.textContent = order.CustomerID;
     dateCell.textContent = order.OrderDate;

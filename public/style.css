@@ -1237,19 +1237,19 @@ button:not(:disabled),
   left: 50%;
 }
 
+.stock-product-name:first-letter {
+  text-transform: capitalize;
+}
+
 .stock-product-qty-container {
   position: absolute;
   left: 75%;
 }
 
-/* .stock-product-img {
-  width: 100px;
-  height: 100px;
-  align-items: center;
-} */
-
-.stock-product-id {
-  font-size: 2rem;
+.stock-product-id,
+.stock-product-name,
+.stock-product-qty {
+  font-size: 1.4rem;
 }
 
 .quantity-input-form {
