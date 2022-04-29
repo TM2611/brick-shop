@@ -11,7 +11,7 @@
   <body>
     <nav class="navbar">
       <div class="navbar-content">
-        <h1 class="logo">LEGO</h1>
+        <h1 class="logo">BRIX</h1>
         <ul class="menu-container">
             <li class="menu-item home-nav">Home</li>
             <li class="menu-item singles-nav">Singles</li>
@@ -56,11 +56,11 @@
                 <h5>£<span id="basket-product-price">0</span></h5>
                 <span class="remove-item"></span>
               </div>
-              <div>
-                <i class="fas fa-chevron-up"></i>
-                <p class="item-amount"></p>
-                <i class="fas fa-chevron-down"></i>
-              </div>
+              <form id='quantity-input' action='#'>
+                <input type='button' value='-' class='qtyminus minus' field='quantity' />
+                <input type='text' name='quantity' class='qty' />
+                <input type='button' value='+' class='qtyplus plus' field='quantity' />
+              </form>
             </div>
           </template>
           <div class="basket-content">

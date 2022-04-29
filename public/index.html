@@ -46,23 +46,25 @@
             <i class = "fas fa-window-close"></i>
           </span>
           <h2>Your basket</h2>
-          <div class="basket-content">
-            <template id ="basket-item-template">
-              <!-- data-id allows remove-item to know id of product to be removed -->
-              <div class="basket-item" data-id> 
-                <img id = "basket-product-img">
-                <div>
-                  <h4 id = "basket-product-name"></h4>
-                  <h5>£<span id="basket-product-price">0</span></h5>
-                  <span class="remove-item"></span>
-                </div>
-                <form id='quantity-input' action='#' onsubmit="">
-                  <input type='button' value='-' class='qtyminus minus' field='quantity' />
-                  <input type='text' name='quantity' class='qty' />
-                  <input type='button' value='+' class='qtyplus plus' field='quantity' />
-                </form>
+          <!-- basket item -->
+          <template id ="basket-item-template">
+            <!-- data-id allows remove-item to know id of product to be removed -->
+            <div class="basket-item" data-id> 
+              <img id = "basket-product-img">
+              <div>
+                <h4 id = "basket-product-name"></h4>
+                <h5>£<span id="basket-product-price">0</span></h5>
+                <span class="remove-item"></span>
               </div>
-            </template>
+              <form id='quantity-input' action='#' onsubmit="">
+                <input type='button' value='-' class='qtyminus minus' field='quantity' />
+                <input type='text' name='quantity' class='qty' />
+                <input type='button' value='+' class='qtyplus plus' field='quantity' />
+              </form>
+            </div>
+          </template>
+          <div class="basket-content">
+            <!-- Dynamically added with JS -->
           </div>
           <div class="basket-footer">
             <h3>Total : £<span class="basket-total">0.00</span></h3>
@@ -97,7 +99,7 @@
           </section>
           <section class="home-promo-code-container">
             <h2 class="home-promo-code">LAUNCH20</h2>
-            <div class="promo-code-caption">Enter a checkout for a discount on all items</div>
+            <div class="promo-code-caption">Enter a checkout for a discount on all items!</div>
           </section>
         </section>
       </section>
