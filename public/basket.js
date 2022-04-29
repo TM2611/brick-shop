@@ -89,7 +89,6 @@ function removeBasketItem(e) {
   localStorage.basket = JSON.stringify(Array.from(basket));
   basketItemDOM.remove(); // Remove item from DOM
   basketQuantityDOM.textContent = basketQuantity - 1;
-  // TODO: bug: removing 3 1x2 bricks (60p) causes negative sign in total
   basketTotalDOM.textContent = (basketTotal - (price * itemAmount)).toFixed(2);
   resetAddToBasketBtn(itemID);
 }

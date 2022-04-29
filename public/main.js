@@ -1,8 +1,6 @@
 import * as auth from './auth.js';
 import * as fjs from './fetch.js';
 
-//TODO: move fetch functions to fjs
-
 export async function checkoutPage() {
   const isAuthenticated = await auth.auth0.isAuthenticated();
   if (isAuthenticated){
@@ -11,26 +9,6 @@ export async function checkoutPage() {
   }
   await auth.login()
   //TODO: Go to checkout page after log in
-}
-
-//TODO: remove? (already have getprofile)
-export async function viewProfile() {
-  // Get the access token from the Auth0 client
-  const token = await auth.auth0.getTokenSilently();
-  const fetchOptions = {
-    credentials: 'same-origin',
-    method: 'GET',
-    // Give access to the bearer of the token.
-    headers: { Authorization: 'Bearer ' + token },
-  };
-  const response = await fetch('/profile', fetchOptions);
-  if (!response.ok) {
-    // TODO: handle the error
-    el.textContent = 'Server error:\n' + response.status;
-    return;
-  }
-  // handle the response
-  console.log(await response.text());
 }
 
 export async function getProfile() {
@@ -51,29 +29,6 @@ export async function getProfile() {
   return await response.json();
 }
 
-//TODO: remove (can get userid from getprofile())
-export async function getUserID() {
-  // Get the access token from the Auth0 client
-  const token = await auth.auth0.getTokenSilently();
-  const fetchOptions = {
-    credentials: 'same-origin',
-    method: 'GET',
-    // Give access to the bearer of the token.
-    headers: { Authorization: 'Bearer ' + token },
-  };
-  const response = await fetch('/userID', fetchOptions);
-  if (!response.ok) {
-    // TODO: handle the error
-    el.textContent = 'Server error:\n' + response.status;
-    return;
-  }
-  // handle the response
-  console.log(await response.json());
-  return response
-}
-
-
-
 
 //Needed in basket and potentially kit page in the future
 export async function getAllKits(){
@@ -90,9 +45,6 @@ export async function checkBasketKit(itemID){
   }
   return false
 }
-
-
-
 
 export function homePage() {
   window.location.pathname = 'index.html';

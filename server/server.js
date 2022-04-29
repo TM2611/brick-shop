@@ -12,7 +12,6 @@ const app = express();
 const auth0 = auth0Helpers(authConfig);
 
 
-
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, './public/images/admin/uploads')
@@ -24,7 +23,6 @@ const storage = multer.diskStorage({
 const upload = multer({storage: storage})
 
 
-
 //Middleware to allow us to handle URL encoded data
 app.use(express.json()) //For JSON requests
 app.use(express.urlencoded({extended: false}));
@@ -32,20 +30,18 @@ app.use(express.urlencoded({extended: false}));
 // Middleware to configure individual routes to look for 'read:admin' scope
 const checkScopes = requiredScopes('read:admin');
 
+// FUTURE IMPLEMENTATION
+
 // protect /admin from unauthenticated users
-app.use('/admin', auth0.checkJwt);
-app.use('/profile', auth0.checkJwt);
-app.use('/userID', auth0.checkJwt);
 app.use('/checkout', auth0.checkJwt)
 
-//TODO: need checkjwt?
+app.use('/admin', auth0.checkJwt);
 app.get('/admin/check', auth0.checkJwt, checkScopes, function(req, res) {
   console.log(checkScopes);
   res.json({
     message: 'Hello from a private endpoint! You need to be authenticated and have a scope of read:admin to see this.'
   });
 });
-
 
 // this will serve the files present in /public
 app.use(express.static(path.join(path.dirname(url.fileURLToPath(import.meta.url)), '../public')));
@@ -54,12 +50,6 @@ app.use(express.static(path.join(path.dirname(url.fileURLToPath(import.meta.url)
 app.get('/auth_config', (req, res) => {
   res.json(authConfig);
 });
-
-// app.get('/admin', (req, res) => {
-//   res.send({
-//     msg: 'Accessed admin page',
-//   });
-// });
 
 async function getAllSingles(req, res) {
   res.json(await dbjs.findAllSingles());
@@ -114,7 +104,6 @@ async function getMostPopular(req, res) {
   res.json(result);
 }
 
-
 async function postProduct(req, res){
   const product = await dbjs.addProduct(req)
   if (!product) {
@@ -124,12 +113,8 @@ async function postProduct(req, res){
   res.send(`${product.ProductName} added, ID:${product.ProductID}`)
 }
 
-// TODO: remove image from image folder?
-// TODO: return admin back to remove.html + update text content of '#server-response'
 async function postDeleteProduct(req, res){
   const deletedProduct = await dbjs.deleteProduct(req)
-  // res.status(200)
-  // .send(`Removed product: ${deletedProduct.ProductName} (ID: ${deletedProduct.ProductID})`) //TODO: incorrect response
   if (!deletedProduct) {
     res.status(404).send('Failed to find product');
     return;
@@ -260,8 +245,6 @@ async function putAdminSetProductStock(req, res){
 }
 
 
-
-
 // wrap async function for express.js error handling
 function asyncWrap(f) {
   return (req, res, next) => {
@@ -296,18 +279,6 @@ app.post('/test/upload', upload.single('picfile'), asyncWrap(postProduct));
 app.post('/test/product/:id', asyncWrap(postDeleteProduct));
 app.post('/test/dispatched/:orderID', asyncWrap(postOrderDispatched)); 
 
-
-
-app.get('/profile', async (req, res) => {
-  const profile = await auth0.getProfile(req);
-  res.send(JSON.stringify(profile, null, 2));
-});
-
-
-app.get('/userID', async (req, res) => {
-  const userId = auth0.getUserID(req);
-  res.send(userId);
-});
 
 // start the server
 const PORT = process.env.PORT || 8080;

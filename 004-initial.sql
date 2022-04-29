@@ -76,7 +76,7 @@ CREATE TABLE KitProduct
   FOREIGN KEY (ProductID) REFERENCES Product(ProductID)
 );
 
--- TODO: Stock ordered by popularity (more popular, less stock)
+
 
 INSERT INTO Product
   (ProductID, ProductName, Colour, CategoryName, Price, UnitsInStock , ProductDesc, ProductImageSrc)

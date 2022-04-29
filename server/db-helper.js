@@ -218,8 +218,6 @@ async function decreaseProductStock(productID, quantity, orderDate, userID){
   const oldStock = stmnt.UnitsInStock;
   if(quantity > oldStock){
     const updateStatement = await db.run('UPDATE Product SET UnitsInStock = 0 WHERE ProductID = ?', productID);
-    // TODO: stockRequestMsg = requestStock(productID, quantity, orderDate, userID)
-    // Return stockRequestMsg
     throw new Error('Quantity exceeds stock level')   
   }
   const newStock = oldStock - quantity;
@@ -250,7 +248,6 @@ export async function addProduct(req){
     ProductDesc : req.body.desc,
     ProductImageSrc: req.file.path
    }
-   //TODO: usee add a product function
   await db.run('INSERT INTO Product VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
   [product.ProductID, 
     product.ProductName, 

@@ -10,7 +10,7 @@ As more functionality is added to the navbar, this module becomes
 increasingly more useful as changes are easier to make. Also results in less code
 as there does not need to be event listeners added in each individual module.
 
-My server heavily utilises the imported db-helper file for all database operations. All function names in the server start with the type of HTTP request that invoke the function. The server then 
+Similarly, my server [server.js module](https://github.com/UP938751/brick-shop/blob/main/server/server.js) heavily utilises the imported [db-helper.js module](https://github.com/UP938751/brick-shop/blob/main/server/db-helper.js) for all database operations. All function names in the server start with the type of HTTP request that invoke the function. The server then calls the necessary function for the db-helper module to perform the requested action. This seperation heavily improvements code comprehensibility highlights, using the server as the 'middleman' between the client and the database [(Client-server model)](https://en.wikipedia.org/wiki/Client%E2%80%93server_model).
 
 ## Basket
 
@@ -21,9 +21,6 @@ to the product id (key).
 
 My database of choice was [sqlite3](https://www.npmjs.com/package/sqlite3).
 In the early stages of development my choice was to use [PostgreSQL](https://www.postgresql.org/) due to familiarity, however I decided to make the switch to sqlite. There were a number of reasons for this, but the main one being due to the lightweight natue of SQLite in comparison to PSQL. As SQLite is a lightweight DBMS, database operations are generally faster. The cons of SQLite such as a lack of security features / authentication are not really a hindrance for this use case
-
-
-
 
 ## User Registration
 
@@ -45,15 +42,20 @@ When a kit is purchased, the stock levels of the individual kit parts are proces
 
 ## Orders
 
-  Orders are inserted into the Order table but stock levels are not updated. Stock will only be updated when the Admin marks an order as dispatched. Inititally implemented stock change levels on purchase but in reality stock is not affected until the products are shipped to the customer. (out of stock?)
+Orders are inserted into the Order table but stock levels are not updated. Stock will only be updated when the Admin marks an order as dispatched. I inititally implemented stock change levels on purchase but in reality stock is not affected until the products are shipped to the customer.
 
 ## Future Work
 
-- Admin Auth0 scope
+There are a few things that are still yet to be done which are currently in progress. Some have been mentioned above, but this includes:
+
+- Currently, anyone can access the admin page. This would not be the case in a live version of the website. In my Auth0 application, I have a read:admin scopes on test admin accounts which in practice would allow onThe 'test' routes are for demo purposes and would be replaced once Auth0 scope.  
+  
+- The 'NEW IN' section on the home page will serve images of newly added products. This would be dome simply by making a request for all products buy with an ORDER and LIMIT 3.
+  
+- There would need to be tests
 - DB optimisation
 - Unnamed account firstname and surname
-- Limited/no testing
-- More colours
-- When an admin marks an order as dispatched, the stock levels of the items in the 
+
+- When an admin marks an order as dispatched, the stock levels of the items in the
   order decrease.
 - Styling

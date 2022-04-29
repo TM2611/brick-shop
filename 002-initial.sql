@@ -36,7 +36,6 @@ CREATE TABLE Customer
   CustomerID varchar(30) PRIMARY KEY,
   Email varchar(100),
   FirstName varchar(40),
-  -- TODO: Auth0 doesn't require names? Not null?
   SecondName varchar(40),
   CustomerPassword nvarchar(50),
   Phone varchar(15)
@@ -48,7 +47,6 @@ CREATE TABLE Category
   CategoryDesc text
 );
 
--- TODO: Stock ordered by popularity (more popular, less stock)
 
 INSERT INTO Product
   (ProductID, ProductName, Colour, CategoryName, Price, UnitsInStock , ProductDesc, ProductImageSrc)
