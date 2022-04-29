@@ -232,7 +232,7 @@ VALUES
 -- Down
 
 DROP TABLE Product;
-DROP TABLE OrderItem
+DROP TABLE OrderItem;
 DROP TABLE Orders;
 DROP TABLE Customer;
 DROP TABLE CustomerAddress;

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Admin</title>
+    <title>Edit Product</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../style.css">
@@ -27,7 +27,7 @@
       <div class="user" id="user">
         <a href="#" class="user-link">no name</a>
         <div class="user-img-wrapper">
-          <!-- <!-- <img src="images/useravatar.png" alt="User 1" /> --> -->
+          <!-- <img src="images/useravatar.png" alt="User 1" /> -->
         </div>
       </div>
     </nav>
@@ -36,7 +36,7 @@
         <h3>BRIX</h3>
         <ul class="menu">
           <li>
-            <a href="#" title="Home" class="admin-active">
+            <a href="#" title="Home">
               <i class="fas fa-home"></i>
               <span>Admin Dashboard</span>
             </a>
@@ -66,6 +66,12 @@
             </a>
           </li>
           <li>
+            <a href="./dispatched.html" title="Dispatched Orders">
+              <i class="fas fa-sitemap"></i>
+              <span>Dispatched Orders</span>
+            </a>
+          </li>
+          <li>
             <a href="/" title="Return to Website">
               <!-- TODO: Exit symbol -->
               <i class="fas fa-home"></i>
@@ -74,9 +80,34 @@
           </li>
         </ul>
       </nav>
+
+
+
       <section class="admin-page-content">
+        <template class ="admin-order-row-template">
+          <tr>
+            <td class="admin-order-id-cell"></td>
+            <td class="customer-id-cell"></td>
+            <td class="admin-order-date-cell"></td>
+          </tr>
+        </template>
+          <table class="admin-order-table">
+          <thead>
+            <tr>
+              <td class="order-table-oid-title">Order ID</td>
+              <td class="order-table-cid-title">Customer ID</td>
+              <td class="order-table-date-title">Order Date</td>
+            </tr>
+          </thead>
+          <tbody class="admin-order-table-body">
+            
+          </tbody>
+          </table>
       </section>
+
+
+
     </main>
-    <script type="module" src="dashboard.js" async defer></script>
+    <script type="module" src="dispatched.js" async defer></script>
   </body>
 </html>

@@ -141,7 +141,7 @@ async function createOrder(customerID, req){
   if(kitsInBasket.size !== 0){
     await processKitParts(kitsInBasket, orderID, customerID, orderDate)
   }
-  const stmnt = await db.run('INSERT INTO Orders VALUES(?,?,?)', [orderID, customerID, orderDate]);
+  const stmnt = await db.run('INSERT INTO Orders VALUES(?,?,?,0)', [orderID, customerID, orderDate]);
   if (stmnt.changes === 0) throw new Error('Failed to Process Order');
   return {orderID : orderID, orderDate : orderDate}
 }
