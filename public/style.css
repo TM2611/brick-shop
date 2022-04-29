@@ -159,7 +159,9 @@ label {
 
 }
 
-
+#qty {
+  width: 5rem;
+}
 
 .basket-quantity {
   position: absolute;
