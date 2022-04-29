@@ -1,11 +1,3 @@
-/* 
-All pages with the home screen navbar import this module, on load will setup
-all event listeners required for the navbar.
-As more functionality is added to the navbar, this module becomes 
-increasingly more useful as changes are easier to make. Also results in less code
-as there does not need to be event listeners writtern in each module.
-*/ 
-
 import * as ba from './basket.js';
 import * as main from './main.js'
 import * as auth from './auth.js';

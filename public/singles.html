@@ -30,7 +30,7 @@
             <button id="btn-login">LOG IN</button>
             <div id="login-icon"><span id="initial"></span>
               <div class= "icon-options">
-                <a href="./admin-client/dashboard.html">Admin</a> <!--TODO: only visible to admins-->
+                <a href="./admin-client/open.html">Admin</a> <!--TODO: only visible to admins-->
                 <a href="#" class="profile">Profile</a>  
                 <a href="#" class="orders">Past Orders</a>
                 <a href="#">Settings</a>
@@ -56,11 +56,12 @@
                 <h5>£<span id="basket-product-price">0</span></h5>
                 <span class="remove-item"></span>
               </div>
-              <form id='quantity-input' action='#'>
-                <input type='button' value='-' class='qtyminus minus' field='quantity' />
-                <input type='text' name='quantity' class='qty' />
-                <input type='button' value='+' class='qtyplus plus' field='quantity' />
-              </form>
+              <div>
+                <i class="fas fa-chevron-up"></i>
+                <p class="item-amount"></p>
+                <i class="fas fa-chevron-down"></i>
+              </div>
+            </div>
             </div>
           </template>
           <div class="basket-content">

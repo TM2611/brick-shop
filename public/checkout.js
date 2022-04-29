@@ -106,10 +106,7 @@ async function submitOrder(){
     throw res
   }
   const orderDetails = await res.json();
-  debugger
   sessionStorage.orderDetails = JSON.stringify(orderDetails)
-  sessionStorage.basket = JSON.stringify(Array.from(basket));
-  ba.clearBasket()
   main.confirmPage()
   }
 

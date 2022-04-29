@@ -910,11 +910,36 @@ input.qtyminus {
   position: absolute;
 }
 
+/* --------------------CONFIRMATION PAGE STYLES ------------------- */
+
+.checkout-page-container {
+  padding: 2rem;
+}
+
+.checkout-page-container>* {
+  margin: 3rem auto;
+}
+
+.checkout-page-container p {
+  font-size: 1.8rem;
+}
 
 
-/* --------------- ADMIN ---------------- */
-/* common styles */
+.comfirm-title {
+  text-align: center;
+  font-size: 3.5rem;
+}
 
+.confirm-msg {
+  width: 75%;
+  text-align: center;
+}
+
+.order-details {
+  text-align: center;
+}
+
+/* --------------- ADMIN STYLES ----------------------------- */
 
 
 *,
@@ -1388,8 +1413,6 @@ button:not(:disabled),
 .customer-order-table {
   margin: 10rem auto;
 }
-
-
 
 @media (prefers-color-scheme: dark) {
   body {
