@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang = "en">
   <head>
-    <title>Lego - Home</title>
+    <title>BRIX - Home</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
     <link rel="icon" href="data:,"><!-- prevent favicon requests -->
@@ -11,7 +11,7 @@
   <body>
     <nav class="navbar">
       <div class="navbar-content">
-        <h1 class="logo">LEGO</h1>
+        <h1 class="logo">BRIX</h1>
         <ul class="menu-container">
             <li class="menu-item home-nav">Home</li>
             <li class="menu-item singles-nav">Singles</li>
@@ -56,11 +56,11 @@
                 <h5>£<span id="basket-product-price">0</span></h5>
                 <span class="remove-item"></span>
               </div>
-              <div>
-                <i class="fas fa-chevron-up"></i>
-                <p class="item-amount"></p>
-                <i class="fas fa-chevron-down"></i>
-              </div>
+              <form id='quantity-input' action='#' onsubmit="">
+                <input type='button' value='-' class='qtyminus minus' field='quantity' />
+                <input type='text' name='quantity' class='qty' />
+                <input type='button' value='+' class='qtyplus plus' field='quantity' />
+              </form>
             </div>
           </template>
           <div class="basket-content">
@@ -74,6 +74,42 @@
         </div>
       </div>
     </nav>
+    <div class="home-page-container">
+      <section class="welcome-container">
+        <img class="welcome-img" src="images/assets/welcome-light.gif" alt="">
+      </section>
+      <section class="new-in-container">
+        <h1 class="new-in-title">NEW IN</h1>
+        <div class="new-imgs-container">
+          <img src="https://via.placeholder.com/250x250" alt="" srcset="">
+          <img src="https://via.placeholder.com/250x250" alt="" srcset="">
+          <img src="https://via.placeholder.com/250x250" alt="" srcset="">
+        </div>
+        <section class="shop-singles-container">
+          <h2 class="shop-singles-title">Shop Our Products</h2>
+          <button class="shop-singles-btn">Shop Singles</button>
+        </section>
+        <section class="promo-grid-container">
+          <section class="home-kits-container">
+            <h2 class="home-kit-title">KITS</h2>
+            <div class="home-kit-img-container">
+              <img class="home-promo-kit-img" src = "images/kits/bonsai/bonsai.png"></img>
+            </div>
+            <button class="home-shop-kits-btn">Shop Kits</button>
+          </section>
+          <section class="home-promo-code-container">
+            <h2 class="home-promo-code">LAUNCH20</h2>
+            <div class="promo-code-caption">Enter a checkout for a discount on all items!</div>
+          </section>
+        </section>
+      </section>
+    </div>
+
+
+
+    <!-- <img src="https://via.placeholder.com/1920x600" alt="" srcset=""> -->
+    
+    
     <script type="module" src="home.js" async defer></script>
     <script src="https://cdn.auth0.com/js/auth0-spa-js/1.13/auth0-spa-js.production.js"></script>
   </body>

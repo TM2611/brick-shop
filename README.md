@@ -1,5 +1,9 @@
 # Brick Shop
 
+## Basket
+
+Initially stored an array of product objects, however a map was the most suitable for the task as the product quantity (value)
+to the product id (key). 
 ## User Registration
 
 In order to better understand the flow of the backend database and user registration,
