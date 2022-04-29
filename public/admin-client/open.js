@@ -6,7 +6,7 @@ function setupListeners() {
 }
 
 async function init() {
-  await admin.adminListOrders()
+  await admin.adminOpenListOrders()
   setupListeners();
 }
 

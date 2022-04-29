@@ -32,7 +32,7 @@ export async function listProducts(){
 }
 
 //dynamically create order list table
-export async function adminListOrders(){
+export async function adminOpenListOrders(){
   const t1 = document.querySelector('.admin-order-row-template');
   const tableBody = document.querySelector('.admin-order-table-body');
   const orders = await fjs.fetchAdminOrders();
@@ -41,9 +41,11 @@ export async function adminListOrders(){
     const orderIDCell = orderRowTemplate.querySelector('.admin-order-id-cell');
     const custIDCell = orderRowTemplate.querySelector('.customer-id-cell');
     const dateCell = orderRowTemplate.querySelector('.admin-order-date-cell');
+    // const dispatchCell = orderRowTemplate.querySelector('.admin-order-table-dispatch');
     orderIDCell.textContent = order.OrderID;
     custIDCell.textContent = order.CustomerID;
     dateCell.textContent = order.OrderDate;
+    // dispatchCell.textContent = order.Dispatched;
     tableBody.append(orderRowTemplate)
   }
 }
