@@ -1,5 +1,20 @@
 # Brick Shop
 
+
+## File Structure
+
+All pages with the home screen navbar import this module, on load will setup
+all event listeners required for the navbar and auth0
+initialisation is for all pages that use the navbar.
+
+As more functionality is added to the navbar, this module becomes
+increasingly more useful as changes are easier to make. Also results in less code
+as there does not need to be event listeners added in each individual module.
+
+## Basket
+
+Initially stored an array of product objects, however a map was the most suitable for the task as the product quantity (value)
+to the product id (key).
 ## User Registration
 
 In order to better understand the flow of the backend database and user registration,

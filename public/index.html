@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang = "en">
   <head>
-    <title>Lego - Home</title>
+    <title>BRIX - Home</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
     <link rel="icon" href="data:,"><!-- prevent favicon requests -->
@@ -11,7 +11,7 @@
   <body>
     <nav class="navbar">
       <div class="navbar-content">
-        <h1 class="logo">LEGO</h1>
+        <h1 class="logo">BRIX</h1>
         <ul class="menu-container">
             <li class="menu-item home-nav">Home</li>
             <li class="menu-item singles-nav">Singles</li>
@@ -30,9 +30,9 @@
             <button id="btn-login">LOG IN</button>
             <div id="login-icon"><span id="initial"></span>
               <div class= "icon-options">
-                <a href="./admin-client/dashboard.html">Admin</a> <!--TODO: only visible to admins-->
+                <a href="./admin-client/open.html">Admin</a> <!--TODO: only visible to admins-->
                 <a href="#" class="profile">Profile</a>  
-                <a href="#" class="orders">Orders</a>
+                <a href="#" class="orders">Past Orders</a>
                 <a href="#">Settings</a>
                 <a id="btn-logout" href="#">Log out</a>
               </div>
@@ -62,6 +62,7 @@
                 <i class="fas fa-chevron-down"></i>
               </div>
             </div>
+            </div>
           </template>
           <div class="basket-content">
             <!-- Dynamically added with JS -->
@@ -74,6 +75,36 @@
         </div>
       </div>
     </nav>
+    <div class="home-page-container">
+      <section class="welcome-container">
+        <img class="welcome-img" src="images/assets/welcome-light.gif" alt="">
+      </section>
+      <section class="new-in-container">
+        <h1 class="new-in-title">NEW IN</h1>
+        <div class="new-imgs-container">
+          <img src="https://via.placeholder.com/250x250" alt="" srcset="">
+          <img src="https://via.placeholder.com/250x250" alt="" srcset="">
+          <img src="https://via.placeholder.com/250x250" alt="" srcset="">
+        </div>
+        <section class="shop-singles-container">
+          <h2 class="shop-singles-title">Shop Our Products</h2>
+          <button class="shop-singles-btn">Shop Singles</button>
+        </section>
+        <section class="promo-grid-container">
+          <section class="home-kits-container">
+            <h2 class="home-kit-title">KITS</h2>
+            <div class="home-kit-img-container">
+              <img class="home-promo-kit-img" src = "images/kits/bonsai/bonsai.png"></img>
+            </div>
+            <button class="home-shop-kits-btn">Shop Kits</button>
+          </section>
+          <section class="home-promo-code-container">
+            <h2 class="home-promo-code">LAUNCH20</h2>
+            <div class="promo-code-caption">Enter a checkout for a discount on all items</div>
+          </section>
+        </section>
+      </section>
+    </div>
     <script type="module" src="home.js" async defer></script>
     <script src="https://cdn.auth0.com/js/auth0-spa-js/1.13/auth0-spa-js.production.js"></script>
   </body>

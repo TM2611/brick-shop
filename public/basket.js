@@ -1,3 +1,4 @@
+   
 import * as fjs from './fetch.js';
 import * as auth from './auth.js';
 import * as main from './main.js';
@@ -199,6 +200,7 @@ export async function addToBasket(e, kit = false) {
     basketDOM.append(itemTemplate);
   }
   else{
+    debugger
     const kitID = kit.KitID
     const kitPrice = await fjs.fetchKitPrice(kitID)
     const price = kitPrice / 100;
@@ -245,5 +247,3 @@ export function clearBasket() {
   basket = new Map();
   localStorage.removeItem('basket');
 }
-
-

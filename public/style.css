@@ -1,11 +1,13 @@
 :root {
-  --primaryColor: #f09d51;
+  --mainGold: #ebaa1e;
   --mainWhite: #fff;
   --mainBlack: #222;
-  --mainGrey: #c9c7c7;
+  --mainGrey: #414141;
+  --lightGrey: #d5d5d5;
+  --mainPurple: #554870;
+  --mainBlack: #1b1b1b;
   --mainSpacing: 0.1rem;
   --mainTransition: all 0.2s linear;
-  --basketBtn: #f09d51;
   font-size: 0.8rem;
   font-family: "Josefin Sans", sans-serif;
   box-sizing: border-box;
@@ -21,12 +23,11 @@
   --icon-color: #f29441;
 }
 
-
-
 html,
 body {
   max-width: 100%;
   overflow-x: hidden;
+  background: var(--bodyBG)
 }
 
 /* TODO: dark mode - prefers-color-scheme*/
@@ -44,7 +45,7 @@ label {
 .filters {
   width: 100%;
   height: 100px;
-  border-bottom: 2px solid #e5e5e5;
+  border-bottom: 2px solid var(--mainGrey);
   display: flex;
   align-items: center;
   padding: 2rem;
@@ -69,7 +70,7 @@ label {
 }
 
 .filters ul li.admin-active {
-  background: var(--gra);
+  background: var(79768);
 }
 
 .filters ul li.admin-active a {
@@ -77,8 +78,11 @@ label {
   font-weight: bold;
 }
 
-#filter-label {
-  font-size: 1.2rem;
+#sort,
+.filter,
+#filter-label,
+#colour-filter {
+  font-size: 2rem;
   color: var(--mainBlack);
 }
 
@@ -93,8 +97,7 @@ label {
   left: 0;
   /* height: 70px; */
   border-bottom: 1px solid #f2f2f2;
-  background-color: white;
-  background: rgb(156, 156, 155);
+  background: var(--mainGold);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -163,11 +166,39 @@ label {
   bottom: 1.5rem;
   left: 2.1rem;
   color: white;
-  background-color: rgb(206, 136, 5);
+  background-color: var(--mainGold);
   border-radius: 30%;
   padding: 0 4px;
   font-size: 1.6rem;
 
+}
+
+input {
+  color: var(--mainBlack);
+}
+
+#quantity-input {
+  text-align: center;
+  padding: 5px;
+  border: 1px dotted #ccc;
+  margin: 2%;
+  display: flex;
+}
+
+.qty {
+  width: 40px;
+  height: 25px;
+  text-align: center;
+}
+
+input.qtyplus {
+  width: 25px;
+  height: 25px;
+}
+
+input.qtyminus {
+  width: 25px;
+  height: 25px;
 }
 
 #btn-login {
@@ -183,7 +214,7 @@ label {
   width: 60px;
   height: 60px;
   border-radius: 100px;
-  background: var(--primaryColor);
+  background: var(--mainBlack);
   display: none;
 }
 
@@ -193,14 +224,14 @@ label {
 }
 
 #login-icon:hover {
-  border: 1px solid yellow;
+  border: 5px solid var(--mainWhite);
   cursor: pointer;
 }
 
 #initial {
   width: 100%;
   text-align: center;
-  color: white;
+  color: var(--mainWhite);
   font-size: 40px;
   top: 7px;
   left: 15px;
@@ -227,9 +258,99 @@ label {
 }
 
 .icon-options a:hover {
-  background: var(--primaryColor);
+  background: var(--mainGold);
   transition: 0.2s all ease-in-out;
 }
+
+/* -----HOME PAGE------ */
+
+
+.home-page-container img:hover {
+  cursor: pointer;
+}
+
+.welcome-img {
+  width: 100%;
+}
+
+.new-in-title {
+  text-align: center;
+  font-size: 3rem;
+  margin: 6rem 0 3rem 0;
+}
+
+.new-imgs-container {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+  margin-bottom: 4rem;
+}
+
+.shop-singles-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.shop-singles-container>* {
+  margin-bottom: 4rem;
+}
+
+.shop-singles-title {
+  text-align: center;
+  font-size: 3rem;
+}
+
+.home-shop-kits-btn,
+.shop-singles-btn {
+  width: 20rem;
+  font-size: 2.6rem;
+}
+
+.promo-grid-container {
+  display: -ms-grid;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+}
+
+.home-promo-code-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.home-promo-code {
+  font-size: 5rem;
+  text-align: center;
+}
+
+.home-kits-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.home-kits-container>* {
+  margin-bottom: 4rem;
+}
+
+
+.home-kit-title {
+  text-align: center;
+  font-size: 3rem;
+  margin-bottom: 3rem;
+
+}
+
+
+.home-promo-kit-img {
+  width: 15rem;
+}
+
+
+
+
+
 
 /* Products */
 
@@ -265,28 +386,8 @@ label {
   margin: 0 auto;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   position: relative;
-  background: var(--mainGrey)
+  background: var(--lightGrey)
 }
-
-/* .item .item-container {
-  display: grid;
-  height: 30vh;
-  width: 30vw;
-  margin: 0 auto;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  position: relative;
-} */
-
-/* .item .item-container {
-  display: grid;
-  height: 30vh;
-  max-height: 15rem;
-  width: 30vw;
-  max-width: 20rem;
-  margin: 0 auto;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  position: relative;
-} */
 
 
 #product-img {
@@ -345,7 +446,7 @@ label {
 
 /* TODO: Move Button (margin-left not working?) */
 .btn-atb {
-  background-color: var(--primaryColor);
+  background-color: var(--mainGold);
   padding: 8px;
   text-align: center;
 }
@@ -372,7 +473,7 @@ label {
   height: 100%;
   overflow: scroll;
   z-index: 3;
-  background: rgb(231, 226, 221);
+  background: var(--mainWhite);
   padding: 1.5rem;
   transition: var(--mainTransition);
   transform: translateX(100%);
@@ -445,7 +546,7 @@ label {
 
 .fa-chevron-up,
 .fa-chevron-down {
-  color: var(--basketBtn);
+  color: var(--mainGold);
   cursor: pointer;
 }
 
@@ -492,23 +593,32 @@ label {
 .coming-soon-title {
   margin: 0 auto;
   text-align: center;
+  margin: 2rem 0 5rem 0;
 }
 
 .kit-purchase-container {
   display: flex;
   align-items: center;
+  justify-content: space-around;
+  margin-top: 5rem;
 }
 
 .atb-promo-btn {
   height: 4rem;
   width: 10rem;
+  background: var(--mainGold)
 }
 
 .promo-kit-img-caption {
-  font-size: 2rem
+  font-size: 2rem;
+  text-align: center;
+  margin-top: 2rem;
 }
 
-.part-list-section {}
+.part-list-section {
+  font-size: 1.3rem;
+
+}
 
 .part-list-container {
   display: flex;
@@ -800,11 +910,36 @@ label {
   position: absolute;
 }
 
+/* --------------------CONFIRMATION PAGE STYLES ------------------- */
+
+.checkout-page-container {
+  padding: 2rem;
+}
+
+.checkout-page-container>* {
+  margin: 3rem auto;
+}
+
+.checkout-page-container p {
+  font-size: 1.8rem;
+}
 
 
-/* --------------- ADMIN ---------------- */
-/* common styles */
+.comfirm-title {
+  text-align: center;
+  font-size: 3.5rem;
+}
 
+.confirm-msg {
+  width: 75%;
+  text-align: center;
+}
+
+.order-details {
+  text-align: center;
+}
+
+/* --------------- ADMIN STYLES ----------------------------- */
 
 
 *,
@@ -1190,7 +1325,6 @@ button:not(:disabled),
   margin: 2rem;
   width: 13vw;
   height: 4vw;
-  border-radius: 20%;
   font-size: 1.8rem;
   pointer-events: auto;
 }
@@ -1278,4 +1412,65 @@ button:not(:disabled),
 
 .customer-order-table {
   margin: 10rem auto;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background: var(--mainGrey);
+  }
+
+  .navbar {
+    background: var(--mainBlack);
+  }
+
+  .welcome-img {
+    content: url(images/assets/welcome-dark.gif)
+  }
+
+  .fa-shopping-basket:before {
+    color: var(--mainWhite)
+  }
+
+  #login-icon:hover {
+    border: 5px solid var(--mainPurple);
+  }
+
+  #login-icon {
+    background: var(--mainGold);
+  }
+
+  .fa-bell:before {
+    content: "\f0f3";
+    color: var(--mainPurple);
+  }
+
+  *,
+  #filter-label {
+    color: var(--mainWhite);
+  }
+
+  .remove-item {
+    color: var(--mainGold)
+  }
+
+  option {
+    color: var(--mainBlack);
+  }
+
+  .basket {
+    background: var(--mainGrey);
+  }
+
+  .item .item-container {
+    background: var(--mainGrey)
+  }
+
+  .banner-btn {
+    background: var(--mainGold);
+    color: var(--mainBlack);
+  }
+
+
+
+
 }

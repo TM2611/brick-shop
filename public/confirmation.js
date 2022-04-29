@@ -1,30 +1,23 @@
-// import * as auth from './auth.js';
 import * as ba from './basket.js';
-import * as fjs from './fetch.js';
-import * as main from './main.js';
 import * as auth from './auth.js';
+import * as _ from './nav.js';
 
 
 
 async function displayConfirmation(){
-  const basket = new Map(JSON.parse(sessionStorage.basket));
-  const orderDetails = JSON.parse(sessionStorage.orderDetails);
-  const date = orderDetails.OrderDate;
-  const orderID = orderDetails.OrderID;
-  document.querySelector('.order-id').textContent = orderID;
-  document.querySelector('.order-date').textContent = date;
+  ba.clearBasket();
+  const order = JSON.parse(sessionStorage.orderDetails);
+  const orderDate = order.orderDate;
+  const orderID = order.orderID;
+  document.querySelector('.order-id').textContent =  `Order ID: ${orderID}`;
+  document.querySelector('.order-date').textContent = `Order Date/Time: ${orderDate}`;
 }
-
-function setupListeners() {
-  document.querySelector('.buy-btn').addEventListener('click', submitOrder)
-}
-
-
 
 async function init() {
+  await ba.initBasket();
   await auth.initializeAuth0Client();
   await displayConfirmation()
-  setupListeners();
+
 }
 
 window.addEventListener('load', init);
