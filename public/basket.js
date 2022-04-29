@@ -200,6 +200,7 @@ export async function addToBasket(e, kit = false) {
     basketDOM.append(itemTemplate);
   }
   else{
+    debugger
     const kitID = kit.KitID
     const kitPrice = await fjs.fetchKitPrice(kitID)
     const price = kitPrice / 100;
