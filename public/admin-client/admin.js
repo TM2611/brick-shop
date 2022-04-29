@@ -63,9 +63,7 @@ async function orderDispatched(e){
     const result = await fjs.fetchOrderDispatched(orderID)
     const el = document.querySelector('.server-update-response')
     el.textContent = `Marked Order:\n${orderID}\n as dispatched`
-    debugger
     await clearOrderRow(e)
-    //e.target.remove()
   }
 
 }

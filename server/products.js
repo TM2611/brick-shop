@@ -84,8 +84,6 @@ async function findKitPartQuantity(kitID) {
 }
 
 
-
-
 export async function findAllKitIDs() {
   const db = await dbConn;
   return db.all('SELECT Kit.KitID from Kit')
