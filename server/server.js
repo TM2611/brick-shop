@@ -69,16 +69,14 @@ async function getAllProducts(req, res) {
   res.json(await pjs.listAllProducts());
 }
 
-async function getAdminOrders(req, res) {
-  res.json(await pjs.listAllOrders());
+async function getAdminOpenOrders(req, res) {
+  res.json(await pjs.listOpenOrders());
 }
 
 
 async function getCustomerOrders(req, res) {
   res.json(await pjs.listCustomerOrders(req));
 }
-
-
 
 async function getSingleColour(req, res) {
   const result = await pjs.filterColour(req.params.colour)
@@ -128,7 +126,7 @@ async function postProduct(req, res){
 
 // TODO: remove image from image folder?
 // TODO: return admin back to remove.html + update text content of '#server-response'
-async function deleteProduct(req, res){
+async function postDeleteProduct(req, res){
   const deletedProduct = await pjs.deleteProduct(req)
   // res.status(200)
   // .send(`Removed product: ${deletedProduct.ProductName} (ID: ${deletedProduct.ProductID})`) //TODO: incorrect response
@@ -137,7 +135,15 @@ async function deleteProduct(req, res){
     return;
   }
   res.json(deletedProduct)
+}
 
+async function postOrderDispatched(req,res){
+  const result = await pjs.orderDispatched(req)
+  if (!result) {
+    res.status(404).send('Failed to mark order as dispatched');
+    return;
+  }
+  res.json(result)
 }
 
 async function getProduct(req, res){
@@ -195,9 +201,6 @@ async function getKitPrice(req, res){
   }
   res.json(result);
 }
-
-
-
 
 async function postProcessOrder(req, res){
   const profile = await auth0.getProfile(req);
@@ -285,12 +288,13 @@ app.post('/create/customer/:accountType/:strProfile/', asyncWrap(postCreateCusto
 
 //ADMIN ROUTES
 app.get('/test/product/stock/list', asyncWrap(getAllProducts));
-app.get('/test/orders', asyncWrap(getAdminOrders));
-app.post('/test/product/:id', asyncWrap(deleteProduct)); 
+app.get('/test/orders/open', asyncWrap(getAdminOpenOrders));
 app.put('/test/product/increase/:id/:quantity', asyncWrap(putAdminIncreaseStock))
 app.put('/test/product/decrease/:id/:quantity', asyncWrap(putAdminDecreaseStock))
 app.put('/test/product/set/:id/:quantity', asyncWrap(putAdminSetProductStock))
 app.post('/test/upload', upload.single('picfile'), asyncWrap(postProduct));
+app.post('/test/product/:id', asyncWrap(postDeleteProduct));
+app.post('/test/dispatched/:orderID', asyncWrap(postOrderDispatched)); 
 
 
 
@@ -310,20 +314,3 @@ const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
-
-
-// Test functions - remove EVERYTHING below when done
-async function deleteAllProductsByName(req, res){
-  await pjs.deleteAllProductsByName(req.params.name)
-  res.status(200).send('Deleted Products');
-}
-
-async function addAProduct(req, res){
-  const product = await pjs.addAProduct()
-  res.json(product)
-}
-
-app.delete('/test/product/name/:name', asyncWrap(deleteAllProductsByName));
-
-
-

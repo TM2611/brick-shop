@@ -60,12 +60,6 @@
             </a>
           </li>
           <li>
-            <a href="./completed.html" title="Completed Orders">
-              <i class="fas fa-sitemap"></i>
-              <span>Completed Orders</span>
-            </a>
-          </li>
-          <li>
             <a href="./dispatched.html" title="Dispatched Orders">
               <i class="fas fa-sitemap"></i>
               <span>Dispatched Orders</span>
@@ -84,24 +78,23 @@
 
 
       <section class="admin-page-content">
-        <template class ="admin-order-row-template">
-          <tr>
-            <td class="admin-order-id-cell"></td>
-            <td class="customer-id-cell"></td>
-            <td class="admin-order-date-cell"></td>
-          </tr>
-        </template>
           <table class="admin-order-table">
-          <thead>
-            <tr>
-              <td class="order-table-oid-title">Order ID</td>
-              <td class="order-table-cid-title">Customer ID</td>
-              <td class="order-table-date-title">Order Date</td>
-            </tr>
-          </thead>
-          <tbody class="admin-order-table-body">
-            
-          </tbody>
+            <thead>
+              <tr>
+                <td class="order-table-oid-title">Order ID</td>
+                <td class="order-table-cid-title">Customer ID</td>
+                <td class="order-table-date-title">Order Date</td>
+              </tr>
+            </thead>
+            <tbody class="admin-order-table-body">
+              <template class ="admin-order-row-template">
+                <tr class = "admin-order-table-row">
+                  <td class="admin-order-id-cell"></td>
+                  <td class="customer-id-cell"></td>
+                  <td class="admin-order-date-cell"></td>
+                </tr>
+              </template>
+            </tbody>
           </table>
       </section>
 

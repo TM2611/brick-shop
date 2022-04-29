@@ -84,8 +84,6 @@ async function findKitPartQuantity(kitID) {
 }
 
 
-
-
 export async function findAllKitIDs() {
   const db = await dbConn;
   return db.all('SELECT Kit.KitID from Kit')
@@ -266,14 +264,14 @@ export async function addProduct(req){
   return product
 }
 
-export async function listAllProducts(req){
+export async function listAllProducts(){
   const db = await dbConn;
   return db.all('SELECT * FROM Product ORDER BY ProductName'); 
 }
 
-export async function listAllOrders(req){
+export async function listOpenOrders(){
   const db = await dbConn;
-  return db.all('SELECT * FROM Orders ORDER BY OrderDate DESC'); 
+  return db.all('SELECT * FROM Orders WHERE Dispatched = 0 ORDER BY OrderDate DESC'); 
 }
 
 export async function listCustomerOrders(req){
@@ -346,27 +344,17 @@ async function increaseProductStock(productID, quantity){
 export async function deleteProduct(req){
   const db = await dbConn;
   const id = req.params.id
-  const product = await findProduct(id)
+  const product = await findProduct(id) //TODO: check why find
   const statement = await db.run('DELETE FROM Product WHERE ProductID = ?', id)
   //ID does not exist if no changes are made
   if (statement.changes === 0) throw new Error('Product not found');
   return product
 }
-
-// Test functions - remove EVERYTHING below when done
-
-export async function deleteProductByName(name){
+export async function orderDispatched(req){
   const db = await dbConn;
-  const statement = await db.run('DELETE FROM Product WHERE ProductName = ?', name)
+  const orderID = req.params.orderID;
+  const statement = await db.run('UPDATE Orders SET Dispatched = 1 WHERE OrderID = ?', orderID)
   //ID does not exist if no changes are made
-  if (statement.changes === 0) throw new Error('Product not found');
-  console.log('removed product:',name);
-}
-
-export async function addAProduct(){
-  const db = await dbConn;
-  const statement = await db.run('INSERT INTO Product VALUES("as5fgd", "Brick 1x1", "purple", "brick", 6, 9100, "description", "./images/single/purple/brick1x1.png")')
-  if (statement.changes === 0) throw new Error('Product not found');
-  console.log('ADDED product:',"as5fgd");
-  return findProduct('as5fgd')
+  if (statement.changes === 0) throw new Error('Order not found');
+  return orderID
 }

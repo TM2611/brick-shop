@@ -7,7 +7,7 @@ async function updateStock(){
   const input = document.querySelector('#quantity-input');
   const id = form.dataset.id
   const quantity = input.value;
-  const resElement = document.querySelector('.stock-update-response');
+  const resElement = document.querySelector('.server-update-response');
   if(form.dataset.option === 'add'){
     const result = await fjs.fetchStockIncrease(id,quantity);
     resElement.textContent = `Update Succesful, new quantity: ${result.newStock}` //TODO: why not work at end
