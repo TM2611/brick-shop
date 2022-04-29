@@ -49,8 +49,8 @@ async function fetchSingleSorted(sortType){
   return response.json();
 }
 
-export async function fetchAdminOrders(){
-  const response = await fetch('/test/orders')
+export async function fetchAdminOpenOrders(){
+  const response = await fetch('/test/orders/open')
   if (!response.ok) {
     throw response;
   }
@@ -109,13 +109,25 @@ export async function fetchBonzaiProducts(){
   return response.json();
 }
 
-//-------------Stock----------------//
+//-------------Stock/Order Functions----------------//
 export async function fetchRemoveProduct (removeID){
   const fetchOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' }
   }
   const response = await fetch(`/test/product/${removeID}`, fetchOptions)
+  if (!response.ok) {
+    throw response;
+  }
+  return response.json();
+}
+
+export async function fetchOrderDispatched(orderID){
+  const fetchOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' }
+  }
+  const response = await fetch(`/test/dispatched/${orderID}`, fetchOptions)
   if (!response.ok) {
     throw response;
   }

@@ -32,10 +32,10 @@ export async function listProducts(){
 }
 
 //dynamically create order list table
-export async function adminOpenListOrders(){
+export async function adminListOpenOrders(){
   const t1 = document.querySelector('.admin-order-row-template');
   const tableBody = document.querySelector('.admin-order-table-body');
-  const orders = await fjs.fetchAdminOrders();
+  const orders = await fjs.fetchAdminOpenOrders();
   for (const order of orders){
     const orderRowTemplate = t1.content.cloneNode(true);
     const orderIDCell = orderRowTemplate.querySelector('.admin-order-id-cell');
@@ -43,11 +43,33 @@ export async function adminOpenListOrders(){
     const dateCell = orderRowTemplate.querySelector('.admin-order-date-cell');
     // const dispatchCell = orderRowTemplate.querySelector('.admin-order-table-dispatch');
     orderIDCell.textContent = order.OrderID;
+    orderIDCell.dataset.id = order.OrderID;
     custIDCell.textContent = order.CustomerID;
     dateCell.textContent = order.OrderDate;
     // dispatchCell.textContent = order.Dispatched;
     tableBody.append(orderRowTemplate)
   }
+  const orderRows = document.querySelectorAll('.admin-order-table-row');
+  for (const row of orderRows){
+    row.addEventListener('click', orderDispatched)
+  }
+}
+
+
+async function orderDispatched(e){
+  const orderID = e.target.parentElement.querySelector('.admin-order-id-cell').dataset.id;
+  const prompt = `You are about to mark the following order as dispatched:\n${orderID}\nThis action cannot be undone.`
+  if (confirm(prompt) == true) {
+    const result = await fjs.fetchOrderDispatched(orderID)
+    if(!result.ok){
+      throw new Error(result)
+    }
+    debugger
+    const el = document.querySelector('.server-update-response')
+    el.textContent = `Marked Order:\n${orderID}\n as dispatched)`
+    e.target.remove()
+  }
+
 }
 
 //Remove product functions
@@ -56,7 +78,10 @@ async function removeProduct(e){
   const prompt = `You are about to delete product:\n${removeID}\nThis action cannot be undone.`
   if (confirm(prompt) == true) {
     const result = await fjs.fetchRemoveProduct(removeID)
-    const el = document.querySelector('.stock-update-response')
+    if(!result.ok){
+      throw new Error(result)
+    }
+    const el = document.querySelector('.server-update-response')
     el.textContent = `${result.ProductName} removed from stock (id: ${result.ProductID})`
     e.target.remove()
   }
