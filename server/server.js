@@ -139,6 +139,11 @@ async function postDeleteProduct(req, res){
 
 async function postOrderDispatched(req,res){
   const result = await pjs.orderDispatched(req)
+  if (!result) {
+    res.status(404).send('Failed to mark order as dispatched');
+    return;
+  }
+  res.json(result)
 }
 
 async function getProduct(req, res){

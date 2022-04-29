@@ -266,12 +266,12 @@ export async function addProduct(req){
   return product
 }
 
-export async function listAllProducts(req){
+export async function listAllProducts(){
   const db = await dbConn;
   return db.all('SELECT * FROM Product ORDER BY ProductName'); 
 }
 
-export async function listOpenOrders(req){
+export async function listOpenOrders(){
   const db = await dbConn;
   return db.all('SELECT * FROM Orders WHERE Dispatched = 0 ORDER BY OrderDate DESC'); 
 }
@@ -354,10 +354,9 @@ export async function deleteProduct(req){
 }
 export async function orderDispatched(req){
   const db = await dbConn;
-  const orderID = req.params.orderID
-  const product = await findProduct(orderID)
+  const orderID = req.params.orderID;
   const statement = await db.run('UPDATE Orders SET Dispatched = 1 WHERE OrderID = ?', orderID)
   //ID does not exist if no changes are made
   if (statement.changes === 0) throw new Error('Order not found');
-  return product
+  return orderID
 }

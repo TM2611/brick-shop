@@ -61,15 +61,21 @@ async function orderDispatched(e){
   const prompt = `You are about to mark the following order as dispatched:\n${orderID}\nThis action cannot be undone.`
   if (confirm(prompt) == true) {
     const result = await fjs.fetchOrderDispatched(orderID)
-    if(!result.ok){
-      throw new Error(result)
-    }
-    debugger
     const el = document.querySelector('.server-update-response')
-    el.textContent = `Marked Order:\n${orderID}\n as dispatched)`
-    e.target.remove()
+    el.textContent = `Marked Order:\n${orderID}\n as dispatched`
+    debugger
+    await clearOrderRow(e)
+    //e.target.remove()
   }
 
+}
+
+async function clearOrderRow(e){
+  const orderRow = e.target.parentElement
+  orderRow.removeEventListener('click', orderDispatched)
+  for(const cell of orderRow.children){
+    cell.textContent = ""
+  }
 }
 
 //Remove product functions
@@ -78,9 +84,6 @@ async function removeProduct(e){
   const prompt = `You are about to delete product:\n${removeID}\nThis action cannot be undone.`
   if (confirm(prompt) == true) {
     const result = await fjs.fetchRemoveProduct(removeID)
-    if(!result.ok){
-      throw new Error(result)
-    }
     const el = document.querySelector('.server-update-response')
     el.textContent = `${result.ProductName} removed from stock (id: ${result.ProductID})`
     e.target.remove()
