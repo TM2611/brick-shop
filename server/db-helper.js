@@ -55,6 +55,7 @@ export async function sortAllSingles(sort) {
   //MostPopular
   return db.all('SELECT * FROM Product ORDER BY UnitsInStock ')
 }
+
 // LIMIT, OFFSET, QUERY ORDER BY.
 // const params = new URLSearchParams(window.location.search);
 // const page = params.get('page') || 0;
@@ -317,18 +318,6 @@ export async function adminSetProductStock(req){
   // console.log(productID,"new stock:",newStock);
   return {oldStock: oldStock, newStock:newStock};
 }
-
-// async function setProductStock(productID, quantity){
-//   const db = await dbConn;
-//   const newStock = quantity;
-//   //TODO: display current stock to user or remove stmt + oldStock
-//   const stmnt = await db.get('SELECT UnitsInStock FROM Product WHERE ProductID = ?', productID);
-//   const oldStock = stmnt.UnitsInStock;
-//   const updateStatement = await db.run('UPDATE Product SET UnitsInStock = ? WHERE ProductID = ?', [newStock, productID]);
-//   // if nothing was updated, the productID doesn't exist
-//   if (updateStatement.changes === 0) throw new Error('product not found');
-//   return {oldStock: oldStock, newStock:newStock};
-// }
 
 async function increaseProductStock(productID, quantity){
   const db = await dbConn;

@@ -3,7 +3,7 @@ import path from 'path';
 import url from 'url';
 import authConfig from './auth_config.js';
 import auth0Helpers from './auth0_helper.js';
-import * as pjs from './products.js';
+import * as dbjs from './db-helper.js';
 import {requiredScopes as requiredScopes} from 'express-oauth2-jwt-bearer';
 import multer from 'multer';
 
@@ -62,24 +62,24 @@ app.get('/auth_config', (req, res) => {
 // });
 
 async function getAllSingles(req, res) {
-  res.json(await pjs.findAllSingles());
+  res.json(await dbjs.findAllSingles());
 }
 
 async function getAllProducts(req, res) {
-  res.json(await pjs.listAllProducts());
+  res.json(await dbjs.listAllProducts());
 }
 
 async function getAdminOpenOrders(req, res) {
-  res.json(await pjs.listOpenOrders());
+  res.json(await dbjs.listOpenOrders());
 }
 
 
 async function getCustomerOrders(req, res) {
-  res.json(await pjs.listCustomerOrders(req));
+  res.json(await dbjs.listCustomerOrders(req));
 }
 
 async function getSingleColour(req, res) {
-  const result = await pjs.filterColour(req.params.colour)
+  const result = await dbjs.filterColour(req.params.colour)
   if (!result) {
     res.status(404).send('No match for that colour');
     return;
@@ -88,7 +88,7 @@ async function getSingleColour(req, res) {
 }
 
 async function getLowToHigh(req, res) {
-  const result = await pjs.sortLowToHigh(req.params.colour)
+  const result = await dbjs.sortLowToHigh(req.params.colour)
   if (!result) {
     res.status(404).send('No match for that colour');
     return;
@@ -97,7 +97,7 @@ async function getLowToHigh(req, res) {
 }
 
 async function getHighToLow(req, res) {
-  const result = await pjs.sortHighToLow(req.params.colour)
+  const result = await dbjs.sortHighToLow(req.params.colour)
   if (!result) {
     res.status(404).send('No match for that colour');
     return;
@@ -106,7 +106,7 @@ async function getHighToLow(req, res) {
 }
 
 async function getMostPopular(req, res) {
-  const result = await pjs.sortMostPopular(req.params.colour)
+  const result = await dbjs.sortMostPopular(req.params.colour)
   if (!result) {
     res.status(404).send('No match for that colour');
     return;
@@ -116,7 +116,7 @@ async function getMostPopular(req, res) {
 
 
 async function postProduct(req, res){
-  const product = await pjs.addProduct(req)
+  const product = await dbjs.addProduct(req)
   if (!product) {
     res.status(404).send('Failed to add product');
     return;
@@ -127,7 +127,7 @@ async function postProduct(req, res){
 // TODO: remove image from image folder?
 // TODO: return admin back to remove.html + update text content of '#server-response'
 async function postDeleteProduct(req, res){
-  const deletedProduct = await pjs.deleteProduct(req)
+  const deletedProduct = await dbjs.deleteProduct(req)
   // res.status(200)
   // .send(`Removed product: ${deletedProduct.ProductName} (ID: ${deletedProduct.ProductID})`) //TODO: incorrect response
   if (!deletedProduct) {
@@ -138,7 +138,7 @@ async function postDeleteProduct(req, res){
 }
 
 async function postOrderDispatched(req,res){
-  const result = await pjs.orderDispatched(req)
+  const result = await dbjs.orderDispatched(req)
   if (!result) {
     res.status(404).send('Failed to mark order as dispatched');
     return;
@@ -147,7 +147,7 @@ async function postOrderDispatched(req,res){
 }
 
 async function getProduct(req, res){
-  const product = await pjs.findProduct(req.params.id)
+  const product = await dbjs.findProduct(req.params.id)
   if (!product) {
     res.status(404).send('Failed to find product');
     return;
@@ -157,7 +157,7 @@ async function getProduct(req, res){
 
 
 async function getSingleSorted(req, res) {
-  const result = await pjs.sortAllSingles(req.params.sort)
+  const result = await dbjs.sortAllSingles(req.params.sort)
   if (!result) {
     res.status(404).send('No match for that colour');
     return;
@@ -166,7 +166,7 @@ async function getSingleSorted(req, res) {
 }
 
 async function getBonsaiProducts(req, res){
-  const result = await pjs.findBonsaiProducts(req)
+  const result = await dbjs.findBonsaiProducts(req)
   if (!result) {
     res.status(404).send('Kit parts not found');
     return;
@@ -175,7 +175,7 @@ async function getBonsaiProducts(req, res){
 }
 
 async function getKit(req, res){
-  const result = await pjs.findKit(req)
+  const result = await dbjs.findKit(req)
   if (!result) {
     res.status(404).send('Kit parts not found');
     return;
@@ -184,7 +184,7 @@ async function getKit(req, res){
 }
 
 async function getAllKitIDs(req, res){
-  const result = await pjs.findAllKitIDs(req)
+  const result = await dbjs.findAllKitIDs(req)
   if (!result) {
     res.status(404).send('Kit parts not found');
     return;
@@ -194,7 +194,7 @@ async function getAllKitIDs(req, res){
 
 
 async function getKitPrice(req, res){
-  const result = await pjs.getKitPrice(req)
+  const result = await dbjs.getKitPrice(req)
   if (!result) {
     res.status(404).send('Kit parts not found');
     return;
@@ -204,7 +204,7 @@ async function getKitPrice(req, res){
 
 async function postProcessOrder(req, res){
   const profile = await auth0.getProfile(req);
-  const orderDetails = await pjs.processOrder(req, profile)
+  const orderDetails = await dbjs.processOrder(req, profile)
   if(!orderDetails){
     console.log('Purchase Failed');
     res.status(404).send('Purchase Failed');
@@ -215,7 +215,7 @@ async function postProcessOrder(req, res){
 }
 
 async function postCreateCustomer(req, res){
-  const response = await pjs.createCustomer(req)
+  const response = await dbjs.createCustomer(req)
   if(!response){
     console.log('Customer Registration Failed');
     res.status(404).send('Failed to register');
@@ -227,7 +227,7 @@ async function postCreateCustomer(req, res){
 
 // ADMIN
 async function putAdminIncreaseStock(req, res){
-  const result = await pjs.adminIncreaseProductStock(req)
+  const result = await dbjs.adminIncreaseProductStock(req)
   if(!result){
     console.log('Stock Increase Failed');
     res.status(404).send('Stock Increase Failed');
@@ -238,7 +238,7 @@ async function putAdminIncreaseStock(req, res){
 }
 
 async function putAdminDecreaseStock(req, res){
-  const result = await pjs.adminDecreaseProductStock(req)
+  const result = await dbjs.adminDecreaseProductStock(req)
   if(!result){
     res.status(404).send('Stock Removal Failed');
     console.log('Stock Removal Failed');
@@ -249,7 +249,7 @@ async function putAdminDecreaseStock(req, res){
 }
 
 async function putAdminSetProductStock(req, res){
-  const result = await pjs.adminSetProductStock(req)
+  const result = await dbjs.adminSetProductStock(req)
   if(!result){
     res.status(404).send('Stock Update Failed');
     console.log('Stock Update Failed');
